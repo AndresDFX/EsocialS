@@ -11,12 +11,12 @@ class AddNumbers(Page):
 
     def before_next_page(self):
         #Here's where the payoff is calculated
-        self.player.total_sums = 1            
+        self.player.total_sums = 1
         if self.player.sum_of_numbers == self.player.number_entered:
             self.player.payoff = Constants.payment_per_correct_answer
             self.player.correct_answers = 1
         else:
-            self.player.wrong_sums = 1    
+            self.player.wrong_sums = 1
         return
 
     def get_timeout_seconds(self):
@@ -51,14 +51,14 @@ class AddNumbers(Page):
         contador_numero_aux = 1
         round_label = 0
         # print("Matriz Ronda 1" + str(self.subsession.get_group_matrix()))
-        # Matriz del grupo: 
-        # [[<Player  1>, <Player  2>], 
+        # Matriz del grupo:
+        # [[<Player  1>, <Player  2>],
         # [<Player  3>, <Player  4>]]
         # Yo: 1
         # Yo en la sesión: 1
-        # Oponente: 2 
+        # Oponente: 2
         # all_players: Jugadores en todas las rondas. O sea yo, en mi ronda.
-        # Others: Otros jugadores (distintos a mí) en el grupo. 
+        # Others: Otros jugadores (distintos a mí) en el grupo.
         # print("Yo " + str(me))
         # print("Yo en la sesión " + str(me_in_session))
         # print("Oponente " + str(opponent))
@@ -66,7 +66,7 @@ class AddNumbers(Page):
         # print("Others: " + str(others))
         # print("Epa: " + str(self.player.get_others_in_subsession()))
         # self.player.contador_numero_aux = 1
-        # Lo de del timeout hay que hacerlo dimacamente, tomando el evento y actialuzando la pagina    
+        # Lo de del timeout hay que hacerlo dimacamente, tomando el evento y actialuzando la pagina
         for player in all_players:
             #Calculating the payoff for each player
             combined_payoff += player.payoff
@@ -87,7 +87,7 @@ class AddNumbers(Page):
         }
 
 class AddNumbers2(Page):
-    # Works in similar way as the previous class 
+    # Works in similar way as the previous class
     form_model = 'player'
     form_fields = ['number_entered_2']
     timer_text = 'Tiempo restante para completar la Etapa 2:'
@@ -98,7 +98,7 @@ class AddNumbers2(Page):
             self.player.pago = Constants.payment_per_correct_answer_2
             self.player.correct_answers_2 = 1
         else:
-            self.player.wrong_sums_2 = 1    
+            self.player.wrong_sums_2 = 1
         return
 
     def get_timeout_seconds(self):
@@ -108,7 +108,7 @@ class AddNumbers2(Page):
     def is_displayed(self):
         #Luego de que se acaba el tiempo, se salta las rondas (no las muestra) y va automáticamente a la siguiente página (Pagos).
         if self.round_number >= (Constants.num_rounds/2)+1:
-            return self.get_timeout_seconds() > 3    
+            return self.get_timeout_seconds() > 3
 
     def vars_for_template(self):
         number_1 = random.randint(1,100)
@@ -129,14 +129,14 @@ class AddNumbers2(Page):
         opponent_contract_decision = opponent.pay_contract
         opponent_suggested_sums = opponent.suggested_sums
         opponent_id_in_session = self.player.other_player().participant.id_in_session
-        # Matriz del grupo: 
-        # [[<Player  1>, <Player  2>], 
+        # Matriz del grupo:
+        # [[<Player  1>, <Player  2>],
         # [<Player  3>, <Player  4>]]
         # Yo: 1
         # Yo en la sesión: 1
-        # Oponente: 2 
+        # Oponente: 2
         # all_players: Jugadores en todas las rondas. O sea yo, en mi ronda.
-        # Others: Otros jugadores (distintos a mí) en el grupo. 
+        # Others: Otros jugadores (distintos a mí) en el grupo.
         # print("Yo " + str(me))
         # print("Yo en la sesión " + str(me_in_session))
         # print("Oponente " + str(opponent))
@@ -148,7 +148,7 @@ class AddNumbers2(Page):
             correct_answers += player.correct_answers_2
             wrong_sums_2 += player.wrong_sums_2
             total_sums_2 += player.total_sums_2
-        
+
         pay_contract = self.player.in_round((Constants.num_rounds/2)+1).pay_contract
         opponent_contract_decision = self.player.other_player().in_round((Constants.num_rounds/2)+1).pay_contract
         # print(me)
@@ -233,12 +233,12 @@ class CombinedResults2(Page):
             pay_contract_label = "No"
 
         if pay_contract == True:
-            pay_contract_label = "Sí"    
+            pay_contract_label = "Sí"
 
 
         #Jugador X sin contrato
         if player.id_in_group == 1 and opponent_contract_decision == False:
-            # print("11" + "Ba") 
+            # print("11" + "Ba")
             self.player.payment_stage_2 = 2500 - (20 * total_sums_2 )
             contrato = 0
 
@@ -251,27 +251,27 @@ class CombinedResults2(Page):
         #Jugador X cumple con sumas
         if player.id_in_group == 1 and opponent_contract_decision == True:
             if correct_answers >= Constants.sumas_obligatorias_contrato:
-                # print(33) 
+                # print(33)
                 self.player.payment_stage_2 = 2500 - (20 * total_sums_2 )
                 contrato = 2500
-        
+
         #Jugador X no cumple con sumas
         if player.id_in_group == 1 and opponent_contract_decision == True:
-            if correct_answers < Constants.sumas_obligatorias_contrato: 
+            if correct_answers < Constants.sumas_obligatorias_contrato:
                 # print(44)
                 self.player.payment_stage_2 = -2500
                 contrato = 2500
-        
+
         #Y: Jugador X cumple con sumas
         if player.id_in_group == 2 and pay_contract == True:
-            if correct_answers_opponent >= Constants.sumas_obligatorias_contrato: 
+            if correct_answers_opponent >= Constants.sumas_obligatorias_contrato:
                 # print(55)
                 self.player.payment_stage_2 = -5000 + (100 * correct_answers_opponent )
                 contrato = 2500
 
         #Y: Jugador X no cumple con sumas
         if player.id_in_group == 2 and pay_contract == True:
-            if correct_answers_opponent < Constants.sumas_obligatorias_contrato: 
+            if correct_answers_opponent < Constants.sumas_obligatorias_contrato:
                 # print(66)
                 self.player.payment_stage_2 = 0
                 contrato = 2500
@@ -310,13 +310,13 @@ class Stage1Questions(Page):
 
 class Stage2Instructions(Page):
     def is_displayed(self):
-        return self.round_number == Constants.num_rounds/2        
+        return self.round_number == Constants.num_rounds/2
 
 class Stage2Questions(Page):
     form_model = 'player'
     form_fields = ['control_question_3', 'control_question_4', 'control_question_5', 'control_question_6', 'control_question_7']
     def is_displayed(self):
-        return self.round_number == Constants.num_rounds/2        
+        return self.round_number == Constants.num_rounds/2
 
 class Start(Page):
     def is_displayed(self):
@@ -328,11 +328,11 @@ class Start(Page):
 
 class Start2(Page):
     def is_displayed(self):
-        return self.round_number == (Constants.num_rounds/2)+1   
+        return self.round_number == (Constants.num_rounds/2)+1
 
     def before_next_page(self):
         import time
-        self.participant.vars['expiry'] = time.time() + Constants.num_min_stage_2*60        
+        self.participant.vars['expiry'] = time.time() + Constants.num_min_stage_2*60
 
 class Consent(Page):
     form_model = 'player'
@@ -466,7 +466,7 @@ class HeadTails(Page):
     form_model = 'player'
 
     def is_displayed(self):
-        return self.round_number == Constants.num_rounds       
+        return self.round_number == Constants.num_rounds
 
 class ResultsDoubleMoney(Page):
 
@@ -555,7 +555,7 @@ class ReminderNequi(Page):
             'num_temporal': num_temporal
         }
 
-    
+
 
 page_sequence = [Consent, GenInstructions,Stage1Instructions, Stage1Questions, Start, AddNumbers, ResultsWaitPage,  CombinedResults, Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2,PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
 # page_sequence = [Start, AddNumbers, ResultsWaitPage, CombinedResults, RoleAssignment, Decision, ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2, PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3,SocioDemSurvey, CombinedResults4, ReminderNequi]

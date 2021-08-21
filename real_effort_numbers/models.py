@@ -32,14 +32,19 @@ class Constants(BaseConstants):
 
 class Subsession(BaseSubsession):
     def creating_session(self):
-        team_label = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL', 'MN', 'OP', 'QR', 'ST', 'UV', 'WX', 'YZ']
+        team_label = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL'] #6 grupos de 2 personas = 12 personas
+        team_assigned = ''
         number_of_groups = self.session.num_participants // Constants.players_per_group
-        for i in range(0,number_of_groups):
-            for j in range(0,Constants.players_per_group):
-                print(self.get_group_matrix()[i][j])
-                #.team = team_label[i]
+        for i in range(0,number_of_groups-1):
+
+            for j in range(0,Constants.players_per_group-1):
+                print("VALIDATE")
+                #print(team_label[self.get_group_matrix()[i][j]])
+                #print(self.get_group_matrix()[i][j] / Constants.player_per_group)
         for player in self.get_players():
             player.cara_sello_value = random.random()
+            player.team = 123
+            #player.team = team_assigned
         # for player in self.get_players():
         #     print("Jugador id_group: " + str(player.id_in_group))
         #     print("Jugador id_session: " + str(player.participant.id_in_session))
