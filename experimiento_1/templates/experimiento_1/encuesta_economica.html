@@ -1,0 +1,595 @@
+{% extends "base/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Encuesta socio económica.
+{% endblock %}
+
+{% block body %}
+    <div style="display: none">
+        {% formfields %}
+        {% next_button %}
+    </div>
+
+
+    <div id="surveyElement" style="display:inline-block;width:100%;"></div>
+
+{% endblock %}
+
+{% block local_scripts %}
+
+    <script type="text/javascript" src="https://surveyjs.azureedge.net/1.1.13/survey.jquery.min.js">
+
+    </script>
+    <script type="text/javascript">
+        function surveyValidateQuestion(s, options) {
+            if (options.question.hasRows) {
+                var question = s.getQuestionByName(options.name);
+                if (!question.rows.every(function (row) {
+                    return (options.value || {})[row.itemValue] !== undefined;
+                })) {
+                    options.error = "Todas las preguntas deben responderse";
+                }
+            }
+        }
+
+        $(document).ready(function () {
+            Survey
+                .StylesManager
+                .applyTheme("default");
+
+            var json = {
+                pages: [
+                    {
+                        questions: [
+                            {
+                                type: "radiogroup",
+                                title: "¿Cuál es su sexo?",
+                                choices: [
+                                    "Masculino", "Femenino"
+                                ],
+                                isRequired: true,
+                            },
+                            {
+                                type: "text",
+                                title: "¿Cuántos años cumplidos tiene usted?",
+                                isRequired: true,
+                                inputType: "number"
+                            },
+                            {
+                                type: "text",
+                                title: "¿En qué ciudad vive actualmente?",
+                                isRequired: true,
+                            }, {
+                                type: "text",
+                                title: "¿Cuál es el estrato de la vivienda en la cual habita actualmente?",
+                                isRequired: true,
+                                inputType: "number",
+                                 min: "1",
+                                 max:"6"
+
+                            },
+                            {
+                                type: "radiogroup",
+                                title: "¿Cuál es su estado civil? Escoja una opción.",
+                                choices: [
+                                    "Soltero", "Casado", "Divorciado", "Viudo", "Unión libre", "Prefiero no decir"
+                                ],
+                                "isRequired": true,
+                            },
+                            {
+                                type: "text",
+                                title: "¿Cuántos hijos tiene usted?",
+                                isRequired: true,
+                                inputType: "number"
+                            },
+                            {
+                                type: "radiogroup",
+                                title: "De acuerdo con su cultura o rasgos físicos, usted es o se reconoce como",
+                                isRequired: true,
+                                colCount: 3,
+                                choices: ["Afro-colombiano",
+                                    "Indígena",
+                                    "Mestizo",
+                                    "Mulato",
+                                    "Blanco",
+                                    "Raizal del archipielago",
+                                    "Palenquero",
+                                    "Otro",
+                                    "Prefiero no decir"]
+                            },
+                            {
+                                type: "radiogroup",
+                                title: "¿En cuál de los siguientes grupos se identifica usted?",
+                                isRequired: true,
+                                colCount: 3,
+                                choices: [
+                                    "Católico",
+                                    "Cristiano",
+                                    "Testigo de Jehová",
+                                    "Ateo",
+                                    "Agnóstico",
+                                    "Judío",
+                                    "Musulmán",
+                                    "Hinduista",
+                                    "Otro",
+                                    "Prefiero no decir",
+                                ]
+                            },
+                        ]
+                    },
+                    {
+                        questions: [
+                            {
+                                type: "rating",
+                                title: "De acuerdo con una escala del 1 a 10 que va de izquierda a derecha, en la que el 1 significa izquierda\n" +
+                                    "y el 10 significa derecha.\n" +
+                                    "Hoy en día cuando se habla de tendencias políticas, mucha gente habla de aquellos que simpatizan más\n" +
+                                    "con la izquierda o con la derecha. Según el sentido que tengan para usted los términos \"izquierda\" y\n" +
+                                    "\"derecha\" cuando piensa sobre su punto de vista político, ¿dónde se encontraría usted en esta escala?\n",
+                                "rateMin": 1,
+                                "rateMax": 10,
+                                "isRequired": true,
+                                "minRateDescription": "Izquierda",
+                                "maxRateDescription": "Derecha"
+                            },
+                            {
+                                type: "radiogroup",
+                                title: "¿Cuál es el máximo nivel de estudios alcanzado a la fecha?",
+                                colCount: 3,
+                                choices: [
+                                    "Primaria incompleta",
+                                    "Primaria completa",
+                                    "Básica secundaria (9º grado completo)",
+                                    "Media secundaria (11º grado completo)",
+                                    "Técnico incompleto",
+                                    "Técnico completo",
+                                    "Tecnológico incompleto",
+                                    "Tecnológico completo",
+                                    "Pregrado incompleto",
+                                    "Pregrado completo",
+                                    "Postgrado completo",
+                                    "Posgrado incompleto",
+                                ],
+                                isRequired: true,
+                            },
+                            {
+                                type: 'text',
+                                title: "¿Cuál es el nombre de la entidad en la que usted trabaja?",
+                                isRequired: true,
+                            },
+                            {
+                                type: 'text',
+                                title: "¿Cuánto tiempo lleva trabajando en esta entidad?(indique el número de meses)",
+                                isRequired: true,
+                                inputType: "number"
+                            },
+                            {
+                                type: "radiogroup",
+                                title: "Seleccione cuál es el tipo de contrato que lo vincula a esta entidad.",
+                                colCount: 2,
+                                choices: [
+                                    "Contrato a término indefinido",
+                                    "Contrato a término fijo",
+                                    "Contrato de obra o labor",
+                                    "Contrato por prestación de servicios",
+                                ],
+                                isRequired: true,
+                            },
+                            {
+                                type: 'text',
+                                title: "¿Cuántas horas a la semana trabaja normalmente en este trabajo?",
+                                isRequired: true,
+                                inputType: "number"
+                            },
+                            {
+
+                                type: "radiogroup",
+                                title: "¿Puede decirme en cuál de los siguientes rangos está el ingreso que usted gana al mes por su trabajo?",
+                                colCount: 3,
+                                choices: [
+                                    "Menos de 205.000",
+                                    "Entre 205.000 y 325.000",
+                                    "Entre 325.0001 y 440.000",
+                                    "Entre 440.001 y 565.000",
+                                    "Entre 650.001 y 710.000",
+                                    "Entre 710.001 y 750.000",
+                                    "Entre 810.001 y 915.000",
+                                    "Entre 915.001 y 1.000.00",
+                                    "Entre 1.000.001 y 1.250.000",
+                                    "Entre 1.250.001 y 1.365.000",
+                                    "Entre 1.365.001 y 1.600.000",
+                                    "Entre 1.600.001 y 2.000.000",
+                                    "Entre 2.000.001 y 3.150.000",
+                                    "Más de 3.150.000",
+                                ],
+                                isRequired: true,
+                            },
+                            {
+                                title: "¿Está conforme con su tipo de contrato?",
+                                type: "radiogroup",
+                                choices: [
+                                    "Sí",
+                                    "No",
+                                ],
+                                isRequired: true,
+                            },
+                            {
+                                title: "¿Considera que su empleo actual es estable?",
+                                type: 'radiogroup',
+                                choices: [
+                                    "Sí",
+                                    "No",
+                                ],
+                                isRequired: true,
+                            },
+                            {
+                                title: "De acuerdo con su contrato actual, usted recibe o tiene derecho a algunas de las siguientes opciones",
+                                type: "checkbox",
+                                colCount: 3,
+                                choices: [
+                                    "Prima de navidad",
+                                    "Cesantías",
+                                    "Vacaciones con sueldo",
+                                ],
+                                isRequired: true,
+                            },
+                            {
+                                title: "¿Cuáles de los siguientes productos financieros utiliza usted o algún miembro del hogar actualmente?",
+                                type: "checkbox",
+                                colCount: 3,
+                                choices: [
+                                    "Cuenta corriente",
+                                    "Cuenta de ahorros",
+                                    "CDT",
+                                    "Préstamo para compra de vivienda",
+                                    "Préstamo para compra de vehiculo",
+                                    "Préstamo de libre inversión",
+                                    "Tarjeta de crédito.",
+                                    "Otro",
+                                ],
+                                isRequired: true,
+                            },
+                            {
+                                title: "¿Qué está haciendo usted actualmente para mantenerse económicamente en su vejez?",
+                                type: "radiogroup",
+                                colCount: 3,
+                                choices: [
+                                    "Aportar en un fondo de pensiones obligatorias",
+                                    "Aportar en un fondo de pensiones voluntarias",
+                                    "Ahorrando",
+                                    "Haciendo inversiones",
+                                    "Pagando un seguro por su cuenta",
+                                    "Preparando a sus hijos para que pueda mantenerlo en su vejes",
+                                    "Otro",
+                                    "Nada",
+                                ],
+                                isRequired: true,
+                            },
+                            {
+                                title: "¿En el último año ha tenido alguna experiencia cercana a la muerte?",
+                                type: "radiogroup",
+                                colCount: 3,
+                                choices: [
+                                    "Sí",
+                                    "No",
+                                ],
+                                isRequired: true,
+                            },
+                            {
+                                title: "Si la respueta anterior es afirmativa, ¿A qué hecho estuvo relacionado la experiencia?",
+                               type: "radiogroup",
+                                colCount: 3,
+                                choices: [
+                                    "Enfermedad Crónica",
+                                    "Anomalía congénita",
+                                    "Accidente de tránsito",
+                                    "Violencia interpersonal",
+                                    "Comportamiento suicida",
+                                    "Otro",                                    
+                                ],
+                            },
+                            {
+                                type: "rating",
+                                title: "Por favor, califique en una escala de 1 a 10 su disposición a asumir riesgos en general, siendo 1 " +
+                                    "para nada dispuesto y 10 completamente dispuesto.",
+                                "rateMin": 1,
+                                "rateMax": 10,
+                                "minRateDescription": "Para nada dispuesto",
+                                "maxRateDescription": "Totalment dispuesto",
+                                isRequired: true,
+                            },
+                        ]
+                    },
+                    {
+                        questions: [
+                            {
+                                isRequired: true,
+                                type: "matrix",
+                                title: "Por favor, indique en qué medida está de acuerdo o no con cada una de las siguientes 10 afirmaciones",
+                                columns: [
+                                    {
+                                        value: 1,
+                                        text: "Fuertemente en desacuerdo"
+                                    }, {
+                                        value: 2,
+                                        text: "En desacuerdo"
+                                    }, {
+                                        value: 3,
+                                        text: "Ligeramente en desacuerdo"
+                                    }, {
+                                        value: 4,
+                                        text: "Ni de acuerdo, ni en desacuerdo"
+                                    }, {
+                                        value: 5,
+                                        text: "De acuerdo"
+                                    }, {
+                                        value: 5,
+                                        text: "Fuertemente de acuerdo"
+                                    }
+                                ],
+                                rows: [
+                                    {
+                                        value: 'a.',
+                                        text: 'Por lo general, cuando consigo lo que quiero es porque me he esforzado por lograrlo.'
+                                    },
+                                    {
+                                        value: 'b.',
+                                        text: 'Cuando hago planes estoy casi seguro (a) que conseguiré que lleguen a buen término.'
+                                    },
+                                    {
+                                        value: 'c.',
+                                        text: 'Prefiero los juegos que entrañan algo de suerte que los que sólo requieren habilidad.'
+                                    },
+                                    {value: 'd.', text: 'Si me lo propongo, puedo aprender casi cualquier cosa.'},
+                                    {
+                                        value: 'e.',
+                                        text: 'Mis mayores logros se deben más que nada a mi trabajo arduo y a mi capacidad.'
+                                    },
+                                    {
+                                        value: 'f.',
+                                        text: 'Por lo general no establezco metas porque se me dificulta mucho hacer lo necesario para alcanzarlas.'
+                                    },
+                                    {value: 'g.', text: 'La competencia desalienta la excelencia.'},
+                                    {value: 'h.', text: 'Las personas a menudo salen adelante por pura suerte.'},
+                                    {
+                                        value: 'i.',
+                                        text: 'En cualquier tipo de examen o competencia me gusta comparar mis calificaciones con las de los demás.'
+                                    },
+                                    {
+                                        value: 'j.',
+                                        text: 'Pienso que no tiene sentido empeñarme en trabajar en algo que es demasiado difícil para mí.'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        questions: [
+                            {
+                                isRequired: true,
+                                type: "matrix",
+                                title: "Por favor, indique en qué medida está de acuerdo o no con cada una de las siguientes 10 afirmaciones",
+                                columns: [
+                                    {
+                                        value: 1,
+                                        text: "Fuertemente en desacuerdo"
+                                    }, {
+                                        value: 2,
+                                        text: "En desacuerdo"
+                                    }, {
+                                        value: 3,
+                                        text: "Ligeramente en desacuerdo"
+                                    }, {
+                                        value: 4,
+                                        text: "Ni de acuerdo, ni en desacuerdo"
+                                    }, {
+                                        value: 5,
+                                        text: "De acuerdo"
+                                    }, {
+                                        value: 5,
+                                        text: "Fuertemente de acuerdo"
+                                    }
+                                ],
+                                rows: [
+                                    {
+                                        value: 'a.',
+                                        text: 'Podré alcanzar la mayoría de los objetivos que me he propuesto'
+                                    },
+                                    {
+                                        value: 'b.',
+                                        text: 'Cuando me enfrento a tareas difíciles, estoy seguro de que las cumpliré.'
+                                    },
+                                    {
+                                        value: 'c.',
+                                        text: 'En general, creo que puedo obtener resultados que son importantes para mí.'
+                                    },
+                                    {
+                                        value: 'd.',
+                                        text: 'Creo que puedo tener éxito en cualquier esfuerzo que me proponga.'
+                                    },
+                                    {value: 'e.', text: 'Seré capaz de superar con éxito muchos desafíos.'},
+                                    {
+                                        value: 'f.',
+                                        text: 'Confío en que puedo realizar eficazmente muchas tareas diferentes.'
+                                    },
+                                    {
+                                        value: 'g.',
+                                        text: 'Comparado con otras personas, puedo hacer la mayoría de las tareas muy bien.'
+                                    },
+                                    {
+                                        value: 'h.',
+                                        text: 'Incluso cuando las cosas son difíciles,  puedo realizarlas bastante bien.'
+                                    },
+                                    {
+                                        value: 'i.',
+                                        text: 'Podré alcanzar la mayoría de los objetivos que me he propuesto.'
+                                    },
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        questions: [
+                            {
+                                isRequired: true,
+                                type: "matrix",
+                                name: "Quality",
+                                title: "Por favor, indique en qué medida está de acuerdo o no con cada una de las siguientes 10 afirmaciones",
+                                columns: [
+                                    {
+                                        value: 1,
+                                        text: "Para nada parecida"
+                                    }, {
+                                        value: 2,
+                                        text: "No es como yo"
+                                    }, {
+                                        value: 3,
+                                        text: "Poco parecida a mi"
+                                    }, {
+                                        value: 4,
+                                        text: "Algo parecida a mi"
+                                    }, {
+                                        value: 5,
+                                        text: "Es como yo"
+                                    }, {
+                                        value: 5,
+                                        text: "Es muy parecida a mi"
+                                    }
+                                ],
+                                rows: [
+                                    'Esta persona cree que es importante no pedir mas de lo que se tiene. Considera que los demás deberían estar satisfechas con lo que tienen',
+                                    'Es importante para esta persona siempre comportarse apropiadamente. Quiere evitar hacer lo que los demás podrían decir que está mal.',
+                                    'Las creencias religiosas son importantes para esta persona. Se esfuerza por hacer lo que la religión requiere.',
+                                    'Considera que siempre debería respetar a sus padres y a las personas mayores. Es importante para esta persona ser obediente.',
+                                    'Esta persona piensa que es mejor hacer las cosas de manera tradicional. Es importante mantener las costumbres que aprendió.',
+                                    'Es importante para esta persona ser amable con los demás todo el tiempo. Intenta no molestar o irritar a los demás. '
+                                ]
+                            },
+                        ]
+                    },
+                    {
+                        questions: [
+                            {
+                                isRequired: true,
+                                type: "matrix",
+                                title: "Responda en una escala de 1 a 5, donde 1 corresponde a ser “muy deshonesto” y 5 corresponde ser “muy honesto”.",
+
+                                columns: [1, 2, 3, 4, 5],
+                                rows: [
+                                    "Iglesia/ organizaciones religiosas",
+                                    "Defensa pública",
+                                    "Fuerzas armadas militares",
+                                    "Patrullero de policía",
+                                    "Ministerio de minas y energía",
+                                    "Policía excluyendo a los patrulleros",
+                                    "Ministerio de Defensa",
+                                    "Ministerio de Cultura",
+                                    "Ministerio de Interior",
+                                    "Ministerio de Justicia",
+                                    "Dirección de Impuestos y Aduanas nacionales (DIAN)",
+                                    "Ministerio de Educación Nacional",
+                                    "Ministerio de Agricultura y Desarrollo Rural",
+                                    "Medios de comunicación públicos",
+                                    "Ministerio de salud y protección social",
+                                    "Ministerio de trabajo",
+                                    "Gabinete de ministros",
+                                    "Corte Suprema de Justicia",
+                                    "Partidos políticos",
+                                    "Ministerio de Educación",
+                                    "Universidad del Valle",
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        questions: [
+                            {
+                                type: "matrix",
+                                title: "De acuerdo con su cotidianidad en los últimos cuatro años, por favor evalúe la frecuencia\n" +
+                                    "con la que usted realiza las siguientes acciones. Escoja un número entre el 1 y el 5, siendo\n" +
+                                    "1 “nunca la hice”, y 5 “las hago/he hecho todo el tiempo”.",
+                                columns: [
+                                    {
+                                        value: 1,
+                                        text: "nunca la hice"
+                                    }, {
+                                        value: 2,
+                                        text: "lo he hecho alguna vez"
+                                    }, {
+                                        value: 3,
+                                        text: "lo he hecho varias veces "
+                                    }, {
+                                        value: 4,
+                                        text: "lo he hecho todo el tiempo"
+                                    }, {
+                                        value: 5,
+                                        text: "las hago/he hecho todo el tiempo"
+                                    }
+                                ],
+                                rows: [
+                                    "Comprar a vendedores ambulantes",
+                                    "Tirar basura en la calle",
+                                    "Trabajar y recibir un pago sin que haya firmado un contrato formal (pintar una casa, realizar un reporte, etc.)",
+                                    "Silbar o decirle un piropo a un (a) desconocido (a) en la calle",
+                                    "Darle trabajo a alguien y pagarle sin pedirle que firme un contrato formal (pintar una casa, realizar un reporte, etc.)",
+                                    "Consumir cerveza, aguardiente, ron u otras bebidas alcohólicas en un andén o parque",
+                                    "No cotizar al sistema de pensiones",
+                                    "No aportar al sistema de salud",
+                                    "No ceder un asiento preferente a una embarazada o un(a) anciano(a) se sube al bus",
+                                    "Colarse en las filas",
+                                    "No tener cuenta bancaria",
+                                    "Pedir dinero prestado a prestamistas informales (ejemplo: gota a gota)",
+                                    "No recoger los desechos de las mascotas",
+                                    "Usar transportes alternativos como piratas o mototaxis",
+                                    "Vender cosas o hacer negocios de manera informal",
+                                    "No votar",
+                                    "Ir a eventos políticos para conseguir empleo/beneficios personales",
+                                    "Comprar productos sin factura",
+                                    "Subarrendar una habitación",
+                                    "Vivir en una habitación subarrendada",
+                                ],
+                                isRequired: true,
+                            }
+                        ]
+                    },
+                ],
+            }
+            counter = 1;
+             json.pages = json.pages.map(e => {
+                e.questions = e.questions.map(k => {
+                    k.name = "" + counter;
+                    counter += 1;
+                    k.isRequired = true;
+                    return k
+                })
+                return e;
+            })
+            window.survey = new Survey.Model(json);
+
+
+            $("#surveyElement").Survey({
+                model: survey, onComplete: function (result) {
+                    let data = {}
+                    Object.keys(result.data).forEach(function (key) {
+                        if (typeof result.data[key] == "object") {
+                            Object.values(result.data[key]).map((v, i) => {
+                                data[key + "." + i] = v
+                            })
+                        } else {
+                            data[key] = result.data[key]
+                        }
+                    });
+                    $('#id_survey').val(JSON.stringify(data))
+                    $('.otree-btn-next').trigger('click')
+                },
+                onValidateQuestion: surveyValidateQuestion
+            });
+        })
+
+
+    </script>
+{% endblock local_scripts %}
+
+
+

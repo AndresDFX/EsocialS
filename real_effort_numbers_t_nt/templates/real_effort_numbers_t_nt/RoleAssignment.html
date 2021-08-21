@@ -1,0 +1,45 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers_t_nt/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Asginación de Rol" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify">
+            {% if player.id_in_group == 1 %}
+                <b>Equipo {{player.team}}. Jugador X</b><br><br>
+                {% comment %} Jugador X, T-T: A usted se le ha asignado el rol del jugador X, y estará emparejado con la misma persona de la Etapa 1. Le hemos transferido a used un salario de $2500, que vienen de las  ganancias del jugador Y.<br><br> {% endcomment %}
+                {% comment %} Jugador X, T-NT:{% endcomment %} A usted se le ha asignado el rol del jugador X, y estará emparejado con una persona que viene del equipo {{team_old}}. Le hemos transferido a used un salario de $2500, que vienen de las  ganancias del jugador Y.<br><br>
+                {% comment %}Jugador X, NT-T: A usted se le ha asignado el rol del jugador X, y junto con el otro participante, conformarán el equipo AB.  (o el que corresponda). Le hemos transferido a usedun salario de $2500, que vienen de las  ganancias del jugador Y.<br><br>
+                Jugador X, NT-NT: A usted se le ha asignado el rol del jugador X. Le hemos transferido a used un salario de $2500, que vienen de las  ganancias del jugador Y {% endcomment %}
+            {% else %}
+                <b>Equipo {{player.team}}. Jugador Y</b><br><br>
+                {% comment %} Jugador Y, T-T:A usted se le ha asignado el rol del jugador Y, y estará emparejado con un jugador X  quien  la misma persona de la Etapa 1. A esa persona le hemos pagado $2500 de salario, con parte de sus ganancias.<br><br> 
+                {% comment %} Jugador Y, T-NT:{% endcomment %} A usted se le ha asignado el rol del jugador Y, y estará emparejado con un jugador X  quien es una persona que viene del equipo {{team_old}}. A esa persona le hemos pagado $2500 de salario, con parte de sus ganancias.<br><br>
+                {% comment %} Jugador Y, NT-T: A usted se le ha asignado el rol del jugador Y, y estará emparejado con un jugador X. Junto con el otro participante, conformarán el equipo AB  (o el que corresponda) A esa persona le hemos pagado $2500 de salario, con parte de sus ganancias.<br><br>
+                Jugador Y, NT-NT: A usted de le ha asignado el rol del jugador Y y estará emparejado con un jugador X . A esa persona le hemos pagado $2500 de salario, con parte de sus ganancias.    {% endcomment %}
+            {% endif %}
+        </p>
+    </div>
+    {% next_button %}
+{% endblock %}

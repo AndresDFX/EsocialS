@@ -1,0 +1,66 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+{% block styles %}
+{% endblock %}
+
+
+
+{% block title %}
+    CONTRATO DE TRABAJO
+{% endblock %}
+
+
+{% block content %}
+
+    <p>Estimado participante:</p>
+
+    <p>Por medio de este contrato, usted (EL EMPLEADO) y quien se encuentra dirigiendo esta actividad
+        (EL EMPLEADOR), acuerdan celebrar el presente CONTRATO INDIVIDUAL DE TRABAJO A
+        TÉRMINO INDEFINIDO, que se regirá por las siguientes cláusulas:</p>
+
+    <p><strong>PRIMERA.</strong> <i>Objeto:</i> El EMPLEADOR contrata los servicios personales del TRABAJADOR, para la
+        transcripción de textos a través de esta plataforma y las actividades que se deriven de estas
+        labores.</p>
+
+    <p><strong>SEGUNDA.</strong> <i>Jornada:</i> El TRABAJADOR realizará sus labores por una jornada de 20 minutos
+        durante la totalidad de las jornadas, contados a partir de la aceptación de este contrato. La
+        actividad podrá ser realizada en cualquier momento del día entre las 8:00 a.m. y las 4:00 p.m.</p>
+
+    <p><strong>TERCERA.</strong> <i>Salario:</i> El TRABAJADOR devengará un salario de 7.000 COP por día y será pagado
+        en moneda de curso legal en el transcurso del día, a través de una transferencia bancaria, una vez
+        sea finalizado la actividad.</p>
+
+    <p><strong>CUARTA.</strong> <i>Obligaciones:</i> El TRABAJADOR deberá cumplir con las siguientes obligaciones:</p>
+
+    <ol type="a">
+        <li> Colocar al servicio del EMPLEADOR su capacidad normal de trabajo, realizando el mayor
+            número de transcripciones posibles. </li>   
+        <li> Cumplir con la jornada de trabajo dentro de los turnos y horario señalado por el
+            EMPLEADOR. </li>
+        <li> Las demás consagradas en el artículo 58 del Código Sustantivo del Trabajo.</li>
+   </ol>
+
+    <p><strong>QUINTA.</strong> <i>Justas causas para despedir:</i> Son justas causas para dar por terminado unilateralmente
+        el presente contrato, si el TRABAJADOR incumple las condiciones pactadas en las cláusulas
+        PRIMERA, SEGUNDA y CUARTA estipuladas en el presente contrato.</p>
+
+    <p> EMPLEADOR </p>     
+    <img class="firma" src="{% static 'imagenes/firma.png' %}" > 
+
+    <br>
+    <br>
+
+    <a href="{% static 'documentos\Contrato a término indefinido.pdf' %}" download="Contrato De Trabajo">
+        Descargar Contrato
+    </a>
+
+    <br>
+    <br>
+
+    {% formfields %}
+
+    {% next_button %}
+
+{% endblock %}

@@ -1,0 +1,672 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'mpl/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Encuesta de datos sociodemográficos" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify" >
+                
+            <b>A continuación le haremos unas preguntas sobre su personalidad. 
+            Después de responderlas habrá terminado su participación en esta actividad</b><br><br>
+
+            <b>Confidencialidad:</b> La información que usted brinda en esta encuesta es confidencial y anónima. Dicha información
+            será utilizada con propósitos académicos y será protegida de acuerdo con la Ley Estatutaria 1581 de 2012 de
+            protección a los datos personales.<br>
+
+            {% formfield player.genero %}
+            {% formfield player.edad %}
+            {% formfield player.ciudad %}
+            {% formfield player.estrato %}
+            {% formfield player.estado_civil %}
+            {% formfield player.numero_hijos %}
+            {% formfield player.identifica_cultura %}
+            {% formfield player.identifica_religion %}
+            {% formfield player.nivel_estudios %}
+            De acuerdo con una escala del 1 a 10 que va de izquierda a derecha, en la que el 1 significa izquierda
+            y el 10 significa derecha.<br><br>
+            {% comment %} <th>{{ form.tendencia_politica.label }}</th><br><br>
+            <table class="table">
+            <td>
+                <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td>
+            </td>
+            <tr>
+            {% comment %} <th><b>Izquierda</b></th>
+                <td>{% for choice in form.tendencia_politica %}
+                    <td>{{ choice.tag}}</td>
+                {% endfor %}</td>
+            {% comment %} <th><b>Derecha</b></th><br><br>
+            </tr>
+            </table> {% endcomment %}
+            <th>{{ form.tendencia_politica.label }}</th><br><br>
+            <th><b>Izquierda</b></th>
+                {% for choice in form.tendencia_politica %}
+                    <td>{{ choice}}</td>
+                {% endfor %}</td>
+            <th><b>Derecha</b></th><br><br>
+
+            <tr>
+            <th>{{ form.disposicion_riesgos.label }}</th><br><br>
+            <th><b>Para nada dispuesto</b></th>
+                {% for choice in form.disposicion_riesgos %}
+                    <td>{{ choice}}</td>
+                {% endfor %}
+            <th><b>Totalmente dispuesto</b></th><br><br>    
+            </tr>
+            <b>Por favor, indique en qué medida está de acuerdo o no con cada una de las siguientes 10
+            afirmaciones.</b>
+            <table class="table" style="text-align:left">
+            <td>
+                <td></td><td>Fuertemente en desacuerdo</td><td>En desacuerdo</td><td>Ligeramente en desacuerdo</td><td>Ni de acuerdo, ni en desacuerdo</td><td>De acuerdo</td><td>Fuertemente de acuerdo</td>
+            </td>
+            <tr>
+                <th>{{ form.conseguir_esfuerzo.label }}</th>
+                <td>{% for choice in form.conseguir_esfuerzo %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.planes_termino.label }}</th>
+                <td>{% for choice in form.planes_termino %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.juego_suerte.label }}</th>
+                <td>{% for choice in form.juego_suerte %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.propongo_aprender.label }}</th>
+                <td>{% for choice in form.propongo_aprender %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.mayores_logros.label }}</th>
+                <td>{% for choice in form.mayores_logros %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.establecer_metas.label }}</th>
+                <td>{% for choice in form.establecer_metas %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.competencia_excelencia.label }}</th>
+                <td>{% for choice in form.competencia_excelencia %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.salir_adelante.label }}</th>
+                <td>{% for choice in form.salir_adelante %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.comparar_calificaciones.label }}</th>
+                <td>{% for choice in form.comparar_calificaciones %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.empeno_trabajo.label }}</th>
+                <td>{% for choice in form.empeno_trabajo %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <table>
+            {% comment %} <table class="table" style="text-align:center">
+                <td>
+                    <td>Fuertemente en desacuerdo</td><td>En desacuerdo</td><td>Ligeramente en desacuerdo</td><td>Ni de acuerdo, ni en desacuerdo</td><td>De acuerdo</td><td>Fuertemente de acuerdo</td>
+                </td>
+                <tr>
+                    <th>{{ form.conseguir_esfuerzo.label }}</th>
+                        <td><input name="conseguir_esfuerzo" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="conseguir_esfuerzo" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="conseguir_esfuerzo" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="conseguir_esfuerzo" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="conseguir_esfuerzo" type="radio" value="De acuerdo" required></td>
+                        <td><input name="conseguir_esfuerzo" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.planes_termino.label }}</th>
+                        <td><input name="planes_termino" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="planes_termino" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="planes_termino" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="planes_termino" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="planes_termino" type="radio" value="De acuerdo" required></td>
+                        <td><input name="planes_termino" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.juego_suerte.label }}</th>
+                        <td><input name="juego_suerte" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="juego_suerte" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="juego_suerte" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="juego_suerte" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="juego_suerte" type="radio" value="De acuerdo" required></td>
+                        <td><input name="juego_suerte" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.propongo_aprender.label }}</th>
+                        <td><input name="propongo_aprender" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="propongo_aprender" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="propongo_aprender" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="propongo_aprender" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="propongo_aprender" type="radio" value="De acuerdo" required></td>
+                        <td><input name="propongo_aprender" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.mayores_logros.label }}</th>
+                        <td><input name="mayores_logros" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="mayores_logros" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="mayores_logros" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="mayores_logros" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="mayores_logros" type="radio" value="De acuerdo" required></td>
+                        <td><input name="mayores_logros" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.establecer_metas.label }}</th>
+                        <td><input name="establecer_metas" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="establecer_metas" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="establecer_metas" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="establecer_metas" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="establecer_metas" type="radio" value="De acuerdo" required></td>
+                        <td><input name="establecer_metas" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.competencia_excelencia.label }}</th>
+                        <td><input name="competencia_excelencia" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="competencia_excelencia" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="competencia_excelencia" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="competencia_excelencia" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="competencia_excelencia" type="radio" value="De acuerdo" required></td>
+                        <td><input name="competencia_excelencia" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.salir_adelante.label }}</th>
+                        <td><input name="salir_adelante" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="salir_adelante" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="salir_adelante" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="salir_adelante" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="salir_adelante" type="radio" value="De acuerdo" required></td>
+                        <td><input name="salir_adelante" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.comparar_calificaciones.label }}</th>
+                        <td><input name="comparar_calificaciones" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="comparar_calificaciones" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="comparar_calificaciones" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="comparar_calificaciones" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="comparar_calificaciones" type="radio" value="De acuerdo" required></td>
+                        <td><input name="comparar_calificaciones" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.empeno_trabajo.label }}</th>
+                        <td><input name="empeno_trabajo" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="empeno_trabajo" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="empeno_trabajo" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="empeno_trabajo" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="empeno_trabajo" type="radio" value="De acuerdo" required></td>
+                        <td><input name="empeno_trabajo" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+            </table> {% endcomment %}
+            <br>
+            <b>Por favor, indique en qué medida está de acuerdo o no con cada una de las siguientes 8
+            afirmaciones.</b>
+            <table class="table" style="text-align:left">
+            <td>
+                <td></td><td>Fuertemente en desacuerdo</td><td>En desacuerdo</td><td>Ligeramente en desacuerdo</td><td>Ni de acuerdo, ni en desacuerdo</td><td>De acuerdo</td><td>Fuertemente de acuerdo</td>
+            </td>
+            <tr>
+                <th>{{ form.alcanzar_objetivos.label }}</th>
+                <td>{% for choice in form.alcanzar_objetivos %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.cumplir_tareas.label }}</th>
+                <td>{% for choice in form.cumplir_tareas %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.obtener_resultados.label }}</th>
+                <td>{% for choice in form.obtener_resultados %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.exito_esfuerzo.label }}</th>
+                <td>{% for choice in form.exito_esfuerzo %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.superar_desafios.label }}</th>
+                <td>{% for choice in form.superar_desafios %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.confianza_tareas.label }}</th>
+                <td>{% for choice in form.confianza_tareas %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.tareas_excelencia.label }}</th>
+                <td>{% for choice in form.tareas_excelencia %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.tareas_dificiles.label }}</th>
+                <td>{% for choice in form.tareas_dificiles %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            </table>
+            {% comment %} <table class="table" style="text-align:center">
+                <td>
+                    <td>Fuertemente en desacuerdo</td><td>En desacuerdo</td><td>Ligeramente en desacuerdo</td><td>Ni de acuerdo, ni en desacuerdo</td><td>De acuerdo</td><td>Fuertemente de acuerdo</td>
+                </td>
+                <tr>
+                    <th>{{ form.alcanzar_objetivos.label }}</th>
+                        <td><input name="alcanzar_objetivos" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="alcanzar_objetivos" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="alcanzar_objetivos" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="alcanzar_objetivos" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="alcanzar_objetivos" type="radio" value="De acuerdo" required></td>
+                        <td><input name="alcanzar_objetivos" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.cumplir_tareas.label }}</th>
+                        <td><input name="cumplir_tareas" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="cumplir_tareas" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="cumplir_tareas" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="cumplir_tareas" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="cumplir_tareas" type="radio" value="De acuerdo" required></td>
+                        <td><input name="cumplir_tareas" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.obtener_resultados.label }}</th>
+                        <td><input name="obtener_resultados" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="obtener_resultados" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="obtener_resultados" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="obtener_resultados" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="obtener_resultados" type="radio" value="De acuerdo" required></td>
+                        <td><input name="obtener_resultados" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.exito_esfuerzo.label }}</th>
+                        <td><input name="exito_esfuerzo" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="exito_esfuerzo" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="exito_esfuerzo" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="exito_esfuerzo" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="exito_esfuerzo" type="radio" value="De acuerdo" required></td>
+                        <td><input name="exito_esfuerzo" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.superar_desafios.label }}</th>
+                        <td><input name="superar_desafios" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="superar_desafios" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="superar_desafios" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="superar_desafios" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="superar_desafios" type="radio" value="De acuerdo" required></td>
+                        <td><input name="superar_desafios" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.confianza_tareas.label }}</th>
+                        <td><input name="confianza_tareas" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="confianza_tareas" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="confianza_tareas" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="confianza_tareas" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="confianza_tareas" type="radio" value="De acuerdo" required></td>
+                        <td><input name="confianza_tareas" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.tareas_excelencia.label }}</th>
+                        <td><input name="tareas_excelencia" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="tareas_excelencia" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="tareas_excelencia" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="tareas_excelencia" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="tareas_excelencia" type="radio" value="De acuerdo" required></td>
+                        <td><input name="tareas_excelencia" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+                <tr>
+                    <th>{{ form.tareas_dificiles.label }}</th>
+                        <td><input name="tareas_dificiles" type="radio" value="Fuertemente en desacuerdo" required></td>
+                        <td><input name="tareas_dificiles" type="radio" value="En desacuerdo" required></td>
+                        <td><input name="tareas_dificiles" type="radio" value="Ligeramente en desacuerdo" required></td>
+                        <td><input name="tareas_dificiles" type="radio" value="Ni de acuerdo, ni en desacuerdo" required></td>
+                        <td><input name="tareas_dificiles" type="radio" value="De acuerdo" required></td>
+                        <td><input name="tareas_dificiles" type="radio" value="Fuertemente de acuerdo" required></td>
+                </tr>
+
+            </table>     {% endcomment %}
+            <br>
+            <b>¿Ha realizado las siguientes situaciones o acciones en el <u>último año</u>?. Por favor, utilice una
+            escala de 0 a 5, siendo 0 “nunca la hice en el último año”, y 5 es “las hago/he hecho todo el tiempo
+            en el último año”</b>
+            <table class="table" style="text-align:left">
+            <td>
+                <td></td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+            </td>
+            <tr>
+                <th>{{ form.tarde_cita.label }}</th>
+                <td>{% for choice in form.tarde_cita %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.comprar_vendedores_ambulantes.label }}</th>
+                <td>{% for choice in form.comprar_vendedores_ambulantes %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.trabajar_sin_contrato.label }}</th>
+                <td>{% for choice in form.trabajar_sin_contrato %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.emplear_sin_contrato.label }}</th>
+                <td>{% for choice in form.emplear_sin_contrato %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.no_cotizar_pension.label }}</th>
+                <td>{% for choice in form.no_cotizar_pension %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.no_cotizar_salud.label }}</th>
+                <td>{% for choice in form.no_cotizar_salud %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.no_cuenta_bancaria.label }}</th>
+                <td>{% for choice in form.no_cuenta_bancaria %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.pedir_prestado.label }}</th>
+                <td>{% for choice in form.pedir_prestado %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.transporte_alternativo.label }}</th>
+                <td>{% for choice in form.transporte_alternativo %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.vender_informal.label }}</th>
+                <td>{% for choice in form.vender_informal %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.no_votar.label }}</th>
+                <td>{% for choice in form.no_votar %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.comprar_sin_factura.label }}</th>
+                <td>{% for choice in form.comprar_sin_factura %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            </table>
+            <br>
+            <b>Según su experiencia personal, en los <u>últimos 4 años</u>, ¿cuántas personas realizan estas acciones?
+            Utilice una escala de 0 a 5, en donde 0 es “ninguna lo ha hecho en el último año”, y 5 es “todas o la
+            mayoría lo han hecho en el último año”</b>
+            <table class="table" style="text-align:left">
+            <td>
+                <td></td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+            </td>
+            <tr>
+                <th>{{ form.tarde_cita_otros.label }}</th>
+                <td>{% for choice in form.tarde_cita_otros %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.comprar_vendedores_ambulantes_otros.label }}</th>
+                <td>{% for choice in form.comprar_vendedores_ambulantes_otros %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.trabajar_sin_contrato_otros.label }}</th>
+                <td>{% for choice in form.trabajar_sin_contrato_otros %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.emplear_sin_contrato_otros.label }}</th>
+                <td>{% for choice in form.emplear_sin_contrato_otros %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.no_cotizar_pension_otros.label }}</th>
+                <td>{% for choice in form.no_cotizar_pension_otros %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.no_cotizar_salud_otros.label }}</th>
+                <td>{% for choice in form.no_cotizar_salud_otros %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.no_cuenta_bancaria_otros.label }}</th>
+                <td>{% for choice in form.no_cuenta_bancaria_otros %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.pedir_prestado_otros.label }}</th>
+                <td>{% for choice in form.pedir_prestado_otros %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.transporte_alternativo_otros.label }}</th>
+                <td>{% for choice in form.transporte_alternativo_otros %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.vender_informal_otros.label }}</th>
+                <td>{% for choice in form.vender_informal_otros %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.no_votar_otros.label }}</th>
+                <td>{% for choice in form.no_votar_otros %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.comprar_sin_factura_otros.label }}</th>
+                <td>{% for choice in form.comprar_sin_factura_otros %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            </table>
+            <br>
+            <b>¿Qué tan bien vistas son las siguientes acciones?
+            Por favor, utilice la siguiente escala de 0 a 5, donde 0 es Muy mal vistas, 
+            y 5 es Muy bien vistas</b>
+            <table class="table" style="text-align:left">
+            <td>
+                <td></td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+            </td>
+            <tr>
+                <th>{{ form.tarde_cita_apropiado.label }}</th>
+                <td>{% for choice in form.tarde_cita_apropiado %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.comprar_vendedores_ambulantes_apropiado.label }}</th>
+                <td>{% for choice in form.comprar_vendedores_ambulantes_apropiado %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.trabajar_sin_contrato_apropiado.label }}</th>
+                <td>{% for choice in form.trabajar_sin_contrato_apropiado %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.emplear_sin_contrato_apropiado.label }}</th>
+                <td>{% for choice in form.emplear_sin_contrato_apropiado %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.no_cotizar_pension_apropiado.label }}</th>
+                <td>{% for choice in form.no_cotizar_pension_apropiado %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.no_cotizar_salud_apropiado.label }}</th>
+                <td>{% for choice in form.no_cotizar_salud_apropiado %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.no_cuenta_bancaria_apropiado.label }}</th>
+                <td>{% for choice in form.no_cuenta_bancaria_apropiado %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.pedir_prestado_apropiado.label }}</th>
+                <td>{% for choice in form.pedir_prestado_apropiado %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.transporte_alternativo_apropiado.label }}</th>
+                <td>{% for choice in form.transporte_alternativo_apropiado %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.vender_informal_apropiado.label }}</th>
+                <td>{% for choice in form.vender_informal_apropiado %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.no_votar_apropiado.label }}</th>
+                <td>{% for choice in form.no_votar_apropiado %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.comprar_sin_factura_apropiado.label }}</th>
+                <td>{% for choice in form.comprar_sin_factura_apropiado %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            </table>
+        </p>
+    </div>
+{% next_button %}
+{% endblock %}

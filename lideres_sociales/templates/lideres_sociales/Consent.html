@@ -1,0 +1,69 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'lideres_sociales/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Consentimiento Informado" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify" >
+                Señor(a),<br><br>
+
+                La siguiente actividad es parte de un proyecto con fines académicos, realizado por la Universidad
+                del Valle <b>en el marco de la convocatoria 792 del Programa Colombia Científica</b>, que tiene como
+                objetivo explorar diversas decisiones y creencias en algunos contextos. Dicha actividad será
+                realizada por 500 personas en total y tiene una duración aproximada de una hora. Si usted decide
+                acompañarnos, no tendrá que incurrir en ningún riesgo o gasto. Le entregaremos instrucciones
+                precisas en su participación y podrá tener una remuneración de hasta $15.000 dependiendo de 
+                la suerte y de ciertas decisiones que usted tome.<br><br>
+
+                La participación en esta actividad es voluntaria. El estudio garantiza la confidencialidad de sus
+                respuestas. Los participantes podrán decidir terminar la actividad en cualquier momento, pero sólo
+                podrán recibir su remuneración si llegan hasta el final de la misma. Adicional a esto, le aseguramos
+                que no corren ningún riesgo con esta investigación, pues lo único que se le pedirá es completar
+                algunos cuestionarios.<br><br>
+
+                Usted tiene derecho a conocer información relacionada a este estudio, una vez esté procesada y
+                publicada. Cualquier inquietud o información que desee obtener de dicho estudio será atendida
+                por la autora del proyecto, <b>Daniela Pedroza González </b><a href="mailto:daniela.pedroza@correounivalle.edu.co">daniela.pedroza@correounivalle.edu.co</a>
+                , por la directora del proyecto, <b>Lina María Restrepo Plaza</b> <a href="mailto:lina.restrepo@correounivalle.edu.co">lina.restrepo@correounivalle.edu.co</a>
+                o <b>por el Comité de Ética de la Universidad del Valle</b> <a href="mailto:eticasalud@correounivalle.edu.co">eticasalud@correounivalle.edu.co</a>. No
+                dude en contactarse a los teléfonos 3212100 ext. 3161, 3212324, <b>5185677 o 5185670</b>.<br><br>
+
+                Si está de acuerdo con la anterior información y con que se utilicen sus respuestas con fines
+                meramente académicos, para este y otros estudios, por favor escriba su nombre, número de
+                cédula de ciudadanía a continuación y acepte los términos de esta actividad. <b>Si usted desea, podrá
+                solicitar una copia de este consentimiento</b> al correo <a href="mailto:daniela.pedroza@correounivalle.edu.co">daniela.pedroza@correounivalle.edu.co</a>.<br><br>
+                Adicionalmente, usted podrá ver una copia de este consentimiento informado <a href="https://drive.google.com/uc?export=download&id=1IKQ_tTyV3M8FC8cHwW-YvDpsH8uhLjaX">aquí</a>. 
+                Recuerde volver a esta página para partipar en el experimento.
+            {% formfield player.num_temporal %}
+            {% formfield player.genero %}
+            <p>¿Usted desea continuar?</p>
+                <div>
+                    <button name="accepts_terms" value="True">Sí</button>
+                    <button type="button" name="accepts_terms" onclick="location.href='https://google.com';" value="False">No</button>
+                </div>
+        </p>
+
+    </div>
+
+{% endblock %}

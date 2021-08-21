@@ -1,0 +1,33 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers_nt_nt/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+
+{% block title %}
+    Pagos
+{% endblock %}
+
+{% block content %}
+ <div class="wrapper instructions">
+    <p align = "justify">
+    <b>Ganancias Etapa 1:</b> {{payment_stage_1}}<br>
+    <b>Ganancias Etapa 2:</b> {{payment_stage_2}}<br>
+    <b>Ganancias Etapa 3:</b> {{payment_stage_3}}<br>
+    <b>Pago fijo por completar su participación:</b> 5000<br>
+    <b>Ganancias Acumuladas:</b> {{ganancias_acumuladas}}<br
+    </p>
+</div>
+    {% next_button %}
+
+{% endblock %}
+
+

@@ -1,0 +1,206 @@
+{% extends "base/Page.html" %}
+{% load otree%}
+
+{% block title %}
+    Información sobre la actividad de la moneda
+{% endblock %}
+
+{% block styles %}
+    <style>
+
+        h2 {
+            text-align: center;
+        }
+
+        p {
+            text-align: justify;
+        }
+        .container-survey {
+            width: 75%;
+            margin: auto;
+            color: black;
+            border: 1px solid black;
+            padding: 20px;
+        }
+
+        #description {
+            font-size: 20px;
+        }
+
+        #description p {
+            text-align: center;
+        }
+
+        #survey-form {
+            text-align: justify;
+        }
+
+        .row-tab {
+            background-color: #f3f3f3;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        .error{
+            width: 100%;
+            padding: 1% 2%;
+            border: 1px solid #ED6160; 
+            background-color: #f8dcdb;
+            color: #ED6160;
+        }
+
+        .label-tab {
+            font-weight: bold;
+        }
+
+        input[type="radio"] {
+            margin: 10px;
+            vertical-align: middle; 
+        }
+
+        input[type="number"]{
+            width: 100%;
+        }
+
+        button {
+            margin: 0 -50px; 
+            position:relative;
+            top:50%; 
+            left:50%;
+        }
+
+        #confirm_button{
+            display: none;
+        }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    
+<p>Para esta actividad has recibido $5.000, ya son tuyos y te los agregaremos a tu pago final.
+    Sin embargo, puedes usar todo o parte de este dinero para realizar una inversión que puede salir
+    bien o no. En la pantalla puedes ver una moneda virtual. Ésta determinará el éxito de tu inversión.
+    Si la moneda cae rojo ganarás el 50% de la cantidad invertida y si cae azul perderás el monto invertido.
+    Lo que no hayas invertido, se quedará en tu cuenta y te lo pagaremos al final de esta sesión.</p>
+
+<p>
+    Ejemplo: si inviertes $1,000 y la moneda cae rojo, tus pagos serán:
+    <br>
+    <b>$5,500 = $4,000 (que guardaste) + $1,000 (que invertiste) + 500 (que ganaste por la inversión.
+        $500 es el 50% de $1000) </b>
+</p>
+<p>
+    Si cae azul tus pagos serán:
+    <br>
+    <b>$4,000 = $4,000 (que guardaste) - $1,000 (que invertiste) + $0 (que ganaste por la inversión)</b>
+</p>
+
+    <section>
+        <div class="container-survey">
+            <div id="description">
+                <p>Por favor responda correctamente esta encuesta para
+                    continuar</p>
+            </div>
+            <form id="survey-form" method="post">
+                <div class="row-tab">
+                    <div>
+                        <label class="label-tab">1. Imagina que has decidido invertir $4000 y que la moneda lanzada ha caído en azul ¿Cuánto dinero ganarás?</label><br>
+                        <label class="error error_question1" data-for-input-group="question1">Recuerde que en caso de obtener azul se pierde el dinero invertido en el activo</label>
+                    </div>
+                    <div class="input-tab">
+                        <input type="radio" data-input-group-id="question1" name="question1" value="25" ><label>$1000</label><br>
+                        <input type="radio" data-input-group-id="question1" name="question1" value="0" ><label>$3000</label><br>
+                        <input type="radio" data-input-group-id="question1" name="question1" value="0" ><label>$5000</label><br>
+                    </div>
+                </div>
+
+                <div class="row-tab">
+                    <div>
+                        <label class="label-tab">2. En caso de que inviertas $4000 y la moneda lanzada caiga en rojo ¿Cuánto dinero ganarás?</label><br>
+                        <label class="error error_question2">Recuerde que el dinero que vas a recibir en total es el dinero ganado e invertido en el activo de riesgo, $2,000 + $4,000 más el dinero que has decidido guardar, $1,000</label>
+                    </div>
+                    <div class="input-tab">
+                        <input type="radio" name="question2" value="0"><label>$2000</label><br>
+                        <input type="radio" name="question2" value="0"><label>$6000</label><br>
+                        <input type="radio" name="question2" value="25"><label>$7000</label><br>
+                    </div>
+                </div>
+
+                <button id="submit" class="btn btn-success" type="button" value="Submit">Complete</button>
+
+            </form>
+        </div>
+    </section>
+
+<br>
+
+<button id="confirm_button" class="btn btn-primary" >
+    Siguiente
+</button>
+  
+        
+{% endblock %}
+
+{% block local_scripts %}
+    
+    <script>
+      
+        var boton = document.getElementById("submit");
+        var confirm_button = document.getElementById('confirm_button');
+        var result = 0;
+
+        // cuando se pulsa en el boton
+        boton.onclick = function(e) {
+            // evitamos la acción por defecto
+            e.preventDefault();
+
+            question1 = document.querySelector('input[name = "question1"]:checked');
+            question2 = document.querySelector('input[name = "question2"]:checked');
+
+            if (question1 == null) {   
+                $('.error_question1').text('Por favor conteste la pregunta.');
+                $('.error_question1').fadeIn('slow');
+                    
+            } else {
+                if (question1.value == 0) {
+                    $('.error_question1').text('La respuesta es incorrecta.');
+                    $('.error_question1').fadeIn('slow');
+                    
+                } else {
+                    $('.error_question1').fadeOut("slow");
+                    
+                } 
+            }
+            
+            if (question2 == null) {   
+                $('.error_question2').text('Por favor conteste la pregunta.');
+                $('.error_question2').fadeIn('slow');
+                    
+            } else {
+                if (question2.value == 0) {
+                    $('.error_question2').text('La respuesta es incorrecta.');
+                    $('.error_question2').fadeIn('slow');
+                    
+                } else {
+                    $('.error_question2').fadeOut("slow");
+                    
+                } 
+            }
+
+            if (question1 != null && question1.value == 25 &&
+                question2 != null && question2.value == 25) {
+
+                    result = parseInt(question1.value) + 
+                    parseInt(question2.value); 
+
+                    console.log(result);
+                    document.getElementById("confirm_button").click();
+                
+            } 
+
+        
+
+        }
+    </script>
+{% endblock local_scripts %}

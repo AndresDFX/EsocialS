@@ -1,0 +1,40 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+{% block styles %}
+    <style>
+
+    .textos{
+        max-width: 750px;
+        height: auto;
+        display:block;
+        margin:auto;
+    }
+
+    .formulario{
+        margin: 0 auto;
+        text-align: center;
+        width: 400px;
+    }
+
+    </style>
+{% endblock %}     
+
+
+{% block title %}
+    {{titulo}}
+{% endblock %}
+
+
+{% block content %}
+
+    <img class="textos" src="{% static image_path %}"/>
+
+    <!--<p style="white-space: pre-line">{{texto}}</p>-->
+
+    <div class="formulario">{% formfields %}</div>
+
+    {% next_button %}
+
+{% endblock %}

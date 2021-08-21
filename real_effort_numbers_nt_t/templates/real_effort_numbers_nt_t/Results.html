@@ -1,0 +1,23 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Results Page
+{% endblock %}
+
+{% block content %}
+    Your payoff is: {{player.payoff}}
+    {% next_button %}
+{% endblock %}
+
+{% comment %} Se me borraron unas frases cuando copié el paréntesis. Aquí va bien escrito, jeje:
+
+Gif 1: alguien metiendo en una bolsa las bolas correspondientes a la decisión que salió al azar. Claro, esto implica tener 11 gifs, y que a cada quien le salga el gif que corresponde a su elección (si escogieron la bolsa dos, no se muestra este gif)
+
+Gif 2. Sacando la bola de la bolsa. Tener dos Gifs, uno sacando una bola roja, y otro sacando una bola azul. Y que el software determine cuál Gif mostrar, según la probabilidad de la bolsa/decisión. (si escogió la bolsa dos, se le asigna al azar una de las 11 bolsas, y luego se le asigna al azar la bola que le debe salir)
+
+Ricardo, aquí van los vídeos para la actividad de las bolsas. Recuerda que sólo pondremos el vídeo después de que han tomado las decisiones.  
+
+Son dos tipos de videos. Con el primero le mostramos al participante que hemos metido en la bolsa el número de bolas azules que corresponde según su decisión. El segundo, es para mostrarle qué bola salió.
+
+ De paso, nos toca cambiar el color. En lugar de bolas rojas, deben ser rosadas (no encontré rojas, grrrr) {% endcomment %}

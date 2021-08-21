@@ -1,0 +1,177 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block styles %}
+    <style>
+        .logo {
+            position: absolute;
+            top: 14.5%;
+            left: 50%;
+            /*El translatevalor de transformse basa en el tamaño del elemento, por lo que se centrará bien.*/
+            transform: translate(-50%, -50%);
+            /*redimensionando imagen respetando proporciones*/
+            max-width: 100px;
+            height: auto;
+        }
+
+        .otree-title { 
+            margin-top: 185px; 
+        }
+    </style>
+{% endblock %}
+
+
+
+
+
+{% block title %}
+    Consentimiento Informado
+{% endblock %}
+
+
+{% block content %}
+    
+    <img class="logo" src="{% static 'imagenes/logo_univalle.png' %}" >
+
+    <p>Señor(a),</p>
+
+    <p>La siguiente actividad hace parte de un proyecto de investigación con fines académicos,
+        realizado por la Universidad del Valle en el marco de la convocatoria 792 del Programa
+        Colombia Científica, que tiene como objetivo estudiar el comportamiento de las personas y
+        sus decisiones en algunos contextos. Dicha actividad tiene una duración aproximada de una
+        hora, consta de cuatro etapas y cuenta con cerca de 240 participantes. Si usted decide
+        acompañarnos, no tendrá que incurrir en ningún gasto, ni ningún riesgo. Sin embargo, por
+        participar puede tener una remuneración máxima de $25,000 COP, dependiendo de la
+        suerte, de su desempeño y de ciertas decisiones que usted tome.</p>
+
+    <p>La participación en esta actividad es anónima y voluntaria. Cada participante tiene un
+        número de identificación temporal que no está relacionado con ningún nombre o número de
+        documento de identidad, lo que garantizará el anonimato de sus respuestas. Los
+        participantes podrán decidir terminar la actividad en cualquier momento, pero sólo podrán
+        recibir su remuneración si llegan hasta el final de la misma.</p>
+
+    <p>Usted tiene derecho a conocer información relacionada a este estudio, una vez esté
+        procesada y publicada. Cualquier inquietud o información que desee obtener de dicho
+        estudio será atendida ya sea por la directora del proyecto, Lina María Restrepo Plaza
+        (lina.restrepo@correounivalle.edu.co), por Nicolás Villanueva Dávila
+        (nicolas.villanueva@correounivalle.edu.co) o por el Comité de Ética de la Universidad del
+        Valle (eticasalud@correounivalle.edu.co). No dude en contactarse a los teléfonos 3212100
+        ext. 3161, 3186434233, 5185677 o 5185670.</p>
+
+    <p>Si está de acuerdo con la anterior información y con que se utilicen sus respuestas con fines
+        meramente académicos, para este y otros estudios, por favor escriba su nombre, número de
+        cédula de ciudadanía a continuación y acepte los términos de esta actividad. Si usted desea,
+        podrá solicitar una copia de este consentimiento al correo
+        nicolas.villanueva@correounivalle.edu.co.</p>
+              
+    <img class="firma" src="{% static 'imagenes/firma.png' %}" > 
+    <p> Lina María Restrepo Plaza</p>
+    <p> Investigadora principal del proyecto</p>
+
+{% formfield player.consentimiento %}
+
+    <div id="seccion_datos" style="display: none">
+
+        <p>Antes de continuar, por favor responda las siguientes preguntas:</p>
+        {% formfield player.sexo %}
+        {% formfield player.estrato %}
+
+        <button type="button" id="send_data" class="btn btn-warning">Enviar datos</button>
+
+        <br>
+    <br>
+    
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+                <div class="modal-body">
+                    <p id="texto-modal"> </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="confirm_button" type="button" class="btn btn-secondary" >
+        Siguiente
+    </button>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        let radioButtons;
+        
+    var seccion_datos = document.getElementById("seccion_datos");
+    var sexo;
+var estrato;
+var send_data = document.getElementById("send_data");
+var val = 0;
+var  myButton = document.getElementById('confirm_button');
+
+function liveRecv(data) {
+    
+    // your code goes here
+    if (data) {
+        console.log('received a message!', data);
+      //  document.getElementById("texto-modal").innerHTML = "Se ha asignado el contrato satisfactoriamente";
+        myButton.removeAttribute('type');
+      myButton.className = "btn btn-primary";
+        document.getElementById("confirm_button").click();
+    } else {
+        console.log('no');
+        document.getElementById("texto-modal").innerHTML = "No hay disponibilidad de contrato para los datos ingresados.";
+        $('#exampleModal').modal('show'); // abrir
+    }
+}
+
+
+function asignar_contrato(){
+            
+                liveSend({'sexo': sexo.value, 'estrato': Number(estrato.value)});
+                send_data.removeEventListener("click", asignar_contrato);
+                send_data.className = "btn btn-secondary";
+                $(':radio:not(:checked)').attr('disabled', true);
+               
+                val++;
+        }
+
+    
+        window.setInterval(
+    
+    function validar (){
+
+        radioButtons = document.querySelectorAll('input[name="consentimiento"]')
+
+        if (radioButtons[0].checked == true) {
+            myButton.setAttribute('type', 'button');
+      myButton.className = "btn btn-secondary";
+            seccion_datos.style.display = "block";
+            sexo = document.querySelector('input[name="sexo"]:checked');
+            estrato = document.querySelector('input[name="estrato"]:checked'); 
+        
+        if(sexo) console.log(sexo.value);
+        if(estrato) console.log(estrato.value);
+
+        if (sexo && estrato && val == 0) {
+            send_data.addEventListener("click", asignar_contrato);
+        }
+        } else if (radioButtons[1].checked == true){
+            
+            seccion_datos.style.display = "none";
+            myButton.removeAttribute('type');
+      myButton.className = "btn btn-primary";
+        }
+    }  ,2000);
+
+
+    </script>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Sesión número 3
+
+{% endblock %}
+
+{% block content%}
+    <br>
+    <br>
+    
+        
+       <p> Ha llegado usted a la tercera sesión. Al finalizarla podrá retirar todo su dinero,
+        en caso de que haya decidido guardarlo. Por favor responda la encuesta socio economica que se le presentará al finalizar la actividad y tendrá la posibilidad 
+        de participar en una actividad donde podrá ganar hasta $7 500 pesos.</p>
+        
+        <p>Gracias por su participación.</p> 
+    <br>
+    <br>
+
+  
+    {% next_button %}
+ <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+                 <div class="modal-body">
+                    <p id="texto-modal"> </p>
+                </div>    
+      
+{% endblock %}
+

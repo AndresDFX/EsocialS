@@ -1,0 +1,44 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers_nt_nt/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Preguntas de Control Etapa 1" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify">
+            {% comment %} Todos:{% endcomment %} Esta etapa tiene 10 rondas. En cada ronda usted y otra persona con la que le será emparejado (a),
+            deberán realizar sumas de números de dos dígitos a lo largo de un minuto. 
+            Por cada suma correcta, cada miembro de la pareja recibirá $50.<br><br>
+            {% comment %} T-T y T-NT: Le hemos asignado al azar la etiqueta AB, con la cual usted se identificará a lo largo de la Etapa 1.<br><br>
+            {% comment %} NT-NT y NT-T:{% endcomment %} En esta etapa usted será emparejado (a) con un participante distinto en cada ronda.<br><br>
+            {% comment %}T-T: Usted será emparejado (a) con otro (a) participante al azar, quien también ha recibido la etiqueta AB, 
+            y juntos realizarán las actividades de las Etapas 1 y 2.<br><br>
+            T-NT: Usted será emparejado (a) con otro (a) participante al azar, quien también ha recibido la etiqueta AB, y juntos realizarán las actividades 
+            de las Etapas 1. En la Etapa 2, será emparejado(a) con alguien distinto.<br><br> {% endcomment %}
+            <b>Por favor, responda las siguientes preguntas:</b>        
+        {%formfield player.control_question_1%}
+        {%formfield player.control_question_2%}
+        </p>
+    </div>
+    {% next_button %}
+{% endblock %}

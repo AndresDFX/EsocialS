@@ -1,0 +1,50 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+
+    {% block title %}
+        {{titulo}} 
+    {% endblock %}
+   
+{% block content %}
+
+{% if player.id_in_group == 1 %}
+    <div class="wrapper instructions">
+        <p align = "justify">
+            ¿Cree usted que el <b>Jugador Y </b> pagará $2500 por el contrato que garantizará que usted realice como mínimo 50 sumas en esta etapa?
+            {% formfield player.believe_pay_contract %}
+        </p>
+    </div>
+{% else %}
+
+    <div class="wrapper instructions">
+            <p align = "justify">
+                ¿Desea usted pagar $2500 por el contrato que garantizará que el <b>Jugador X</b> realice como mínimo 50 sumas en esta etapa?<br>
+                <input name="pay_contract" id="pay_contract_yes" type="radio" value="True" style="margin-right: 10px; margin: 10px" onclick="ShowHideDiv()">Sí<br>
+                <input name="pay_contract" id="pay_contract_no" type="radio" value="False" style="margin-right: 10px; margin: 10px" onclick="ShowHideDiv()">No<br>
+                {% comment %} {% formfield player.1 %} {% endcomment %}
+            </p>
+            <div id="myDIV" style="display: none">
+            ¿Cuántas sumas le sugiere usted realizar al <b>Jugador X?</b>
+                {% formfield player.suggested_sums%}
+            </div>
+        </div>
+{% endif %}
+{% block scripts %}
+        <script src="{% static 'real_effort_numbers/js/showhide.js' %}"></script>
+    {% endblock %} 
+{% next_button %}               
+{% endblock %}

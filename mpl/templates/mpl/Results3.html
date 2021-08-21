@@ -1,0 +1,241 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'mpl/css/custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** SCRIPTS *** #}
+{# ****************************************************************************************************************** #}
+{% block scripts %}
+    {% if Constants.small_pies == True or Constants.large_pies == True %}
+        <script>
+            num_choices = {{ Constants.num_choices|json }};
+            lottery_a_hi = "{{ lottery_a_hi }}";
+            lottery_a_lo = "{{ lottery_a_lo }}";
+            lottery_b_hi = "{{ lottery_b_hi }}";
+            lottery_b_lo = "{{ lottery_b_lo }}";
+
+            one_choice = "{{ Constants.one_choice_per_page }}";
+            percentage = "{{ Constants.percentage }}";
+            large_pies = "{{ Constants.large_pies }}";
+        </script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="{% static 'mpl/js/pie_charts.js' %}"></script>
+    {% endif %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Etapa 4 - Resultados" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper">
+
+        {% comment %} <div class="card info">
+            {% blocktrans trimmed %}
+                La siguiente decisión fué generada al azar para realizar su pago: <u>El Programa escogió la <b>Decisión {{decision}}</b>.</u>
+            {% endblocktrans %}
+        </div> {% endcomment %}
+
+        <!-- ------------------------------------------------------------------------------------------------------- -->
+        <!-- Choice To Pay: Large Pies -->
+        <!-- ------------------------------------------------------------------------------------------------------- -->
+        {% if Constants.one_choice_per_page == True and Constants.large_pies == True %}
+
+            <div class="card">
+                <table class="table">
+                    <thead>
+                        <tr class="header">
+                            <th class="center">{% trans "Option A" %}</th>
+                            <th class="center">{% trans "Option B" %}</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for i,f,p in choice_to_pay %}
+                            {% comment %} <tr>
+                                <td class="center">
+                                    {% with j=i|stringformat:"s" %}
+                                        {% with pies_a="pie_a_"|add:j %}
+                                            <div id="{{ pies_a }}" class="pie-chart"></div>
+                                        {% endwith %}
+                                    {% endwith %}
+                                </td>
+                                <td class="center">
+                                    {% with j=i|stringformat:"s" %}
+                                        {% with pies_b="pie_b_"|add:j %}
+                                            <div id="{{ pies_b }}" class="pie-chart"></div>
+                                        {% endwith %}
+                                    {% endwith %}
+                                </td>
+                            </tr> {% endcomment %}
+                            <tr>
+                                {% if option_to_pay == 'A' %}
+                                    <td class="center">
+                                        <button name="{{ f }}" class="btn btn-success" disabled>
+                                            {% trans "Option A" %}
+                                        </button>
+                                    </td>
+                                    <td class="center">
+                                        <button name="{{ f }}" class="btn btn-primary" disabled>
+                                            {% trans "Option B" %}
+                                        </button>
+                                    </td>
+                                {% elif option_to_pay == 'B' %}
+                                    <td class="center">
+                                        <button name="{{ f }}" class="btn btn-primary" disabled>
+                                            {% trans "Option A" %}
+                                        </button>
+                                    </td>
+                                    <td class="center">
+                                        <button name="{{ f }}" class="btn btn-success" disabled>
+                                            {% trans "Option B" %}
+                                        </button>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+        <!-- ------------------------------------------------------------------------------------------------------- -->
+        <!-- Choice To Pay: Choice List -->
+        <!-- ------------------------------------------------------------------------------------------------------- -->
+        {% else %}
+
+            <div class="card">
+                {% comment %} <table class="table table-striped">
+                    <thead>
+                        <tr class="header">
+                            {% if Constants.small_pies == True %}
+                                <!--<th class="pie-chart"></th> -->
+                            {% endif %}
+                            <th class="lottery-a">{% trans "Bolsa 1" %}</th>
+                            <th class="formfield"></th>
+                            <th class="lottery-b">{% trans "Bolsa 2" %}</th>
+                            {% if Constants.small_pies == True %}
+                                <!-- <th class="pie-chart"></th> -->
+                            {% endif %}
+                        </tr>
+                    </thead> {% endcomment %}
+
+                    <!--<tbody>-->
+                        {% for i,f,p in choice_to_pay %}
+                            
+                                <!-- pie charts for A lotteries -->
+                                {% comment %} {% if Constants.small_pies == True %}
+                                    <td class="pie-chart">
+                                        {% with j=i|stringformat:"s" %}
+                                            {% with pies_a="pie_a_"|add:j %}
+                                                <div id="{{ pies_a }}" class="pie-chart"></div>
+                                            {% endwith %}
+                                        {% endwith %}
+                                    </td>
+                                {% endif %} {% endcomment %}
+
+                                <!-- A lotteries -->
+                                {% comment %} <td class="lottery-a">
+                                <b>Decision {{ i}}</b>. Tiene {{ i|add:"-1" }} bolas azules y {{  p}} bolas rosadas
+                                    <p class="center">
+                                    {% with 'mpl/images/Bolsa_' as path%}
+                                        {% with '.png' as file_extension%}
+                                            {% with i|stringformat:"s" as decision_number %}
+                                                {% with path|add:decision_number|add:file_extension as full_path %}
+                                                    <img src="{% static full_path %}" 
+                                                    alt="Imagen que muestra bolas de colores azul y rosado. Comienza con 10 bolas rosadas y cero azules y disminuye el número de bolas rosadas y aumenta el número de bolas azules gradualmente" 
+                                                    style= "height: 29%; width: 29%; object-fit: cover">
+                                                {% endwith %}
+                                            {% endwith %}
+                                        {% endwith %}
+                                    {% endwith %}
+                                    </p>
+                                </td>
+
+                                <!-- radio select form fields -->
+                                <td class="formfield">
+                                    {% if option_to_pay == 'A' %}
+                                        <div class="controls">
+                                            <input type="radio" style="pointer-events: none;" checked="checked">
+                                            <input type="radio" style="pointer-events: none;">
+                                        </div>
+                                    {% elif option_to_pay == 'B' %}
+                                        <div class="controls">
+                                            <input type="radio" style="pointer-events: none;">
+                                            <input type="radio" style="pointer-events: none;" checked="checked">
+                                        </div>
+                                    {% endif %}
+                                </td>
+
+                                <!-- B lotteries -->
+                                <td class="lottery-b">
+                                <b>Decision {{ i}}</b>. Tiene 10 pelotas. No sabes cuántas son azules ni son rosadas
+                                    <p class="center">
+                                    <img src="{% static 'mpl/images/BolsaIncognita.png' %}" alt="Ilustración de una bolsa con bolas que tienen signos de pregunta en cada una" style= "height: 20%; width: 20%; object-fit: cover">
+                                    </p>
+                                </td> {% endcomment %}
+
+                                <!-- pie charts for B lotteries -->
+                                {% comment %} {% if Constants.small_pies == True %}
+                                    <td class="pie-chart">
+                                        {% with j=i|stringformat:"s" %}
+                                        {% with pies_b="pie_b_"|add:j %}
+                                            <div id="{{ pies_b }}" class="pie-chart"></div>
+                                        {% endwith %}
+                                        {% endwith %}
+                                    </td>
+                                {% endif %} {% endcomment %}
+                            
+                        {% endfor %}
+                    <!--</tbody>-->
+                </table>
+            
+        {% endif %}
+
+        <!-- ------------------------------------------------------------------------------------------------------- -->
+        <!-- payoff information -->
+        <!-- ------------------------------------------------------------------------------------------------------- -->
+        {% for i,f,p in choice_to_pay %}
+        <div class="card info">
+            <p>
+            {% if option_to_pay == 'A' %}
+                Nuestro software escogió la <b>Decisión {{decision}}</b> de la <b>Bolsa 1</b> al azar para determinar tu pago.
+                En el siguiente video te mostramos cómo se ha metido en la bolsa el número de bolas azules que corresponde con tu decisión:<br>
+                {% with 'mpl/gifs/Bolsa_' as path%}
+                    {% with '.mp4' as file_extension%}
+                        {% with i|stringformat:"s" as decision_number %}
+                            {% with path|add:decision_number|add:file_extension as full_path %}
+                                <p align="center"><video width="320" height="240" type="video/mp4" controls src="{% static full_path %}" alt="Video que muestra como se meten pelotas azul y/o rosadas en una bolsa"><p/>
+                             {% endwith %}
+                        {% endwith %}
+                    {% endwith %}
+                {% endwith %}
+            {% elif option_to_pay == 'B' %}
+                Nuestro software escogió la <b>Decisión {{decision}} </b> de la <b>Bolsa 2</b> al azar para determinar tu pago. 
+            {% endif %}
+            {% endfor %}
+        
+        </div>
+    </div>
+
+    {% next_button %}
+
+{% endblock %}

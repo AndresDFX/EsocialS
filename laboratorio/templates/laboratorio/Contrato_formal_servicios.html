@@ -1,0 +1,74 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+{% block styles %}
+{% endblock %}
+
+
+{% block title %}
+    CONTRATO DE TRABAJO
+{% endblock %}
+
+
+{% block content %}
+
+    <p>Estimado participante:</p>
+
+    <p>Por medio de este contrato, usted (EL CONTRATISTA) y quien se encuentra dirigiendo esta
+        actividad (EL CONTRATANTE), acuerdan celebrar el presente CONTRATO POR PRESTACIÓN
+        DE SERVICIOS, el cual se regirá por las siguientes cláusulas:</p>
+
+    <p><strong>PRIMERA.</strong> <i>Objeto:</i> El CONTRATISTA en su calidad de trabajador independiente, se obliga para
+        con El CONTRATANTE a ejecutar los trabajos y demás actividades propias del servicio contratado,
+        el cual consistirá en la transcripción de textos a través de esta plataforma.</p>
+
+    <p><strong>SEGUNDA.</strong> <i>Duración:</i> El plazo para la ejecución del presente contrato será de 20 minutos por 3
+        días, contados a partir de la aceptación de este contrato. La actividad podrá ser realizada en
+        cualquier momento del día entre las 8:00 a.m. y las 4:00 p.m.</p>
+
+    <p><strong>TERCERA.</strong> <i>Precio:</i> El CONTRATISTA, por cada encuesta digitada recibirá un pago de 1.750 COP.
+        El pago por día será calculado por el número de textos transcritos y finalizados una vez hayan
+        pasado los 20 minutos y será pagado en moneda de curso legal en el transcurso del día, a través
+        de una transferencia bancaria, una vez sea finalizado la actividad.</p>
+
+    <p><strong>CUARTA.</strong> <i>Obligaciones:</i> El CONTRATISTA deberá cumplir con las siguientes obligaciones:</p>
+
+    <ol type="a">
+        <li> El CONTRATISTA deberá cumplir en forma eficiente y oportuna los trabajos
+            encomendados y aquellas obligaciones que se generen dé acuerdo con la naturaleza del
+            servicio. </li>   
+        <li> Cumplir con los tiempos de entrega de las actividades. </li>
+        <li>El CONTRATISTA deberá garantizar la calidad de los productos entregados. Una similitud
+            inferior al 80% anulará la entrega del producto, y no se contará dentro del pago.</li>
+        
+   </ol>
+   
+    <p><strong>QUINTA.</strong> <i>Terminación:</i> El presente contrato podrá terminar por alguno de los siguientes eventos:</p>
+
+    <ol type="a">
+        <li> Vencimiento del plazo sin que las partes, por mutuo acuerdo, manifiesten su intención de
+            prorrogarlo. </li>   
+        <li> Por incumplimiento de EL CONTRATISTA de las obligación y actividades dejadas a su
+            cargo. </li>
+        
+    </ol>
+
+    <p> EMPLEADOR  </p>     
+    <img class="firma" src="{% static 'imagenes/firma.png' %}" >
+
+    <br>
+    <br>
+
+    <a href="{% static 'documentos\Contrato por prestación de servicios.pdf' %}" download="Contrato De Trabajo">
+        Descargar Contrato
+    </a>
+    
+    <br>
+    <br>
+
+    {% formfields %}
+
+    {% next_button %}
+
+{% endblock %}

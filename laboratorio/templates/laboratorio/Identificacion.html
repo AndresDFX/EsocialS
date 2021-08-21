@@ -1,0 +1,26 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Identificacion
+{% endblock %}
+
+{% block content %}
+
+    {{ form.codigo.label }}
+
+    <br>
+    <br>
+
+    <P><strong>Nota:</strong> Es importante que usted escriba el número exacto que se le envió, pues ese número
+        contiene los datos de la cuenta a la cual le vamos a pagar. Si usted pone un número distinto,
+        el dinero llegará a otra cuenta.</P>
+
+    {{ form.codigo }}
+
+    {% formfield player.confirmacion_codigo %}
+    
+
+    {% next_button %}
+
+{% endblock %}

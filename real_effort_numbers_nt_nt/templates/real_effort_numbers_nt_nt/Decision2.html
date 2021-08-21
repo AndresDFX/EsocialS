@@ -1,0 +1,56 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers_nt_nt/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+
+    {% block title %}
+        {{titulo}} 
+    {% endblock %}
+   
+{% block content %}
+    {% if player.id_in_group == 1 and  opponent_contract_decision == True%}
+    <div class="wrapper instructions">
+        <p align = "justify">
+            El Jugador Y ha tomado la decisión de <b>pagar por el contrato</b>. Usted deberá realizar como mínimo 50 sumas en los próximo 5 minutos.<br><br>
+            Recuerde que por cada suma, correcta o incorrecta, le deduciremos $20.<br>
+            Si usted no completa las 50 sumas, le deduciremos los $5000 que corresponden a las ganancias del jugador Y.
+        </p>
+    </div>
+    {% endif %}
+    {% if player.id_in_group == 1 and opponent_contract_decision == False %}
+    <div class="wrapper instructions">
+        <p align = "justify">
+            El Jugador Y ha tomado la decisión de <b>NO pagar por el contrato</b>, pero le ha sugerido realizar {{opponent_suggested_sums}} sumas. 
+            Usted puede realizar las sumas que desee durante los próximos 5 minutos.
+        </p>
+    </div>
+    {% endif %}
+    <!--Jugador 2-->
+    {% if player.id_in_group == 2 and player.pay_contract == True %}
+    <div class="wrapper instructions">
+            <p align = "justify">
+                Usted ha decidido <b>pagar por el contrato</b>. Este saldo será descontado de sus ganancias.
+            </p>
+        </div>
+        {% endif %}
+    {% if player.id_in_group == 2 and player.pay_contract == False %}   
+    <div class="wrapper instructions">
+            <p align = "justify">
+                Usted ha decidido <b>no pagar por el contrato</b> y le ha sugerido al Jugador X hacer {{player.suggested_sums}} sumas.
+            </p>
+    </div>
+{% endif %}
+{% next_button %}               
+{% endblock %}

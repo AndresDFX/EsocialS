@@ -1,0 +1,33 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers_nt_nt/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans " Inicio Etapa 2" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify">
+            <b>La etapa comenzará a continuación. Luego de presionar el botón "siguiente" empezará un conteo regresivo y usted tendrá 5 minutos para completar la Etapa 2. Por favor, presione siguiente cuando esté preparado para iniciar. </b>
+        </p>
+    </div>
+    {% next_button %}
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers_t_nt/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Instrucciones generales" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify">
+            Usted estará interactuando con otras personas a lo largo de este ejercicio, pero ni ellas ni usted conocerán las identidades de los demás. 
+            Existe un tiempo prudencial para realizar cada una de las actividades el cual les será informado oportunamente. Por favor, evite conversar, hacer llamadas telefónicas 
+            o realizar otras actividades mientras participa del ejericio pues su demora evitará que otras personas puedan avanzar, y que puedan obtener mayores ganancias.<br><br>
+
+            Lo más normal es que nuestros participantes ganen entre <b>$20000 y $25000</b>, pero si al finalizar la actividad usted tiene pérdidas,
+            deduciremos ese valor del pago fijo que le prometimos por participar, que es <b>$5000</b>. 
+
+        </p>
+    </div>
+    {% next_button %}
+{% endblock %}

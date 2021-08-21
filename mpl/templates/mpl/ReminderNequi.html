@@ -1,0 +1,44 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'mpl/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Recordatorio Nequi" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify" >
+                Señor(a),<br><br>
+
+                Este proyecto es financiado por el Ministerio de Ciencia y Tecnología, y para poder pagarle por su participación debemos contar con un certificado bancario de una cuenta Nequi.
+                Por favor, al terminar la actividad, envíenos el número de identificación experimental que se le envió al correo y el 
+                certificado de su cuenta Nequi al correo <a href="mailto:investigacion.esocials@correounivalle.edu.co">investigacion.esocials@correounivalle.edu.co</a> o a nuestro Whatsapp 3167607211.<br><br>
+
+                ¿Cómo abrir la cuenta Nequi? Descargue la aplicación Nequi en su celular y genere una cuenta. 
+                En este video podrás saber cómo hacerlo: <a href="https://drive.google.com/file/d/14_1oQjHjchtTx92R4NVEQXtLAIoN6RXG/view?usp=sharing">https://drive.google.com/file/d/14_1oQjHjchtTx92R4NVEQXtLAIoN6RXG/view?usp=sharing</a><br><br>
+
+                ¿Cómo descargar el certificado? descargue el certificado ingresando a <a href="https://nequi.co/">nequi.co</a>.
+                En este video podrá saber cómo: <a href="https://drive.google.com/file/d/14_KQhpsBOSpZWtNxk8Nlg--v2Oda2faR/view?usp=sharing">https://drive.google.com/file/d/14_KQhpsBOSpZWtNxk8Nlg--v2Oda2faR/view?usp=sharing</a>.<br><br>
+
+        </p>
+    </div>
+{% next_button %}
+{% endblock %}

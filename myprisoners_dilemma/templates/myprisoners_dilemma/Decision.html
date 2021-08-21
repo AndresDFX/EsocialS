@@ -1,0 +1,23 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Please make your decision
+{% endblock %}
+
+{% block content %}
+<table>
+    <tr>
+        <td>{{Constants.payoff_both_cooperate}}</td>
+        <td>{{Constants.payoff_different_cooperate}}</td>
+    </tr>
+    <tr>
+        <td> {{Constants.payoff_different_defect}}</td>
+        <td> {{Constants.payoff_both_defect}}</td>
+    </tr>
+
+</table>
+    {% formfields %}
+    {% next_button %}
+
+{% endblock %}

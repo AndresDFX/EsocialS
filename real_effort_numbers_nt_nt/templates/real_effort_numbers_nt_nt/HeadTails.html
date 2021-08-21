@@ -1,0 +1,60 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers_nt_nt/css/custom.css' %}" rel="stylesheet"/>
+    <link href="{% static 'mpl/css/headtails.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Etapa 3 - Moneda" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify">
+                Para esta actividad has recibido $5.000, ya son tuyos y te los agregaremos a tu pago final. 
+                Sin embargo, puedes usar todo o parte de este dinero para realizar una inversión que puede salir bien o no.<br><br>
+
+                En la pantalla puedes ver una moneda virtual. Ésta determinará el éxito de tu inversión.  
+                Si la moneda cae <b>cara</b> (color rojo) te entregaremos el doble de la cantidad invertida y si cae <b>sello</b>(color azul) perderás el monto invertido. 
+                Lo que no hayas invertido, se quedará en tu cuenta y te lo pagaremos al final de esta sesión.<br><br>
+
+                Ejemplo: si inviertes $1,000 y la moneda cae cara (color rojo), tus pagos serán: <br><br>
+
+                <b>6,000 =</b> $4,000 (que guardaste) + $2,000 (que ganaste) 
+        </p>
+    </div>
+    <div id="coin">
+        <div class="side-a"></div>
+        <div class="side-b"></div>
+    </div>
+    <h1>Haga Clic para girar la moneda. Esta vez el resultado sí determinará tu pago</h1>
+    {% block scripts %}
+        <script> var flipResult = {{Constants.cara_sello_value}};</script>
+        <script src="{% static 'mpl/js/headtails.js' %}"></script>
+        {% comment %} <script type="text/javascript"> document.getElementById('coin').onclick = () => false; } </script>
+        <script type="text/javascript"> document.getElementById('side-a').onclick = () => false; </script>
+        <script type="text/javascript"> document.getElementById('side-b').onclick = () => false; </script>
+        <script type="text/javascript"> document.getElementById('heads').onclick = () => false; </script>
+        <script type="text/javascript"> document.getElementById('tails').onclick = () => false; </script> {% endcomment %}
+    {% endblock %}
+
+    
+{% next_button %}
+{% endblock %}
+

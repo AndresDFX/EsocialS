@@ -1,0 +1,56 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers_nt_nt/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Instrucciones Etapa 2" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify">
+            {% comment %} Todos: {% endcomment %}Para el Desarrollo de la Etapa 2 asignaremos etiquetas al azar a todos los participantes. 
+            A la mitad les llamaremos <b>jugador X</b> y a la otra mitad <b>jugador Y</b>. <b>Luego los emparejaremos</b>.<br><br>
+            {% comment %}T-T: En esta etapa usted estará emparejado (a) de nuevo con el participante AB (o el que corresponda). 
+            Por lo tanto, conformarán de nuevo el <b>Equipo AB</b><br><br>{% endcomment %} 
+            {% comment %} T-NT: En esta etapa usted NO estará emparejado (a) de nuevo con el participante AB (o el que corresponda), 
+            sino con el participante CD (o el que le asigne el software).<br><br>
+            NT-NT: No les decimos nada.<br><br>
+            {% comment %} NT-T:Usted y la persona con quien se le ha emparejado conformarán el <b>{{player.team}}</b><br><br>{% endcomment %}
+
+            <b>Funciones de los jugadores X e Y</b>.<br><br>
+            Por favor, preste atención a la descripción de las funciones pues de ellas dependerán sus ganancias en esta etapa.<br><br>
+
+            Antes de iniciar, tranferiremos $2500 de las ganancias acumuladas del <b>jugador Y</b> al <b>jugador X</b> a manera de <b>salario</b>.<br><br>
+            El <b>jugador X</b> debe seguir realizando sumas durante 5 minutos. Por cada suma que realice, correcta o incorrecta, perderá $20, pero por cada suma correcta el <b>jugador Y</b> ganará $100.<br><br>
+            El <b>jugador Y</b> debe decidir si desea pagarnos a quienes administramos esta actividad el costo de un contrato que garantizará que el <b>jugador X</b> realice como mínimo 50 sumas en la Etapa 2, que equivalen a $5000.<br><br>
+            Si el <b>Jugador Y</b> decide no instaurar el contrato, podrá sugerirle un esfuerzo al <b>jugador X</b>, quien será libre de hacer el número de sumas que desee.<br><br>
+            <b>El costo del contrato es de $2500</b> los cuales deduciremos de las ganancias acumuladas del <b>Jugador Y</b>, además de los $2500 del salario. La diferencia es que el costo del contrato no se transfiere al <b>jugador X</b>, sino que quedará en manos de quienes administramos este ejercicio.<br><br>
+            <b>Implicaciones del contrato:</b> El <b>jugador X</b>  deberá realizar <b>50 o más sumas</b> durante 5 minutos. Si al cabo de los cinco minutos el <b>jugador X</b> no ha completado las 50 sumas, le deduciremos de sus ganancias los $5000 que debe ganar el <b>jugador Y</b>.
+            En caso de que sí haya cumplido con las condiciones del contrato, le deduciremos $20 por cada suma correcta o incorrecta que haya realizado en esos cinco minutos.<br><br>
+            
+            La imagen presentada a continuación muestra las ganancias de la Etapa 2:
+            <p align="center"><img src="{% static 'real_effort_numbers_nt_nt/images/MatrizPagos.png' %}" alt="Ilustración que muestra la matriz de pagos del experimento" style= "height: 90%; width: 90%; object-fit: cover"></p>
+
+            <b>A continuación le haremos unas preguntas de control, solo para estar seguros de que las instrucciones han sido claras</b>
+        </p>
+    </div>
+    {% next_button %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base/Page.html" %}
+{% load otree %}
+
+{% block title %}
+
+    {% if not can_access %}
+        Usted debe esperar hasta {{ day_available|date:"D d M Y" }} para continuar
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+
+{% endblock %}
+
+{% block local_scripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.otree-form').attr("enctype", "multipart/form-data");
+        })
+    </script>
+{% endblock local_scripts %}

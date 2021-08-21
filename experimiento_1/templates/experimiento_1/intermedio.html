@@ -1,0 +1,134 @@
+{% extends "base/Page.html" %}
+{% load otree%}
+
+{% block title %}
+    Opciones de pago sesión {{ player.intermedio_actual }}
+{% endblock %}
+
+{% block body %}
+    <p>
+        En el momento usted cuenta con <b>{{ player.payoff }}COP</b> y ha retirado un total de
+        <b>{{ player.disbursement }}COP</b>
+    </p>
+    <p>
+        
+        El contrato consta de 3 sesiones de aproximadamente 15 minutos cada
+        una, realizandose una sesión por semana.  A continuación, le presentamos 
+        las siguientes opciones de pago para este trabajo. Por favor, lea atentamente 
+        y marque la opción deseada.
+    </p>
+    <div class="row">
+        <div class="col-12">
+            {% formfield player.money_decision %}
+            <div style="display: none" id="percentage_saved_div">
+                {% formfield player.percentage_saved %}
+            </div>
+        </div>
+    </div>
+    <div style="display: None" id="confirm_button">
+        <button id="confirm_button" type="button" class="btn btn-primary">
+            Confirmar
+        </button>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Por favor responda correctamente esta encuesta para
+                        continuar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="surveyElement" style="display:inline-block;width:100%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: none">
+        {% next_button %}
+    </div>
+{% endblock %}
+
+{% block local_scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js">
+
+    </script>
+    <script type="text/javascript">
+
+
+    var confirm_button = document.getElementById("confirm_button");
+        
+   
+
+        $(document).on('change', 'input[name="money_decision"]', function () {
+            $('#id_percentage_saved').val(0);
+            if ($('input[name="money_decision"]:checked').val() == 1) {
+                $('#confirm_button').hide()
+                $('#percentage_saved_div').show();
+            } else {
+                $('#confirm_button').show()
+                $('#percentage_saved_div').hide();
+
+                confirm_button.addEventListener("click", function(){
+                    $('.otree-btn-next').trigger('click');
+                }, false);
+            }
+        })
+        $(document).on('change', '#id_percentage_saved', function () {
+            $('#confirm_button').show();
+            confirm_button.addEventListener("click", function(){
+                    $('.otree-btn-next').trigger('click');
+                }, false);
+        })
+        chartColors = {
+            red: 'rgb(255, 99, 132)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            blue: 'rgb(54, 162, 235)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(201, 203, 207)'
+        };
+        var color = Chart.helpers.color;
+        var ctx = document.getElementById('myChart').getContext('2d');
+        data = {
+            datasets: [{
+                data: [
+                    {% for value in group.players_info %}
+                        {{ value }},
+                    {% endfor %}
+                ],
+                backgroundColor: [
+                    color(chartColors.red).alpha(0.5).rgbString(),
+                    color(chartColors.green).alpha(0.5).rgbString(),
+                    color(chartColors.blue).alpha(0.5).rgbString()
+                ]
+            }],
+
+            // These labels appear in the legend and in the tooltips when hovering different arcs
+            labels: [
+                'Opcion 1',
+                'Opcion 2',
+                'Opcion 3'
+            ]
+        };
+        var myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: data,
+        });
+
+
+    /*    var el = document.getElementById("t");
+  el.addEventListener("click", function(){modifyText("four")}, false);*/
+
+        
+    </script>
+    <script type="text/javascript" src="https://surveyjs.azureedge.net/1.1.13/survey.jquery.min.js">
+
+    </script>
+   
+{% endblock local_scripts %}

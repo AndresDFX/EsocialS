@@ -1,0 +1,488 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+{% block styles %}
+    <style>
+
+        tr:hover{
+            background-color:#f5f5f5;
+        }
+
+        .escala_likert{
+            width: 100%; 
+            text-align: center;
+        }
+
+        .escala_likert td{
+            width: 28px;
+            border: 1px solid rgb(199, 199, 199);
+        }
+
+        .tabla_likert{
+            width: 100%; 
+            text-align: center;
+        }
+
+        .tabla_likert th{
+            border: 1px solid rgb(199, 199, 199);
+        }
+
+        .tabla_likert td{
+            height: 50px;
+            font-style:italic;
+            font-weight:bold;
+            border: 1px solid rgb(199, 199, 199);
+            vertical-align: middle;
+        }
+
+        .tabla_likert td:first-child{
+            vertical-align: middle;
+            text-align: left;
+        }
+    </style>
+{% endblock %}
+
+
+{% block title %}
+    ENCUESTA DE DATOS SOCIODEMOGRÁFICOS
+{% endblock %}
+
+
+{% block content %}
+
+    <hr>
+
+    <p><strong>Confidencialidad:</strong> La información que usted brinda en esta encuesta es <strong>confidencial y anónima.</strong> Dicha información
+        será utilizada con propósitos académicos y será protegida de acuerdo con la Ley Estatutaria 1581 de 2012 de protección
+        a los datos personales.
+    </p>
+    
+    <p><strong>Ley 1581 de 2012:</strong> Por la cual se complementa la regulación vigente para la protección del derecho constitucional que
+        tienen todas las personas a conocer, actualizar y rectificar las informaciones que se hayan recogido sobre ellas en bases
+        de datos o archivos, y los demás derechos, libertades y garantías constitucionales.
+    </p>
+
+    <hr>
+
+    <p><strong>A continuación, usted va a encontrar varias preguntas relacionadas a aspectos sociodemográficos. Por
+        favor lea y especifique sus respuestas de acuerdo con lo indicado.</strong>
+    </p>
+
+    <ol type="1">
+          
+        <li> {% formfield player.edad %}</li>
+        <li> {% formfield player.ciudad %}</li>
+        <li> {% formfield player.rol_hogar %}</li>
+        <li> {% formfield player.estado_civil %}</li>
+        <li> {% formfield player.hijos %}</li>
+        <li> {% formfield player.etnia %}</li>
+        <li> {% formfield player.religion %}</li>
+        <li> {% formfield player.estudios %}</li>
+        <li> {% formfield player.actividad_actual %}</li>
+        <li> {% formfield player.esta_laborando %}</li>
+        <li> {% formfield player.ingreso_mensual %}</li>
+        <li> {% formfield player.gasto_mensual %}</li>
+
+        <li>Suponga que sus ingresos mensuales son de 100 dólares ($100 US). Por favor, indique cual
+            sería el porcentaje de ese dinero que usted destinaria para las siguientes categorías:
+            <br>
+            <br>
+            <strong>Ejemplo:</strong> si de los 100 dólares usted destina 30 para el pago de la gasolina de su vehículo,
+            entonces, usted gasta el 30% de sus ingresos mensuales en la categoría “Transporte”.</li>
+
+        <br>
+
+        <table class="tabla_likert">
+            <tr>
+                <th>Categoría</th>
+                <th>Porcentaje del gasto</th>
+            </tr>
+            <tr>
+                <td>
+                    {{ form.alimentos.label }}
+                    <p>(como frutas, verduras, carnes, pollo, huevos,
+                    arroz, azúcar, aceite, granos, café, chocolate o
+                    panela)</p>
+                </td>
+                <td>{{ form.alimentos }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.aseo.label }}
+                    <p>(tanto de aseo personal como del hogar)</p>
+                </td>
+                <td>{{ form.aseo }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.electronicos.label }}
+                    <p>(como accesorios para celular, memorias USB)</p>
+                </td>
+                <td>{{ form.electronicos }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.transporte.label }}
+                    <p>(público o privado)</p>
+                </td>
+                <td>{{ form.transporte }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.servicios.label }}
+                    <p>(tanto públicos como privados)</p>
+                </td>
+                <td>{{ form.servicios }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.diversion.label }}
+                    <p>(como lo son espectáculos, festivales, etc.)</p>
+                </td>
+                <td>{{ form.diversion }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.ahorro.label }}</td>
+                <td>{{ form.ahorro }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.deudas.label }}</td>
+                <td>{{ form.deudas }}</td>
+            </tr>
+        </table>
+
+        <br>
+ 
+        <li>Por favor, califique en una escala de 1 a 10 su disposición a asumir riesgos en general,
+            siendo 1 para nada dispuesto y 10 completamente dispuesto.</li>
+
+        <br>
+
+            <table class="escala_likert">
+                <tr>
+                    <td>Para nada dispuesto</td>
+                       {% for choice in form.offer_1 %}
+                    <td>{{ choice }}</td>
+                       {% endfor %}  
+                    <td>Totalmente dispuesto</td>
+                </tr>
+            </table>
+
+        <br>
+
+        <li>Organice de mayor a menor las características que le parecen más relevantes según el orden de
+            sus prioridades y preferencias, siendo 1 lo menos relevante y 5 lo más relevante.</li>
+
+            <br>
+
+            <table class="tabla_likert">
+                <tr>
+                    <th>Estabilidad: <br> mantenerse invariable o inalterable en el mismo lugar, estado o situación.</th>
+                    <th>Independencia: <br> Autonomía de tomar las decisiones propias.</th>
+                    <th>Descanso: <br> Reposar fuerzas a través de un estado inactivo</th>
+                    <th>Lucro: <br> Ganancia o provecho de algún actividad u objeto.</th>
+                    <th>Protección: <br> Seguridad o respaldo frente a un acontecimiento.</th>
+                </tr>
+                <tr>
+                    <td> {{ form.Estabilidad }}</td>
+                    <td> {{ form.Independencia }}</td>
+                    <td> {{ form.Descanso }}</td>
+                    <td> {{ form.Lucro }}</td>
+                    <td> {{ form.Protección }}</td>
+                </tr>
+            </table>
+
+            <br>
+
+        <li>Por favor, indique en qué medida está de acuerdo o no con cada una de las siguientes 10
+            afirmaciones. (Por favor, señale con una X sobre la casilla correspondiente)</li>
+
+            <br>
+
+            <table class="tabla_likert">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Fuertemente en desacuerdo</th>
+                        <th>En desacuerdo</th>
+                        <th>Ligeramente en desacuerdo</th>
+                        <th>Ni de acuerdo, ni en desacuerdo</th>
+                        <th>De acuerdo</th>
+                        <th>Fuertemente de acuerdo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td >{{form.encuesta_tabla1_pregunta1.label}}</td>
+                        {% for choice in form.encuesta_tabla1_pregunta1 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla1_pregunta2.label}}</td>
+                        {% for choice in form.encuesta_tabla1_pregunta2 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla1_pregunta3.label}}</td>
+                        {% for choice in form.encuesta_tabla1_pregunta3 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla1_pregunta4.label}}</td>
+                        {% for choice in form.encuesta_tabla1_pregunta4 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla1_pregunta5.label}}</td>
+                        {% for choice in form.encuesta_tabla1_pregunta5 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla1_pregunta6.label}}</td>
+                        {% for choice in form.encuesta_tabla1_pregunta6 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla1_pregunta7.label}}</td>
+                        {% for choice in form.encuesta_tabla1_pregunta7 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla1_pregunta8.label}}</td>
+                        {% for choice in form.encuesta_tabla1_pregunta8 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla1_pregunta9.label}}</td>
+                        {% for choice in form.encuesta_tabla1_pregunta9 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla1_pregunta10.label}}</td>
+                        {% for choice in form.encuesta_tabla1_pregunta10 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+
+            <br>
+
+        <li>Por favor, indique en qué medida está de acuerdo o no con cada una de las siguientes 10
+            afirmaciones. (Por favor, señale con una X sobre la casilla correspondiente)</li>
+
+            <br>
+
+            <table class="tabla_likert">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Fuertemente en desacuerdo</th>
+                        <th>En desacuerdo</th>
+                        <th>Ligeramente en desacuerdo</th>
+                        <th>Ni de acuerdo, ni en desacuerdo</th>
+                        <th>De acuerdo</th>
+                        <th>Fuertemente de acuerdo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{form.encuesta_tabla2_pregunta1.label}}</td>
+                        {% for choice in form.encuesta_tabla2_pregunta1 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla2_pregunta2.label}}</td>
+                        {% for choice in form.encuesta_tabla2_pregunta2 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla2_pregunta3.label}}</td>
+                        {% for choice in form.encuesta_tabla2_pregunta3 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla2_pregunta4.label}}</td>
+                        {% for choice in form.encuesta_tabla2_pregunta4 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla2_pregunta5.label}}</td>
+                        {% for choice in form.encuesta_tabla2_pregunta5 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla2_pregunta6.label}}</td>
+                        {% for choice in form.encuesta_tabla2_pregunta6 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla2_pregunta7.label}}</td>
+                        {% for choice in form.encuesta_tabla2_pregunta7 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla2_pregunta8.label}}</td>
+                        {% for choice in form.encuesta_tabla2_pregunta8 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{{form.encuesta_tabla2_pregunta9.label}}</td>
+                        {% for choice in form.encuesta_tabla2_pregunta9 %}
+                        <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                      
+                </tbody>
+            </table>
+            
+            <br>
+
+            <li>¿Qué tan apropiado o inapropiado cree usted que es hacer estas acciones? Por favor, utilice la siguiente escala:</li>
+
+            <br>
+
+            <table class="tabla_likert">
+                <tr>
+                    <th>-2</th>
+                    <th>-1</th>
+                    <th>0</th>
+                    <th>1</th>
+                    <th>2</th>
+                </tr>
+                <tr>
+                    <td>Completamente inapropiado</td>
+                    <td>Poco inapropiado</td>
+                    <td>Ni apropiado ni inapropiado</td>
+                    <td>Poco apropiado</td>
+                    <td>Completamente apropiado</td>
+                </tr>
+            </table>
+
+            <br>
+<!----> 
+            <table class="tabla_likert">   
+              <!-- <tr>
+                    <td>{{form.encuesta_tabla3_pregunta1.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta1 }}</td>
+                </tr>
+              -->  <tr>
+                    <td>{{form.encuesta_tabla3_pregunta2.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta2 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta3.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta3 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta4.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta4 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta5.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta5 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta6.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta6 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta7.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta7 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta8.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta8 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta9.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta9 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta10.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta10 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta11.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta11 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta12.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta12 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta13.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta13 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta14.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta14 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta15.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta15 }}</td>
+                </tr>
+               <tr>
+                    <td>{{form.encuesta_tabla3_pregunta16.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta16 }}</td>
+                </tr>
+            <!-- <tr>
+                    <td>{{form.encuesta_tabla3_pregunta17.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta17 }}</td>
+                </tr>
+               --> <tr>
+                    <td>{{form.encuesta_tabla3_pregunta18.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta18 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta19.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta19 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta20.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta20 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta21.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta21 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta22.label}}/td>
+                    <td>{{ form.encuesta_tabla3_pregunta22 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta23.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta23 }}</td>
+                </tr>
+             <!--   <tr>
+                    <td>{{form.encuesta_tabla3_pregunta24.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta24 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta25.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta25 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta26.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta26 }}</td>
+                </tr>
+          -->  </table>
+        
+        <br>
+
+        {% next_button %}
+
+{% endblock %}

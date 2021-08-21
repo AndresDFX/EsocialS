@@ -1,0 +1,106 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+{% block scripts %}
+
+  <script>
+
+      /*
+var sexo;
+var estrato;
+var send_data = document.getElementById("send_data");
+var val = 0;
+var  myButton = document.getElementById('confirm_button');
+
+
+function asignar_contrato(){
+            
+                liveSend({'sexo': sexo.value, 'estrato': Number(estrato.value)});
+                send_data.removeEventListener("click", asignar_contrato);
+                send_data.className = "btn btn-secondary";
+                $(':radio:not(:checked)').attr('disabled', true);
+                $('#exampleModal').modal('show'); // abrir
+                val++;
+        }
+
+window.setInterval(
+    
+    function validar (){
+
+        sexo = document.querySelector('input[name="sexo"]:checked');
+        estrato = document.querySelector('input[name="estrato"]:checked'); 
+        
+        if(sexo) console.log(sexo.value);
+        if(estrato) console.log(estrato.value);
+
+        if (sexo && estrato && val == 0) {
+            send_data.addEventListener("click", asignar_contrato());
+        }
+    }  ,2000);
+
+            
+  */
+
+  </script>
+{% endblock %}
+
+{% block title %}
+    INSTRUCCIONES
+{% endblock %}
+
+
+{% block content %}
+
+    <p>La actividad constará de cuatro diferentes etapas en las cuales usted deberá
+        tomar algunas decisiones según la información que le presentaremos.</p>
+
+    <p>En esta primera etapa, se le compartirán las instrucciones generales. Luego, en la
+        segunda etapa, se le presentará un formato en el cual usted tendrá la posibilidad
+        de aceptar o no los términos de la actividad.</p>
+
+    <p>Sin embargo, tenga en cuenta que en caso de no aceptar daremos por terminada
+        la actividad y no recibirá ningún pago. En caso contrario continuará a la etapa tres.</p>
+
+    <p>Una vez finalizada la segunda etapa, se le presentará una serie de ejemplos que
+        lo familiaricen con las decisiones que tendrá que tomar en las siguientes etapas.
+        Las instrucciones se irán especificando en medida que se avance dentro de la
+        actividad.</p>
+
+        {% comment "Optional note" %}
+
+    <p>Antes de continuar, por favor responda las siguientes preguntas:</p>
+
+    {% formfields %}
+
+    <button type="button" id="send_data" class="btn btn-warning">Enviar datos</button>
+
+    <br>
+    <br>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+                <div class="modal-body">
+                    <p id="texto-modal"> </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="confirm_button" type="button" class="btn btn-primary" >
+        Siguiente
+    </button>
+
+    {% endcomment %}
+
+    {% next_button %}
+
+{% endblock %}

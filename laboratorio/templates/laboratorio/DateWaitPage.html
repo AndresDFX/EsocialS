@@ -1,0 +1,108 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Pagina de espera
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    let x = js_vars.fecha_espera;
+    // etc...
+
+    var parts =x.split('-');
+    // Please pay attention to the month (parts[1]); JavaScript counts months from 0:
+    // January - 0, February - 1, etc.
+    //var mydate = new Date(parts[0], parts[1] - 1, parts[2]); 
+    var mydate = new Date(parts[0], parts[1] - 1, parts[2]); 
+    let z = mydate.toDateString();
+    mydate.setHours(0,0,0,0)
+    console.log(mydate);
+
+    window.setInterval(
+    function(){
+      var d = new Date();
+      console.log(d);
+      var hour = d.getHours()+':'+d.getMinutes()
+      let hoursActive = ['14:30', '14:35', '14:40', '14:45', '14:50']
+
+      var a = new Date(d.getFullYear(),d.getMonth(),d.getDate());
+      console.log(a);
+
+      if(mydate < a){
+        console.log("mydate < a");
+    }
+
+    if(mydate > a){
+        console.log("mydate > a");
+    }
+
+    if(mydate.getTime() == a.getTime()){
+        console.log("mydate == a");
+    }
+
+    myButton = document.getElementById('confirm_button');
+        //Modificar hora hour > '08:00' && hour < '16:00'
+      if(hour > '00:00' && hour < '24:00'  && mydate.getTime() == a.getTime()){
+      //  document.getElementById('btn').style.display = 'block';
+     
+      myButton.removeAttribute('type');
+      myButton.className = "btn btn-primary";
+      myButton.removeAttribute('data-toggle');
+    }
+      else if ((hour > '16:00'  && mydate.getTime() == a.getTime() ) || mydate < a) {
+        myButton.setAttribute('data-toggle', 'modal');
+        document.getElementById("texto-modal").innerHTML = "La hora o fecha se ha pasado, por lo tanto no puede continuar con el experimento.";
+      }
+      else{
+      //  document.getElementById('btn').style.display = 'none';
+      
+      myButton.setAttribute('type', 'button');
+      myButton.className = "btn btn-secondary";
+      myButton.setAttribute('data-toggle', 'modal');
+      
+      }
+
+
+  }
+,2000);
+</script>
+{% endblock %}
+
+
+{% block styles %}
+{% endblock %}
+
+
+{% block content %}
+
+    <p>El link estará disponible entre las 8:00 a.m. y las 4:00 p.m. del {{date_time_obj}}</p>
+
+  
+<!--
+    <button type="button" class="btn btn-secondary" id="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Boton real</button>
+-->
+    <!--  -->
+    <button id="confirm_button" type="button" class="btn btn-secondary"  data-target="#exampleModal">
+        Siguiente
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+                <div class="modal-body">
+                    <p id="texto-modal"> El boton se habilitara cuando sea la hora y fecha estipulada en esta pagina de espera</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "otree/Page.html" %}
+{% load otree static %}
+
+{% block global_styles %}
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'experimento_1/fonts/icomoon/style.css' %}">
+    <link rel="stylesheet" href="{% static 'experimento_1/fonts/brand/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'experimento_1/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'experimento_1/css/jquery.fancybox.min.css' %}">
+    <link rel="stylesheet" href="{% static 'experimento_1/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'experimento_1/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'experimento_1/css/aos.css' %}">
+
+    <!-- MAIN CSS -->
+    {% comment %}<link rel="stylesheet" href="{% static 'css/style.css' %}">{% endcomment %}
+    <link href="https://surveyjs.azureedge.net/1.8.0/survey.css" type="text/css" rel="stylesheet"/>
+    {% block local_styles %}
+    {% endblock local_styles %}
+{% endblock %}
+
+{% block global_scripts %}
+    {% block local_scripts %}
+    {% endblock local_scripts %}
+{% endblock %}
+
+{% block content %}
+    <div class="site-wrap" id="home-section">
+        <div class="site-section">
+            {% block body %}
+
+            {% endblock %}
+        </div>
+{% endblock %}

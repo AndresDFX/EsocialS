@@ -1,0 +1,47 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+{% block title %}
+    CONTRATO DE TRABAJO
+{% endblock %}
+
+
+{% block content %}
+
+    <p>Estimado participante:</p>
+
+    <p>Al aceptar esta actividad, usted y quien se encuentra dirigiendo esta actividad se comprometen a
+        cumplir las siguientes condiciones pactadas en este contrato de trabajo a término indefinido:
+    </p>
+
+    <ol>
+        <li>Usted deberá realizar una actividad que consistirá en la transcripción de textos a través de
+            esta plataforma.
+        </li>
+        <br>
+        <li>Esta actividad la deberá realizar en un periodo de 20 minutos, durante la totalidad de las
+            jornadas, La actividad podrá ser realizada en cualquier momento del día entre las 8:00
+            a.m. y las 4:00 p.m.
+        </li>
+        <br>
+        <li>Por esta actividad, usted obtendrá un salario de 7.000 COP por día y será pagado a través
+            de una transferencia bancaria, una vez sea finalizado la actividad.
+        </li>
+        <br>
+        <li>Usted deberá cumplir con las siguientes obligaciones:</li>
+            <ol type="a">
+                <li>Deberá realizar el mayor número de transcripciones posibles.</li>
+                <li>Deberá cumplir con la jornada de trabajo dentro de los turnos y horario señalado.</li>
+            </ol>
+        <br>
+        <li>En caso de incumplimiento de alguna de las anteriores condiciones, podremos dar por
+            terminado unilateralmente el presente contrato.
+        </li>
+    </ol>
+        
+    {% formfields %}
+
+    {% next_button %}
+
+{% endblock %}

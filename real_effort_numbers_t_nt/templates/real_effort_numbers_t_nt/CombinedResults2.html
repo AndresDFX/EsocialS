@@ -1,0 +1,51 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers_t_nt/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+
+{% block title %}
+    {{titulo}}
+{% endblock %}
+
+{% block content %}
+{% if player.id_in_group == 1 %}
+ <div class="wrapper instructions">
+    <p align = "justify">
+    <b>Ganancias Etapa 1:</b> {{payment_stage_1}}<br>
+    <b>Ganancias Etapa 2:</b> {{payment_stage_2}}<br>
+    <b>Salario:</b> -$2500<br>
+    <b>Sumas correctas:</b> {{correct_answers}} <br>
+    <b>Sumas totales:</b> {{total_sums_2}} <br>
+    <b>Ganancias Acumuladas:</b> {{combined_payoff_total}}<br>
+    <b>Trabajó con Contrato:</b> {{opponent_contract_decision}}
+    </p>
+</div>
+{% else %}
+<!--Jugador Y (2)-->
+<div class="wrapper instructions">
+    <p align = "justify">
+    <b>Ganancias Etapa 1:</b> {{payment_stage_1}}<br>
+    <b>Ganancias Etapa 2:</b> {{payment_stage_2}}<br>
+    <b>Salario Jugador X:</b> -$2500<br>
+    <b>Sumas correctas Jugador X:</b> {{correct_answers_opponent}} <br>
+    <b>Sumas totales Jugador X:</b> {{total_sums_2_opponent}}<br>
+    <b>Valor Contrato:</b> {{contrato}}<br>
+    <b>Ganancias Acumuladas:</b> {{combined_payoff_total}}<br>
+    <b>Jugador Y pagó Contrato:</b> {{pay_contract}}
+    </p>
+</div>
+{% endif %}
+    {% next_button %}
+
+{% endblock %}
+
+

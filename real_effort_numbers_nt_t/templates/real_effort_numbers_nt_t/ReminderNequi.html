@@ -1,0 +1,56 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers_nt_t/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Recordatorio Nequi" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify" >
+                <p align= center>Le recomendamos descargar o imprimir esta información. Para hacerlo, haga clic en este botón<br> 
+                    <button class="btn btn-primary mb1 bg-blue" type="button" onclick="window.print()">Imprimir</button>
+                </p>
+                <p align= center style="font-size:20px"><b>Ganancias Totales:</b> {{ganancias_acumuladas}}.</p><br> 
+
+                Recuerde que Podemos depositar el dinero <b>SÓLO</b> a cuentas Nequi.<br><br>
+                
+                Si usted no nos ha enviado su certificado bancario Nequi, por favor envíelo en los próximos 3 días hábiles. 
+                De lo contario , se vencerán los términos de la actividad y no podremos pagarle.<br><br>
+
+                Incluya en su mensaje el <b>número de identificación temporal</b>, que es <b>{{num_temporal}}</b>.<br><br>
+
+                Necesitamos el número de identificación temporal y el certificado para poder pagarle.<br><br>
+
+                Una vez nos envíe la información, le haremos el pago en los siguientes 7 días hábiles.<br><br>
+
+                Puede enviarnos la información a nuestro correo electrónico <a href="mailto:investigacion.esocials@correounivalle.edu.co">investigacion.esocials@correounivalle.edu.co</a>  o a nuestro Whatsapp 3167607211.<br><br>
+
+                <b>¿Cómo abrir la cuenta Nequi?</b> Descargue la aplicación Nequi en su celular y genere una cuenta. 
+                En este video podrás saber cómo hacerlo: <a href="https://drive.google.com/file/d/14_1oQjHjchtTx92R4NVEQXtLAIoN6RXG/view?usp=sharing">https://drive.google.com/file/d/14_1oQjHjchtTx92R4NVEQXtLAIoN6RXG/view?usp=sharing</a><br><br>
+
+                <b>¿Cómo descargar el certificado?</b> descargue el certificado ingresando a <a href="https://nequi.co/">nequi.co</a>.
+                En este video podrá saber cómo: <a href="https://drive.google.com/file/d/14_KQhpsBOSpZWtNxk8Nlg--v2Oda2faR/view?usp=sharing">https://drive.google.com/file/d/14_KQhpsBOSpZWtNxk8Nlg--v2Oda2faR/view?usp=sharing</a>.<br><br>
+
+        </p>
+    </div>
+{% next_button %}
+{% endblock %}

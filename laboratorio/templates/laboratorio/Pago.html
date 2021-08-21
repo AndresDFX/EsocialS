@@ -1,0 +1,40 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Pago
+{% endblock %}
+
+
+{% block content %}
+
+
+
+
+<p>El dinero acumulado hasta el momento es {{participant.payoff}}</p>
+
+
+
+
+{% comment "Optional note" %}
+<p>Tu pago por la actividad realizada es de {{player.payoff}}</p>
+
+
+    {% if player.formalidad_contrato %}
+    <p>Su contrato es formal y además es un {{player.tipo_contrato}}</p>
+    {% else %}
+    <p>Su contrato es informal y además es un {{player.tipo_contrato}}</p>
+    {% endif %}
+
+    <p>Según el tipo de contrato que tiene se le a asignado el siguiente pago en Tokens:</p>
+
+    <p>{{player.tipo_pago}} Tokens</p>
+
+    <p>La cantidad de Tokens que tiene es:</p>
+
+    <p> {{player.tokens}} Tokens</p>
+
+    {% endcomment %}
+    {% next_button %}
+
+{% endblock %}

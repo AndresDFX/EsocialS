@@ -1,0 +1,326 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block styles %}
+    <style>
+* {
+  box-sizing: border-box;
+}
+/*
+button {
+  background: none;
+  border: 2px solid green;
+  padding: 12px 30px 11px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 5px;
+  position: relative;
+  color: white;
+  z-index: 0;
+  font-size: 12px;
+  outline: none;
+}/*
+button:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0px;
+  background: green;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  z-index: -1;
+}
+button:hover:before {
+  height: 100%;
+}
+button:hover {
+  cursor: pointer;
+}
+*/
+.outcome {
+  height: 200px;
+  width: 200px;
+  background: #555;
+  margin-bottom: 50px;
+  border-radius: 50%;
+  border-style: dotted;
+  border-color: #1c1c1c;
+  border-width: 3px;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
+  position: relative;
+  -webkit-transform: rotateY(0deg) rotateX(0deg);
+          transform: rotateY(0deg) rotateX(0deg);
+  -webkit-transition: 1s;
+  transition: 1s;
+  font-size: 32px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: bold;
+  line-height: 0.8;
+  color: #222;
+ /* box-shadow: 0 0 30px black;*/
+}
+.outcome.flip {
+  -webkit-transition: 1s;
+  transition: 1s;
+  -webkit-transform: rotateY(720deg) rotateX(720deg);
+          transform: rotateY(720deg) rotateX(720deg);
+}
+.outcome.toss {
+  -webkit-animation: toss 0.7s forwards ease-in-out;
+          animation: toss 0.7s forwards ease-in-out;
+}
+.outcome:before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  height: 185px;
+  width: 185px;
+  display: block;
+  background: none;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+}
+.outcome:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  height: 190px;
+  width: 190px;
+  display: block;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+}
+
+@-webkit-keyframes toss {
+  0% {
+    top: 0px;
+  }
+  50% {
+    top: -150px;
+  }
+  100% {
+    top: 0px;
+  }
+}
+
+@keyframes toss {
+  0% {
+    top: 0px;
+  }
+  50% {
+    top: -150px;
+  }
+  100% {
+    top: 0px;
+  }
+}
+    </style>
+{% endblock %}
+
+
+{% block scripts %}
+  <script>
+
+var formulario = document.getElementById("id_actividad_2");
+var boton_probar = document.getElementById("coinFlipButton");
+var boton_lanzar = document.getElementById("coinFlipButton2"); 
+var boton_siguiente = document.getElementById("confirm_button");
+var val = 0;
+
+var outcome = document.querySelector('.outcome');
+
+function getRandomNumber() {
+  return Math.floor(Math.random() * (2 - 1 + 1)) + 1
+}
+
+// Coin Flip Simulation
+function coinFlip(){
+  var moneda = '';
+  var randomNumber = getRandomNumber();
+  outcome.textContent = '';
+  outcome.classList.toggle('flip');
+  outcome.classList.add('toss');
+
+  if (randomNumber == 1) {
+    
+      moneda = 'Cara';
+      
+      
+    } else if (randomNumber == 2) {
+    
+      moneda = 'Sello';
+      
+      
+    }
+  
+  // Waits 3sec to display flip result
+  setTimeout(function() {
+    if (randomNumber == 1) {
+    //  outcome.textContent = 'heads';
+      
+      outcome.textContent = 'Cara';
+      
+    } else if (randomNumber == 2) {
+    //  outcome.textContent = 'tails';
+     
+      outcome.textContent = 'Sello';
+      
+    }
+    outcome.classList.remove('toss');
+  }, 800);
+  console.log(moneda);
+  return moneda;
+}
+
+boton_probar.addEventListener("click",coinFlip);
+
+function lanzar(){
+  moneda = coinFlip();
+  console.log('la moneda es ',moneda);
+  liveSend({'moneda': moneda, 'inversion': Number(formulario.value)});
+  boton_probar.className = "btn btn-secondary";
+  boton_probar.removeEventListener("click",coinFlip);
+  formulario.readOnly = true;
+  boton_siguiente.className = "btn btn-primary";
+  boton_siguiente.removeAttribute('type');
+ // boton_lanzar.removeEventListener("click",lanzar);
+ val++;
+ 
+ setTimeout(function() {
+    
+  document.getElementById("confirm_button").click();
+  }, 1000);
+
+}
+
+window.setInterval(
+    function habilitar (){
+      if (formulario.value != "" && val == 0) {
+        boton_lanzar.className = "btn btn-danger";
+        boton_lanzar.addEventListener("click",lanzar);
+        
+      } else {
+        boton_lanzar.className = "btn btn-secondary";
+        boton_lanzar.removeEventListener("click",lanzar);
+      }
+
+     /* if (val > 0) {
+        boton_lanzar.removeEventListener("click",lanzar);
+      } */
+    }
+    ,2000);
+
+    
+
+
+
+
+
+/*
+coinFlipButton.addEventListener('click', function() {
+ /* var randomNumber = getRandomNumber();
+  outcome.textContent = '';
+  outcome.classList.toggle('flip');
+  outcome.classList.add('toss');
+  
+  // Waits 3sec to display flip result
+  setTimeout(function() {
+    if (randomNumber == 1) {
+    //  outcome.textContent = 'heads';
+      outcome.textContent = 'Cara';
+    } else if (randomNumber == 2) {
+    //  outcome.textContent = 'tails';
+      outcome.textContent = 'Sello';
+    }
+    outcome.classList.remove('toss');
+  }, 800);
+    
+  coinFlip();
+});*/
+
+
+  </script>
+{% endblock %}
+
+
+{% block title %}
+  Actividad Bonus
+{% endblock %}
+
+
+{% block content %}
+
+    <p>Para esta actividad has recibido $2.000, ya son tuyos y te los agregaremos a tu pago
+      final. Sin embargo, puedes usar todo o parte de este dinero para realizar una inversión
+      que puede salir bien o no.
+    </p>
+
+    <p>En la pantalla puedes ver una moneda virtual. Ésta determinará el éxito de tu inversión.
+      Si la moneda cae <strong>cara</strong> ganarás el doble de la cantidad invertida y si cae <strong>sello</strong> perderás
+      el monto invertido. Lo que no hayas invertido, se quedará en tu cuenta y te lo
+      pagaremos al final de esta sesión.
+    </p>
+
+    <p>Ejemplo: si inviertes $1,000 y la moneda cae cara, tus pagos serán:
+      $3,000 = $1,000 (que guardaste) + 2,000 (que ganaste por la inversión. 1,000*2 =
+      2,000)
+    </p>
+
+    <p>Si cae sello tus pagos serán:
+      $1,000 = $1,000 (que guardaste) + $0 (que ganaste por la inversión. 1,000*0 = 0)
+    </p>
+
+    <p><strong>Nota:</strong> Puedes probar que la moneda cae en las diferentes opciones antes de indicar
+      cual es el monto que deseas invertir. Una vez hayas definido cuanto deseas invertir,
+      solo podrás lanzar la moneda para determinar tu pago.
+    </p>
+
+    {% formfields %}
+    
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+    <div class="outcome" id="outcome">
+  
+    </div>
+
+    <button type="button" id="coinFlipButton" class="btn btn-warning">Probar Moneda</button>
+    <button type="button" id="coinFlipButton2" class="btn btn-secondary">Lanzar Moneda</button>
+
+
+  
+    
+   
+    {% comment "Optional note" %}
+    {% endcomment %}
+
+    <br>
+    <br>
+
+    <button id="confirm_button" type="button" class="btn btn-secondary"  data-target="#exampleModal">
+      Siguiente
+  </button>
+
+{% endblock %}

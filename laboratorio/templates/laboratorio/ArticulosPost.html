@@ -1,0 +1,192 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+{% block styles %}
+  <style>
+
+    .tabla_productos{
+      width: 100%;
+      text-align: center;
+    }
+
+    .tabla_productos img{
+      max-width: 200px;
+      height: auto;
+    }
+
+    .tabla_productos th, td{
+      border: 1px solid rgb(199, 199, 199);
+    }
+
+  </style>
+{% endblock %}
+
+
+{% block scripts %}
+  <script>
+
+ /// var input = document.getElementById('id_total');
+ // input.disable = true;
+    
+    window.setInterval(
+    function(){
+      var input = document.getElementById('id_total');
+  input.disable = true;
+
+      let valor_alimentos = Number(document.getElementById('id_productos_alimentos').value);
+      let valor_snack = Number(document.getElementById('id_productos_snack').value);
+      let valor_aseo = Number(document.getElementById('id_productos_aseo').value);
+      let valor_electronicos = Number(document.getElementById('id_productos_electronicos').value);
+      let valor_servicios = Number(document.getElementById('id_productos_servicios').value);
+      let valor_transporte = Number(document.getElementById('id_productos_transporte').value);
+      let valor_diversion = Number(document.getElementById('id_productos_diversion').value);
+      let valor_ahorro = Number(document.getElementById('id_productos_ahorro').value);
+      let valor_deudas = Number(document.getElementById('id_productos_deudas').value);
+
+      console.log(isNaN(valor_alimentos))
+      
+  
+      var suma = 0 + valor_alimentos + 
+      valor_snack + 
+      valor_aseo + 
+      valor_electronicos + 
+      valor_servicios + 
+      valor_transporte +
+      valor_diversion +
+      valor_ahorro +
+      valor_deudas;
+
+   //   document.getElementById("total").innerHTML = suma.toString();
+    
+      document.getElementById("id_total").value = valor_alimentos + 
+      valor_snack + 
+      valor_aseo + 
+      valor_electronicos + 
+      valor_servicios + 
+      valor_transporte +
+      valor_diversion +
+      valor_ahorro +
+      valor_deudas;
+
+      document.getElementById("id_total").disable = true;
+
+  //  document.getElementById("texto-modal").innerHTML = "La hora o fecha se ha pasado, por lo tanto no puede continuar con el experimento.";
+
+
+  }
+,2000);
+  </script>
+{% endblock %}
+
+{% block title %}
+  Productos
+{% endblock %}
+
+
+{% block content %}
+
+  <p>Del salario que ganó en la sección anterior, ¿cuánto dinero gastó en cada una de las siguientes
+    categorías?</p>
+
+  <p>Nota: Recuerde que la suma de los gastos no puede ser mayor al dinero que se acaba de ganar.</p>
+
+  <table class="tabla_productos">
+    <tr>
+      <th>Categorías</th>
+      <th>¿Cuánto dinero cree que va a gastar?</th>
+    </tr>
+
+    <tr>
+      <td>
+        <img src="{% static 'imagenes\productos\alimentos.jpg' %}">
+        <br>
+        <span>Productos alimenticios de la canasta básica familiar (como frutas, verduras,
+          carnes, pollo, huevos, arroz, azúcar, aceite, granos, café, chocolate o panela)</span>
+      </td>
+      <td>{{ form.productos_post_alimentos }}</td>
+    </tr>
+
+    <tr>
+      <td>
+        <img src="{% static 'imagenes\productos\dulces.jpg' %}">
+        <br>
+        <span>Botanas, bebidas o dulces</span>
+      </td>
+      <td>{{ form.productos_post_snack }}</td>
+    </tr>
+
+    <tr>
+      <td>
+        <img src="{% static 'imagenes\productos\aseo.jpg' %}">
+        <br>
+        <span>Producto de aseo (del hogar y personales)</span>
+      </td>
+      <td>{{ form.productos_post_aseo }}</td>
+    </tr>
+
+    <tr>
+      <td>
+        <img src="{% static 'imagenes\productos\electronicos.jpg' %}">
+        <br>
+        <span>Accesorios electrónicos</span>
+      </td>
+      <td>{{ form.productos_post_electronicos }}</td>
+    </tr>
+
+    <tr>
+      <td>
+        <img src="{% static 'imagenes\productos\servicios_publicos.jpg' %}">
+        <br>
+        <span>Pago de servicios públicos y privados (como energía, agua, alcantarillado, gas, telefonía, internet, parabolica, plataformas streaming)</span>
+      </td>
+      <td>{{ form.productos_post_servicios }}</td>
+    </tr>
+
+    <tr>
+      <td>
+        <img src="{% static 'imagenes\productos\transporte.jpg' %}">
+        <br>
+        <span>Transporte (público o privado)</span>
+      </td>
+      <td>{{ form.productos_post_transporte }}</td>
+    </tr>
+
+    <tr>
+      <td>
+        <img src="{% static 'imagenes\productos\diversion.jpg' %}">
+        <br>
+        <span>Diversión u ocio</span>
+      </td>
+      <td>{{ form.productos_post_diversion }}</td>
+    </tr>
+
+    <tr>
+      <td>
+        <img src="{% static 'imagenes\productos\ahorro.jpg' %}">
+        <br>
+        <span>Ahorro</span>
+      </td>
+      <td>{{ form.productos_post_ahorro }}</td>
+    </tr>
+
+    <tr>
+      <td>
+        <img src="{% static 'imagenes\productos\deudas.jpg' %}">
+        <br>
+        <span>Pago de deudas</span>
+      </td>
+      <td>{{ form.productos_post_deudas }}</td>
+    </tr>
+
+    <tr>
+      <td>Total</td>
+      <td>{{ form.total }}</td>
+    </tr>
+  </table>
+
+  <br>
+
+  {% next_button %}
+
+{% endblock %}

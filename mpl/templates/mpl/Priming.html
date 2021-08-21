@@ -1,0 +1,198 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'mpl/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Etapa 1 - Primming" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify" >
+                
+            Por favor, responda las siguientes preguntas.
+
+            {% formfield player.nombre_entidad %}
+            {% formfield player.tiempo_entidad %}
+            En colombia existen diferentes tipos de contrato: <br><br>
+            ◦ <b>Contrato a término indefinido:</b> No tiene fecha de terminación establecida. El empleado cuenta con todas las prestaciones sociales establecidas por la ley (cesantías, primas, vacaciones remuneradas) y tiene beneficios adicionales (vinculación a cooperativas, ayudas especiales, créditos u otros).<br>
+            ◦ <b>Contrato a término fijo:</b> Este tipo de contrato tiene fecha de terminación establecida de hasta 3 años y puede ser renovado hasta por tres veces su permanencia. . El empleado cuenta con todas las prestaciones sociales establecidas por la ley (cesantías, primas, vacaciones remuneradas) y para su finalización es necesario un preaviso de 30 días.<br>
+            ◦ <b>Contrato de obra o labor:</b> Este tipo de contrato es igual a los anteriores en términos de beneficios y descuentos. Sin embargo, solo está vigente durante una labor específica y termina en el momento que la obra llegue a su fin.<br>
+            ◦ <b>Contrato por prestación de servicios:</b> La remuneración se acuerda entre las partes y no genera relación laboral ni obliga a la organización a pagar prestaciones sociales. La duración es igualmente en común acuerdo dependiendo del trabajo a realizar.<br>
+            {% formfield player.tipo_contrato %}
+            {% formfield player.horas_semanales %}
+            {% formfield player.rango_pago %}
+            {% comment %} <table class="table">
+                {% for field in form %}
+                    <tr>
+                        <th>{{ field.label }}</th>
+                        {% for choice in field %}
+                            <td>{{ choice }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>  {% endcomment %}
+            {% comment %} <tr>
+                <th>{{ form.satisfecho_trabajo_actual.label }}</th>
+                {% for choice in form.satisfecho_trabajo_actual %}
+                    <td>{{ choice.tag}}</td>
+                 {% endfor %} 
+            </tr> {% endcomment %}
+            {% comment %} <tr>
+                <th>{{ form.satisfecho_jornada.label }}</th>
+                {% for choice in form.satisfecho_jornada %}
+                    <td>{{ choice.tag}}</td>
+                {% endfor %}
+            </tr>  {% endcomment %}
+            ¿Está satisfecho con ... ?
+            <table class="table">
+            <td>
+                <td>Sí</td><td>No</td>
+            </td>
+            <tr>
+                <th>{{ form.satisfecho_trabajo_actual.label }}</th>
+                    <td><input name="satisfecho_trabajo_actual" type="radio" value="True" required></td>
+                    <td><input name="satisfecho_trabajo_actual" type="radio" value="False" required></td>
+            </tr>
+            <tr>
+                <th>{{ form.satisfecho_beneficios.label }}</th>
+                    <td><input name="satisfecho_beneficios" type="radio" value="True" required></td>
+                    <td><input name="satisfecho_beneficios" type="radio" value="False" required></td>
+            </tr>
+            <tr>
+                <th>{{ form.satisfecho_jornada.label }}</th>
+                    <td><input name="satisfecho_jornada" type="radio" value="True" required></td>
+                    <td><input name="satisfecho_jornada" type="radio" value="False" required></td>
+            </tr>
+
+            </table>
+            
+            {% formfield player.conforme_contrato %}
+            {% formfield player.empleo_estable %}
+            {% formfield player.contrato_credito_vivienda %}
+            {% formfield player.contrato_credito_carro %}
+            De acuerdo con su contrato actual, usted recibe o tiene derecho a algunas de las siguientes opciones:
+            <!--Multiples opciones 1-->
+            {% formfield player.recibe_prima %}
+            {% formfield player.recibe_cesantias %}
+            {% formfield player.recibe_vacaciones_sueldo %}
+            ¿Qué está haciendo usted actualmente para mantener económicamente en su vejez?
+            <!--Multiples opciones 2-->
+            {% formfield player.aporte_pension %}
+            {% formfield player.aporte_ahorro %} 
+            {% formfield player.aporte_inversiones %} 
+            {% formfield player.aporte_seguro %} 
+            {% formfield player.aporte_hijos_vejez %} 
+            {% formfield player.aporte_otro %} 
+            {% formfield player.aporte_nada %}
+            <!--Termina Multiples opciones--> 
+            {% formfield player.cambiar_empresa %}
+
+            {{ form.cambiar_trabajo.label }}<br>
+            <input name="cambiar_trabajo" id="cambiar_trabajo_yes" type="radio" value="True" required style="margin-right: 7px; margin: 10px" onclick="ShowHideDiv()">Sí<br>
+            <input name="cambiar_trabajo" id="cambiar_trabajo_no" type="radio" value="False" required style="margin-right: 7px; margin: 10px" onclick="ShowHideDiv()">No<br>
+            
+            <div id="myDIV" style="display: none">
+            <p>¿Por qué motivos desea cambiar de trabajo o empleo?</p>
+                <table class="table">
+                <td>
+                    <td>Sí</td><td>No</td>
+                </td>
+                <tr>
+                    <th>{{ form.mejorar_capacidades.label }}</th>
+                        <td><input name="mejorar_capacidades" type="radio" value="True" ></td>
+                        <td><input name="mejorar_capacidades" type="radio" value="False" ></td>
+                </tr>
+                <tr>
+                    <th>{{ form.mejorar_ingresos.label }}</th>
+                        <td><input name="mejorar_ingresos" type="radio" value="True" ></td>
+                        <td><input name="mejorar_ingresos" type="radio" value="False" ></td>
+                </tr>
+                <tr>
+                    <th>{{ form.trabajar_menos.label }}</th>
+                        <td><input name="trabajar_menos" type="radio" value="True" ></td>
+                        <td><input name="trabajar_menos" type="radio" value="False" ></td>
+                </tr>
+                <tr>
+                    <th>{{ form.trabajo_temporal.label }}</th>
+                        <td><input name="trabajo_temporal" type="radio" value="True" ></td>
+                        <td><input name="trabajo_temporal" type="radio" value="False" ></td>
+                </tr>
+                <tr>
+                    <th>{{ form.trabajo_estable.label }}</th>
+                        <td><input name="trabajo_estable" type="radio" value="True" ></td>
+                        <td><input name="trabajo_estable" type="radio" value="False"></td>
+                </tr>
+                <tr>
+                    <th>{{ form.crecimiento_profesional.label }}</th>
+                        <td><input name="crecimiento_profesional" type="radio" value="True" ></td>
+                        <td><input name="crecimiento_profesional" type="radio" value="False" ></td>
+                </tr>
+                <tr>
+                    <th>{{ form.dinero_compra_vivienda.label }}</th>
+                        <td><input name="dinero_compra_vivienda" type="radio" value="True" ></td>
+                        <td><input name="dinero_compra_vivienda" type="radio" value="False" ></td>
+                </tr>
+                <tr>
+                    <th>{{ form.contrato_compra_vivienda.label }}</th>
+                        <td><input name="contrato_compra_vivienda" type="radio" value="True" ></td>
+                        <td><input name="contrato_compra_vivienda" type="radio" value="False" ></td>
+                </tr>
+                <tr>
+                    <th>{{ form.problemas_companeros.label }}</th>
+                        <td><input name="problemas_companeros" type="radio" value="True" ></td>
+                        <td><input name="problemas_companeros" type="radio" value="False" ></td>
+                </tr>
+                <tr>
+                    <th>{{ form.problemas_jefe.label }}</th>
+                        <td><input name="problemas_jefe" type="radio" value="True" ></td>
+                        <td><input name="problemas_jefe" type="radio" value="False" ></td>
+                </tr>
+                <tr>
+                    <th>{{ form.labor_desempenada.label }}</th>
+                        <td><input name="labor_desempenada" type="radio" value="True" ></td>
+                        <td><input name="labor_desempenada" type="radio" value="False" ></td>
+                </tr>
+                <tr>
+                    <th>{{ form.esfuerzo_fisico.label }}</th>
+                        <td><input name="esfuerzo_fisico" type="radio" value="True" ></td>
+                        <td><input name="esfuerzo_fisico" type="radio" value="False" ></td>
+                </tr>
+                <tr>
+                    <th>{{ form.problemas_ambientales.label }}</th>
+                        <td><input name="problemas_ambientales" type="radio" value="True" ></td>
+                        <td><input name="problemas_ambientales" type="radio" value="False" ></td>
+                </tr>
+                <tr>
+                    <th>{{ form.otro_problema.label }}</th>
+                        <td><input name="otro_problema" type="radio" value="True" ></td>
+                        <td><input name="otro_problema" type="radio" value="False" ></td>
+                </tr>
+
+                </table>
+            </div>
+        </p>
+
+    </div>
+    {% block scripts %}
+        <script src="{% static 'mpl/js/showhide.js' %}"></script>
+    {% endblock %}
+{% next_button %}
+{% endblock %}

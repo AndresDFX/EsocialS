@@ -1,0 +1,75 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers2/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Consentimiento Informado" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify" >
+                Señor(a),<br><br>
+
+                La siguiente actividad es parte de un proyecto con fines académicos, realizado por la Universidad del Valle en el marco de la convocatoria 792 del
+                Programa Colombia Científica, que tiene como objetivo estudiar el comportamiento de las personas y sus decisiones en algunos contextos. Dicha
+                actividad tiene una duración aproximada de 45 minutos, consta de cuatro etapas y cuenta con cerca de 200 participantes. Si usted decide
+                acompañarnos, no tendrá que incurrir en ningún gasto y por participar puede tener un reconocimiento económico de hasta <b>$25,000</b>,
+                dependiendo de su desempeño, y a veces, de la suerte. <b>El dinero se lo consignaremos en su cuenta Nequi, siete días hábiles después de
+                que usted termine la actividad.</b> <br><br>
+
+                Este proyecto es financiado por el Ministerio de Ciencia y Tecnología, y para poder pagarle por su participación debemos contar con un
+                certificado bancario de una cuenta Nequi. Si usted no lo ha enviado, por favor, al terminar la actividad, envíenos el número de identificación
+                temporal que se le envió al correo y el certificado de su cuenta Nequi al correo <a href="mailto:investigacion.esocials@correounivalle.edu.co">investigacion.esocials@correounivalle.edu.co</a>o a nuestro
+                Whatsapp 3167607211.<br><br>
+
+                La participación es <b>voluntaria</b>. El estudio garantiza la <b>confidencialidad</b> de sus respuestas. Los participantes podrán decidir terminar la actividad
+                en cualquier momento, pero sólo podrán recibir su reconocimiento económico si llegan hasta el final de la misma. <b>Sólo por participar y llegar
+                hasta el final usted tiene ya un pago de $5,000</b>. A ésto, le sumaremos lo que haya ganado durante la actividad. Su participación será finalizada
+                si decide abandonar la plataforma sin terminar de completar las 4 etapas y no recibirá el reconocimiento económico. Si completa las 4 etapas con
+                sus respectivos cuestionarios, habrá completado su participación y recibirá el reconocimiento económico. Adicional a esto, le aseguramos que no
+                corren ningún riesgo participando en esta actividad, pues lo único que se le pedirá es completar algunas actividades que serán totalmente
+                <b>anónimas y confidenciales</b>.<br><br>
+
+                Usted tiene derecho a conocer información relacionada a este estudio, una vez esté procesada y
+                publicada. Cualquier inquietud o información que desee obtener de dicho estudio será atendida
+                por la directora del proyecto, <b>Lina María Restrepo Plaza</b> <a href="mailto:investigacion.esocials@correounivalle.edu.co">investigacion.esocials@correounivalle.edu.co</a>
+                o <b>por el Comité de Ética de la Universidad del Valle</b> <a href="mailto:eticasalud@correounivalle.edu.co">eticasalud@correounivalle.edu.co</a>. No
+                dude en contactarse a los teléfonos 3212100 ext. 3161, 3212324, 5185677 o 5185670, o por Whastapp 3167607211.<br><br>
+
+                Si está de acuerdo con la anterior información, con enviarnos la información que nos permitirá pagarle por su participación, y con que se utilicen
+                sus respuestas con fines meramente académicos, para este y otros estudios, por favor acepte los términos de esta actividad.
+                Si usted desea, puede solicitar una copia de este consentimiento informado al correo <a href="mailto:investigacion.esocials@correounivalle.edu.co">investigacion.esocials@correounivalle.edu.co</a>.<br><br>
+                Adicionalmente, usted podrá ver una copia de este consentimiento informado <a href="https://drive.google.com/uc?export=download&id=1bdpV-vUY9tSdrNiJF8mLTQr9uYy63B3s">aquí</a>. 
+                Recuerde volver a esta página para partipar en el experimento.
+
+
+            {% formfield player.accepts_data %}
+            {% formfield player.num_temporal %}
+            <p>¿Acepta los términos de esta actividad?</p>
+                <div>
+                    <button name="accepts_terms" value="True">Sí</button>
+                    <button type="button" name="accepts_terms" onclick="location.href='https://google.com';" value="False">No</button>
+                </div>
+        </p>
+
+    </div>
+
+{% endblock %}

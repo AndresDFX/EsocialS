@@ -1,0 +1,440 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'lideres_sociales/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Cuestionario" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify" >
+            <b>De acuerdo con el vídeo que vio anteriormente, por favor seleccione qué tan de acuerdo
+            se siente con las siguientes afirmaciones.</b>
+            <table class="table" style="text-align:center">
+            <td>
+                <td></td><td>Totalmente en acuerdo</td><td>En desacuerdo</td><td>Ni de acuerdo, ni en desacuerdo</td><td>De acuerdo</td><td>Totalmente de acuerdo</td>
+            </td>
+            <tr>
+                <th>{{ form.calidad_noticia.label }}</th>
+                <td>{% for choice in form.calidad_noticia %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.informacion_noticia.label }}</th>
+                <td>{% for choice in form.informacion_noticia %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.noticia_incompleta.label }}</th>
+                <td>{% for choice in form.noticia_incompleta %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.noticia_credibilidad.label }}</th>
+                <td>{% for choice in form.noticia_credibilidad %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.noticia_tiempo.label }}</th>
+                <td>{% for choice in form.noticia_tiempo %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.noticia_calidad.label }}</th>
+                <td>{% for choice in form.noticia_calidad %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.noticia_imagenes.label }}</th>
+                <td>{% for choice in form.noticia_imagenes %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.noticia_publico_general.label }}</th>
+                <td>{% for choice in form.noticia_publico_general %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.noticia_informacion_importante.label }}</th>
+                <td>{% for choice in form.noticia_informacion_importante %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.noticia_informacion_importante_politicos.label }}</th>
+                <td>{% for choice in form.noticia_informacion_importante_politicos %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.noticia_lenguaje.label }}</th>
+                <td>{% for choice in form.noticia_lenguaje %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.noticia_lideres_similar.label }}</th>
+                <td>{% for choice in form.noticia_lideres_similar %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            </table>
+            <b>Por favor, respecto a la noticia vista anteriormente, conteste las siguientes preguntas
+            eligiendo la opción con la que se sienta más de acuerdo.</b>
+            <table class="table" style="text-align:left">
+            <td>
+                <td></td><td>Sí</td><td>No</td>
+            </td>
+            <tr>
+                <th>{{ form.noticia_impactante.label }}</th>
+                <td>{% for choice in form.noticia_impactante %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.noticia_angustiante.label }}</th>
+                <td>{% for choice in form.noticia_angustiante %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.noticia_violenta.label }}</th>
+                <td>{% for choice in form.noticia_violenta %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.lider_necesario.label }}</th>
+                <td>{% for choice in form.lider_necesario %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.acuerdo_paz.label }}</th>
+                <td>{% for choice in form.acuerdo_paz %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.gobierno_responsable_lideres.label }}</th>
+                <td>{% for choice in form.gobierno_responsable_lideres %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.conflicto_armado_cesado.label }}</th>
+                <td>{% for choice in form.conflicto_armado_cesado %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            </table>
+            {% formfield player.frase_identificado_1 %}
+            {% formfield player.frase_identificado_2 %}
+            {% formfield player.frase_identificado_3 %}
+            <b>Por favor, seleccione qué tan de acuerdo o en desacuerdo está con las siguientes afirmaciones.</b>
+            <table class="table" style="text-align:left">
+            <td>
+                <td></td><td>Totalmente en acuerdo</td><td>En desacuerdo</td><td>Ni de acuerdo, ni en desacuerdo</td><td>De acuerdo</td><td>Totalmente de acuerdo</td>
+            </td>
+            <tr>
+                <th>{{ form.victima_responsable.label }}</th>
+                <td>{% for choice in form.victima_responsable %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.siente_compasion.label }}</th>
+                <td>{% for choice in form.siente_compasion %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            </table>
+            <b>Por favor, lea las siguientes situaciones y conteste si se siente o no identificado con ellas.</b>
+            <table class="table" style="text-align:left">
+            <td>
+                <td></td><td>Sí</td><td>No</td>
+            </td>
+            <tr>
+                <th>{{ form.entristece_persona_solitaria.label }}</th>
+                <td>{% for choice in form.entristece_persona_solitaria %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.importancia_sentimientos.label }}</th>
+                <td>{% for choice in form.importancia_sentimientos %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.muestras_afecto.label }}</th>
+                <td>{% for choice in form.muestras_afecto %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.molestan_personas_infelices.label }}</th>
+                <td>{% for choice in form.molestan_personas_infelices %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.ponerse_nervioso.label }}</th>
+                <td>{% for choice in form.ponerse_nervioso %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.llorar_felicidad.label }}</th>
+                <td>{% for choice in form.llorar_felicidad %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.involucrarse_emocionalmente.label }}</th>
+                <td>{% for choice in form.involucrarse_emocionalmente %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.cancion_conmueve.label }}</th>
+                <td>{% for choice in form.cancion_conmueve %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.perder_control_malas_noticias.label }}</th>
+                <td>{% for choice in form.perder_control_malas_noticias %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.gente_influencia_estado_animo.label }}</th>
+                <td>{% for choice in form.gente_influencia_estado_animo %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.extrajeros_geniales.label }}</th>
+                <td>{% for choice in form.extrajeros_geniales %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.trabajador_social.label }}</th>
+                <td>{% for choice in form.trabajador_social %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.enfado_amigo.label }}</th>
+                <td>{% for choice in form.enfado_amigo %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.abrir_regalos.label }}</th>
+                <td>{% for choice in form.abrir_regalos %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.gente_solitaria_no_amistosa.label }}</th>
+                <td>{% for choice in form.gente_solitaria_no_amistosa %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.llorar_molesta.label }}</th>
+                <td>{% for choice in form.llorar_molesta %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.canciones_feliz.label }}</th>
+                <td>{% for choice in form.canciones_feliz %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.sentimientos_personajes_novela.label }}</th>
+                <td>{% for choice in form.sentimientos_personajes_novela %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.enfado_maltrato.label }}</th>
+                <td>{% for choice in form.enfado_maltrato %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.mantener_calma.label }}</th>
+                <td>{% for choice in form.mantener_calma %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.amigo_problemas.label }}</th>
+                <td>{% for choice in form.amigo_problemas %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.risa_otro.label }}</th>
+                <td>{% for choice in form.risa_otro %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.llanto_divierte.label }}</th>
+                <td>{% for choice in form.llanto_divierte %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.decisiones_sin_sentimientos.label }}</th>
+                <td>{% for choice in form.decisiones_sin_sentimientos %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.gente_deprimida_alrededor.label }}</th>
+                <td>{% for choice in form.gente_deprimida_alrededor %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.irritar_gente.label }}</th>
+                <td>{% for choice in form.irritar_gente %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.disgusto_animal_sufriendo.label }}</th>
+                <td>{% for choice in form.disgusto_animal_sufriendo %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.involucrarse_libros_tonto.label }}</th>
+                <td>{% for choice in form.involucrarse_libros_tonto %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.ancianos_indefensos.label }}</th>
+                <td>{% for choice in form.ancianos_indefensos %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.irrita_lagrimas_otros.label }}</th>
+                <td>{% for choice in form.irrita_lagrimas_otros %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.involucrar_pelicula.label }}</th>
+                <td>{% for choice in form.involucrar_pelicula %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.mantener_calma_emocion.label }}</th>
+                <td>{% for choice in form.mantener_calma_emocion %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ form.ninos_lloran_sin_razon.label }}</th>
+                <td>{% for choice in form.ninos_lloran_sin_razon %}
+                    <td>{{ choice.tag}}</td>
+                    {% endfor %}
+                </td>
+            </tr>
+            </table>
+        </p>
+
+    </div>
+{% next_button %}
+{% endblock %}

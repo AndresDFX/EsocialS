@@ -1,0 +1,200 @@
+{% extends "global/Page.html" %}
+{% load otree static%}
+
+{% block styles %}
+{% endblock %}
+
+{% block title %}
+     Contrato de trabajo
+{% endblock %}
+
+{% block content %}
+    <div id="content1">
+        
+        <br>
+        <br>
+       <p> Usted desempeñará la labor de digitador (a), trabajando por un periodo de 3
+        sesiones, con una duración de 15 minutos cada una. Con fecha de iniciación de labores a los {{ player.experiment_start_date|date:"d" }} días , del
+        {{ player.experiment_start_date|date:"m" }} mes de {{ player.experiment_start_date|date:"Y" }} y
+        fecha de culminación a los {{ player.experiment_end_date|date:"d" }} días del
+        mes {{ player.experiment_end_date|date:"m" }} de
+        {{ player.experiment_end_date|date:"Y" }}. Las labores a desempeñar
+        se realizan totalmente de forma virtual.</p>
+        {% if player.contract_type == 0 %}
+
+        {% elif player.contract_type == 1 %}
+            
+    <p>Por medio de este contrato, usted (EL EMPLEADO) y la Universidad del Valle, acuerdan celebrar el presente CONTRATO INDIVIDUAL DE TRABAJO A
+        TÉRMINO FIJO, por un periodo de tres (3) días, que se regirá por las siguientes cláusulas:</p>
+
+    <p><strong>PRIMERA.</strong> <i>Objeto:</i>  El EMPLEADOR contrata los servicios personales del TRABAJADOR, para la
+        transcripción de textos a través de esta plataforma y las actividades que se deriven de estas
+        labores.</p>
+
+    <p><strong>SEGUNDA.</strong> <i>Jornada:</i> El TRABAJADOR realizará sus labores en una jornada de 15 minutos
+        durante tres sesiones, tomando lugar una sesión por semana, contados a partir de la aceptación de este contrato. La actividad podrá
+        ser realizada en cualquier momento del día entre las 8:00 a.m. y las 4:00 p.m.</p>
+
+    <p><strong>TERCERA.</strong> <i>Salario:</i> El TRABAJADOR devengará un salario de 4.000 COP por día y será pagado
+        en moneda de curso legal de acuerdo a la opción de pago elegida, a través de una transferencia bancaria.</p>
+
+    <p><strong>CUARTA.</strong> <i>Obligaciones:</i> El TRABAJADOR deberá cumplir con las siguientes obligaciones:</p>
+
+    <ol type="a">
+        <li> Colocar al servicio del EMPLEADOR su capacidad normal de trabajo, realizando el mayor
+            número de transcripciones posibles. </li>   
+        <li> Cumplir con la jornada de trabajo dentro de los turnos y horario señalado por el
+            EMPLEADOR. </li>
+        <li> Las demás consagradas en el artículo 58 del Código Sustantivo del Trabajo. </li>
+   </ol>
+
+    <p><strong>QUINTA.</strong> <i>Justas causas para despedir:</i> Son justas causas para dar por terminado unilateralmente
+        el presente contrato, si el TRABAJADOR incumple las condiciones pactadas en las cláusulas
+        PRIMERA, SEGUNDA y CUARTA estipuladas en el presente contrato.</p>
+
+    <p> EMPLEADOR  </p>    
+    <img class="firma" src="{% static 'imagenes/firma.png' %}" > 
+
+    <br>
+    <br>
+     En la parte inferior puede ver una copia de su contrato
+            <br/>
+            <object style="min-height: 800px; margin-top: 15px" data="{% static 'experimento_1/contrato.pdf' %}"
+                    type="application/pdf" width="100%" height="100%">
+                <p>Alternative text - include a link <a href="https://drive.google.com/uc?export=download&id=1aWiIQRWRjYbo0MhR5Ql6WD4Bxo5Gn7-E">to the
+                    PDF!</a>
+                </p>
+            </object>
+        {% endif %}
+        <br>
+        <br>
+        <br>
+        <br>
+   
+
+    {% formfields %}
+
+    {% next_button %}
+
+{% endblock %}
+
+  
+
+{% block local_scripts %}
+    <div id="content2">
+
+        <h1>Opciones de pago</h1>
+<p>
+        El contrato consta de 3 sesiones de aproximadamente 15 minutos cada
+        una, realizandose una sesión por semana.  A continuación, le presentamos 
+        las siguientes opciones de pago para este trabajo. Por favor, lea atentamente 
+        y marque la opción deseada.
+        </p>
+        
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Por favor responda correctamente esta encuenta para
+                        continuar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="surveyElement" style="display:inline-block;width:100%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+
+    <script type="text/javascript" src="https://surveyjs.azureedge.net/1.1.13/survey.jquery.min.js">
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Survey
+                .StylesManager
+                .applyTheme("default");
+
+            var json = {
+                pages: [
+                    {
+                        questions: [
+                            {
+                                type: "radiogroup",
+                                name: "civilwar",
+                                title: "¿Cuántas opciones de pago podrá escoger?",
+                                choices: [
+                                    "1", "2", "3"
+                                ],
+                                "isRequired": true,
+                                correctAnswer: "3"
+                            },
+                            {
+                                type: "radiogroup",
+                                title: "¿Cuánto dinero recibirá por cada $100 pesos que usted decida guardar?",
+                                choicesOrder: "random",
+                                choices: [
+                                    "50 pesos", "25 pesos", "45 pesos"
+                                ],
+                                "isRequired": true,
+                                correctAnswer: {% if player.intermedio_actual == 1 %} "50 pesos" {%else %} "25 pesos" {% endif %}
+                            },
+                            {
+                                type: "radiogroup",
+                                title: "¿Cuándo es posible retirar el monto ahorrado?",
+                                choices: [
+                                    "En la siguiente sesión", "Al final de la tercera sesión", "Todas las anteriores"
+                                ],
+                                "isRequired": true,
+                                correctAnswer: "Al final de la tercera sesión"
+                            },
+                            {
+                                type: "radiogroup",
+                                title: "Por favor, indique cuánto será el salario por cada sesión realizada",
+                                choicesOrder: "random",
+                                choices: [
+                                    "$2.500", "$3.000", "$4.000"
+                                ],
+                                "isRequired": true,
+                                correctAnswer: "$4.000"
+                            },
+                            {
+                                type: "text",
+                                title: "Por favor, indique el número de sesiones que hará semanalmente",
+                                correctAnswer: "1"
+                            },
+                            {
+                                type: "text",
+                                title: "Por favor, indique el total de sesiones de la actividad",
+                                correctAnswer: "3"
+                            },
+                            {
+                                type: "text",
+                                title: "Por favor, indique el tiempo aproximado que dura cada sesión (en minutos)",
+                                correctAnswer: "15"
+                            },
+                        ]
+                    }
+                ]
+            };
+
+            window.survey = new Survey.Model(json);
+            $("#surveyElement").Survey({
+                model: survey, onValidateQuestion: function (s, options) {
+                    if (options.value != options.question.correctAnswer) {
+                        options.error = "La respuesta es incorrecta.";
+                    }
+                }, onComplete: function (s, options) {
+                    $('.otree-btn-next').trigger('click')
+                }
+            });
+        })
+
+
+    </script>
+{% endblock local_scripts %}

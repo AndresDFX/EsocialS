@@ -1,0 +1,113 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers2/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% comment %} Ronda {{round_number}} de {{Constants.num_rounds}} {% endcomment %}
+    Por favor realice las siguientes sumas
+{% endblock %}
+
+{% block content %}
+<div class="wrapper instructions">
+    <p align = "justify">
+        Jugador {{player.id_in_group}} vs Jugador {% comment %}{{opponent_id}}{% endcomment %}. Por favor, sume los siguientes números que aparecerán en pantalla. Luego presione el botón <b>siguiente</b>
+        o la tecla <b>Enter</b> para continuar.
+        <table class="table" style="text-align:right" colspan="2" >
+            <tr>
+                <td style="font-size:30px">{{ number_1 }} + {{ number_2 }} = </td>
+                <td> <input type="number" name="number_entered" required id="id_number_entered" class="form-control" autofocus=""> </td>
+            </tr>
+            <td><button class="btn btn-primary mb1 bg-blue" type="button" id="sender">Enviar</button><br></td>
+        </table>
+        <p id="p-text">foo bar</p>
+    </p>
+</div>
+{% block scripts %}
+<script>
+$("#sender").click(function () {
+    var input = $('#id_number_entered').val();
+    $.ajax({
+        url:"/AddNumbers",
+        data: {
+          'inputValue': input
+        },
+        dataType: 'json',
+        success: function (data) {
+          document.getElementById('p-text').innerHTML = data["response"];
+        }
+      });
+    });
+</script>
+{% comment %} <script>
+        $(function () {
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+</script> {% endcomment %}
+{% comment %}
+ <div class="wrapper instructions">
+    <p align = "justify">
+            Jugador {{player.id_in_group}} vs Jugador {{opponent_id}}. Por favor, sume los siguientes números que aparecerán en pantalla. Luego presione el botón <b>siguiente</b>
+            o la tecla <b>Enter</b> para continuar.
+        <table class="table" style="text-align:right" colspan="2" >
+            <tr>
+                <td style="font-size:30px">{{ number_1 }} + {{ number_2 }} = </td>
+                <td> {% formfields %} </td>
+            </tr>
+        </table>
+            <b>Sumas correctas:</b> <font color='blue'>{{correct_answers}}</font><br>
+            <b>Sumas incorrectas:</b> <font color='red'>{{wrong_sums}}</font><br>
+            <b>Sumas totales:</b> {{total_sums}}<br>
+            <b>Pago por sumas:</b> ${{combined_payoff}}<br>
+    </p>
+</div>
+<button class="answer btn btn-outline-dark" input type="submit" name="enviar">Answer</button>
+{% comment %} <input type="text" id="number_entered" required>
+{% block scripts %}
+<script>
+
+$("#sender").click(function () {
+    var input = $('#user-input').val();
+
+    $.ajax({
+        url: '{% url 'get_response' %}',
+        data: {
+          'inputValue': input
+        },
+        dataType: 'json',
+        success: function (data) {
+          document.getElementById('p-text').innerHTML = data["response"];
+        }
+      });
+    });
+
+</script>
+    <script>
+        $(function () {
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+    </script>
+
+
+{% endblock %} {% endcomment %}
+{% endblock %}
+{% endblock %}
+

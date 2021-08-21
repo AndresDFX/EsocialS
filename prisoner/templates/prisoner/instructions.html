@@ -1,0 +1,53 @@
+{% load otree %}
+
+<div class="card bg-light m-3">
+    <div class="card-body">
+
+    <h3>
+        Instrucciones generales
+    </h3>
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'global/matrix.css' %}"/>
+
+    <p>
+        Usted estará interactuando con otras personas a lo largo de este ejercicio,
+        pero ni ellas ni usted conocerán las identidades de los demás. Existe un
+        tiempo prudencial para realizar cada una de las actividades el cual les será
+        informado oportunamente. Por favor, evite conversar, hacer llamadas
+        telefónicas o realizar otras actividades mientras participa del ejericio pues su
+        demora evitará que otras personas puedan avanzar, y que puedan obtener
+        mayores ganancias.<br><br>
+
+        Lo más normal es que nuestros participantes ganen entre $20000 y $25000,
+        pero si al finalizar la actividad usted tiene pérdidas, deduciremos ese valor
+        del pago fijo que le prometimos por participar, que es $5000.
+    </p>
+    <p><i>En esta matriz, a su izquierda, se muestra el pago que usted puede recibir.
+        A la derecha se encuentra el potencial pago del otro participante.</i></p>
+
+    <table class='table table-bordered text-center'
+           style='width: auto; margin: auto'>
+        <tr>
+            <th colspan=2 rowspan=2></th>
+            <th colspan=2>El otro participante</th>
+        </tr>
+        <tr>
+            <th>Coopera</th>
+            <th>Traiciona</th>
+        </tr>
+        <tr>
+            <th rowspan=2><span style="transform: rotate(-90deg);">Usted</span></th>
+            <th>Coopera</th>
+            <td>{{ Constants.both_cooperate_payoff }}, {{ Constants.both_cooperate_payoff }}</td>
+            <td>0, {{ Constants.betray_payoff }}</td>
+        </tr>
+        <tr>
+            <th>Traiciona</th>
+            <td>{{ Constants.betray_payoff }}, 0</td>
+            <td>{{ Constants.both_defect_payoff }}, {{ Constants.both_defect_payoff }}</td>
+        </tr>
+    </table>
+
+</div>
+</div>

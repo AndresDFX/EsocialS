@@ -1,0 +1,377 @@
+{% extends "base/Page.html" %}
+{% load otree%}
+
+{% block title %}
+    Información sobre las opciones de pago
+{% endblock %}
+
+{% block styles %}
+    <style>
+
+        h2 {
+            text-align: center;
+        }
+
+        p {
+            text-align: justify;
+        }
+        .container-survey {
+            width: 75%;
+            margin: auto;
+            color: black;
+            border: 1px solid black;
+            padding: 20px;
+        }
+
+        #description {
+            font-size: 20px;
+        }
+
+        #description p {
+            text-align: center;
+        }
+
+        #survey-form {
+            text-align: justify;
+        }
+
+        .row-tab {
+            background-color: #f3f3f3;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        .error{
+            width: 100%;
+            padding: 1% 2%;
+            border: 1px solid #ED6160; 
+            background-color: #f8dcdb;
+            color: #ED6160;
+            display: none;
+        }
+
+        .label-tab {
+            font-weight: bold;
+        }
+
+        input[type="radio"] {
+            margin: 10px;
+            vertical-align: middle; 
+        }
+
+        input[type="number"]{
+            width: 100%;
+        }
+
+        button {
+            margin: 0 -50px; 
+            position:relative;
+            top:50%; 
+            left:50%;
+        }
+
+        #confirm_button{
+            display: none;
+        }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    
+    <p>El contrato consta de 3 sesiones de aproximadamente 15 minutos cada
+        una, realizandose una sesión por semana.  A continuación, le presentamos 
+        las siguientes opciones de pago para este trabajo.
+    </p>
+
+    <ol>
+        <li>Retirar los $4.000 al finalizar cada sesión.</li>
+        <li>Usted podrá guardar una parte de su pago y por cada $100 que usted decida guardar nosotros le daremos ${{price_session}} más. 
+            Podrá retirar en esta sesión una parte de su pago y el monto guardado solo podrá recibirlo al finalizar las tres sesiones.</li>
+        <li>Usted podrá guardar la totalidad de su pago y retirarlo al finalizar las tres sesiones. Recuerde que por cada $100 nosotros le daremos ${{price_session}} más.</li>
+    </ol>
+
+    <section>
+        <div class="container-survey">
+            <div id="description">
+                <p>Por favor responda correctamente esta encuesta para
+                    continuar</p>
+            </div>
+            <form id="survey-form" method="post">
+                <div class="row-tab">
+                    <div>
+                        <label class="label-tab">1. ¿Cuántas opciones de pago podrá escoger?</label><br>
+                        <label class="error error_question1" data-for-input-group="question1">esto es un error</label>
+                    </div>
+                    <div class="input-tab">
+                        <input type="radio" data-input-group-id="question1" name="question1" value="0" ><label>1</label><br>
+                        <input type="radio" data-input-group-id="question1" name="question1" value="0" ><label>2</label><br>
+                        <input type="radio" data-input-group-id="question1" name="question1" value="25" ><label>3</label><br>
+                    </div>
+                </div>
+
+                <div class="row-tab">
+                    <div>
+                        <label class="label-tab">2. ¿Cuánto dinero recibirá por cada $100 pesos que usted decida guardar?</label><br>
+                        <label class="error error_question2">esto es un error</label>
+                    </div>
+                    <div class="input-tab">
+                        <input type="radio" name="question2" value="45"><label>45 pesos</label><br>
+                        <input type="radio" name="question2" value="25"><label>25 pesos</label><br>
+                        <input type="radio" name="question2" value="50"><label>50 pesos</label><br>
+                    </div>
+                </div>
+
+                <div class="row-tab">
+                    <div>
+                        <label class="label-tab">3. ¿Cuándo es posible retirar el monto ahorrado?</label><br>
+                        <label class="error error_question3">esto es un error</label>
+                    </div>
+                    <div class="input-tab">
+                        <input type="radio" name="question3" value="0" ><label>En la siguiente sesión</label><br>
+                        <input type="radio" name="question3" value="25" ><label>Al final de la tercera sesión</label><br>
+                        <input type="radio" name="question3" value="0" ><label>Todas las anteriores</label><br>
+                    </div>
+                </div>
+
+                <div class="row-tab">
+                    <div>
+                        <label class="label-tab">4. Por favor, indique cuánto será el salario por cada sesión realizada</label><br>
+                        <label class="error error_question4">esto es un error</label>
+                    </div>
+                    <div class="input-tab">
+                        <input type="radio" name="question4" value="0" ><label>$2.500</label><br>
+                        <input type="radio" name="question4" value="0" ><label>$3.000</label><br>
+                        <input type="radio" name="question4" value="25" ><label>$4.000</label><br>
+                    </div>
+                </div>
+
+                <div class="row-tab">
+                    <div>
+                        <label class="label-tab">5. Por favor, indique el número de sesiones que hará semanalmente</label><br>
+                        <label class="error error_question5">esto es un error</label>
+                    </div>
+                    <div class="input-tab">
+                        <input type="number" name="question5" >
+                    </div>
+                </div>
+                
+                <div class="row-tab">
+                    <div>
+                        <label class="label-tab">6. Por favor, indique el total de sesiones de la actividad</label><br>
+                        <label class="error error_question6">esto es un error</label>
+                    </div>
+                    <div class="input-tab">
+                        <input type="number" name="question6" >
+                    </div>
+                </div>
+
+                <div class="row-tab">
+                    <div>
+                        <label class="label-tab">7. Por favor, indique el tiempo aproximado que dura cada sesión (en minutos)</label><br>
+                        <label class="error error_question7" for="question7">esto es un error</label>
+                    </div>
+                    <div class="input-tab">
+                        <input type="number" id="question7" name="question7" >
+                    </div>
+                </div>
+
+                <button id="submit" class="btn btn-success" type="button" value="Submit">Complete</button>
+
+            </form>
+        </div>
+    </section>
+
+<br>
+
+<button id="confirm_button" class="btn btn-primary" >
+    Siguiente
+</button>
+  
+        
+{% endblock %}
+
+{% block local_scripts %}
+    
+    <script>
+        let intermedio_actual = js_vars.intermedio_actual;
+        var boton = document.getElementById("submit");
+        var confirm_button = document.getElementById('confirm_button');
+        var result = 0;
+
+        // cuando se pulsa en el boton
+        boton.onclick = function(e) {
+            // evitamos la acción por defecto
+            e.preventDefault();
+
+            question1 = document.querySelector('input[name = "question1"]:checked');
+            question2 = document.querySelector('input[name = "question2"]:checked');
+            question3 = document.querySelector('input[name = "question3"]:checked');
+            question4 = document.querySelector('input[name = "question4"]:checked');
+            question5 = document.querySelector('input[name = "question5"]');
+            question6 = document.querySelector('input[name = "question6"]');
+            question7 = document.querySelector('input[name = "question7"]');
+
+
+            if (question1 == null) {   
+                $('.error_question1').text('Por favor conteste la pregunta.');
+                $('.error_question1').fadeIn('slow');
+                    
+            } else {
+                if (question1.value == 0) {
+                    $('.error_question1').text('La respuesta es incorrecta.');
+                    $('.error_question1').fadeIn('slow');
+                    
+                } else {
+                    $('.error_question1').fadeOut("slow");
+                    
+                } 
+            }
+            
+            if (question2 == null) {   
+                $('.error_question2').text('Por favor conteste la pregunta.');
+                $('.error_question2').fadeIn('slow');   
+                 
+            } else {
+
+                if (intermedio_actual == 1) {
+                    if (question2.value != 50) {
+                        $('.error_question2').text('La respuesta es incorrecta.');
+                        $('.error_question2').fadeIn('slow');
+                        
+                    } else {
+                        $('.error_question2').fadeOut("slow");
+                        
+                    } 
+                } else {
+                    if (question2.value != 25) {
+                        $('.error_question2').text('La respuesta es incorrecta.');
+                        $('.error_question2').fadeIn('slow');
+                        
+                    } else {
+                        $('.error_question2').fadeOut("slow");
+                        
+                    } 
+                }     
+            }
+
+            if (question3 == null) {   
+                $('.error_question3').text('Por favor conteste la pregunta.');
+                $('.error_question3').fadeIn('slow');
+                    
+            } else {
+                if (question3.value == 0) {
+                    $('.error_question3').text('La respuesta es incorrecta.');
+                    $('.error_question3').fadeIn('slow');
+                    
+                } else {
+                    $('.error_question3').fadeOut("slow");
+                    
+                } 
+            }
+
+            if (question4 == null) {   
+                $('.error_question4').text('Por favor conteste la pregunta.');
+                $('.error_question4').fadeIn('slow');
+                    
+            } else {
+                if (question4.value == 0) {
+                    $('.error_question4').text('La respuesta es incorrecta.');
+                    $('.error_question4').fadeIn('slow');
+                    
+                } else {
+                    $('.error_question4').fadeOut("slow");
+                    
+                } 
+            }
+
+            if (question5.value == "") {   
+                $('.error_question5').text('Por favor conteste la pregunta.');
+                $('.error_question5').fadeIn('slow'); 
+                   
+            } else {
+                if (question5.value != 1) {
+                    $('.error_question5').text('La respuesta es incorrecta.');
+                    $('.error_question5').fadeIn('slow');
+                    
+                } else {
+                    $('.error_question5').fadeOut("slow");
+                    
+                } 
+            }
+
+            if (question6.value == "") {   
+                $('.error_question6').text('Por favor conteste la pregunta.');
+                $('.error_question6').fadeIn('slow'); 
+                   
+            } else {
+                if (question6.value != 3) {
+                    $('.error_question6').text('La respuesta es incorrecta.');
+                    $('.error_question6').fadeIn('slow');
+                    
+                } else {
+                    $('.error_question6').fadeOut("slow");
+                    
+                } 
+            }
+
+            if (question7.value == "") {   
+                $('.error_question7').text('Por favor conteste la pregunta.');
+                $('.error_question7').fadeIn('slow'); 
+                   
+            } else {
+                if (question7.value != 15) {
+                    $('.error_question7').text('La respuesta es incorrecta.');
+                    $('.error_question7').fadeIn('slow');
+                    
+                } else {
+                    $('.error_question7').fadeOut("slow");
+                    
+                } 
+            }
+
+            if (intermedio_actual == 1 &&
+                question1 != null && question1.value == 25 &&
+                question2 != null && question2.value == 50 &&
+                question3 != null && question3.value == 25 &&
+                question4 != null && question4.value == 25 &&
+                question5.value != "" && question5.value == 1 &&
+                question6.value != "" && question6.value == 3 &&
+                question7.value != "" && question7.value == 15 ) {
+
+                    result = parseInt(question1.value) + 
+                    parseInt(question2.value) +
+                    parseInt(question3.value) +
+                    parseInt(question4.value) +
+                    parseInt(question5.value) +
+                    parseInt(question6.value) +
+                    parseInt(question7.value); 
+
+                    console.log(result);
+                    document.getElementById("confirm_button").click();
+                
+            } else if(intermedio_actual != 1 &&
+            question1 != null && question1.value == 25 &&
+                question2 != null && question2.value == 25 &&
+                question3 != null && question3.value == 25 &&
+                question4 != null && question4.value == 25 &&
+                question5.value != "" && question5.value == 1 &&
+                question6.value != "" && question6.value == 3 &&
+                question7.value != "" && question7.value == 15 ) {
+
+                    result = parseInt(question1.value) + 
+                    parseInt(question2.value) +
+                    parseInt(question3.value) +
+                    parseInt(question4.value) +
+                    parseInt(question5.value) +
+                    parseInt(question6.value) +
+                    parseInt(question7.value);
+
+                    console.log(result);
+                    document.getElementById("confirm_button").click();
+
+            }
+
+        }
+    </script>
+{% endblock local_scripts %}

@@ -1,0 +1,52 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+{% block title %}
+    CONTRATO DE TRABAJO
+{% endblock %}
+
+
+{% block content %}
+
+    <p>Estimado participante:</p>
+
+    <p>Al aceptar esta actividad, usted y quien se encuentra dirigiendo esta actividad se comprometen a
+        cumplir las siguientes condiciones pactadas en este contrato por prestación de servicios, por un
+        periodo de tres días:
+    </p>
+
+    <ol>
+        <li>Usted deberá realizar una actividad que consistirá en la transcripción de textos a través de
+            esta plataforma.
+        </li>
+        <br>
+        <li>El plazo para realizar esta actividad será de 3 días. Por cada día tendrá 20 minutos para
+            transcribir la totalidad de los textos. La actividad podrá ser realizada en cualquier
+            momento del día entre las 8:00 a.m. y las 4:00 p.m.
+        </li>
+        <br>
+        <li>Por cada encuesta digitada recibirá un pago de 1.750 COP. El pago por día será calculado
+            por el número de textos transcritos y finalizados una vez hayan pasado los 20 minutos, y
+            será pagado a través de una transferencia bancaria, una vez sea finalizado la actividad.
+        </li>
+        <br>
+        <li>Usted deberá cumplir con las siguientes obligaciones:</li>
+            <ol type="a">
+                <li>Deberá realizar el mayor número de transcripciones posibles.</li>
+                <li>Deberá cumplir los tiempos de entrega de las actividades.</li>
+                <li>Deberá garantizar la calidad de los productos entregados. Una similitud inferior al 80%
+                    anulará la entrega de la transcripción, y no se contará dentro del pago.
+                </li>
+            </ol>
+        <br>
+        <li>En caso de incumplimiento de alguna de las anteriores condiciones, podremos dar por
+            terminado unilateralmente el presente contrato.
+        </li>
+    </ol>
+
+    {% formfields %}
+
+    {% next_button %}
+
+{% endblock %}

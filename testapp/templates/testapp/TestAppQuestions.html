@@ -1,0 +1,18 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Please answer the next questions
+{% endblock %}
+<!--Hay que asegurarse de que el tipo de dato de django se escriba bien, con los porcentajes bien colocados-->    
+{% block content %}
+    Question 1
+    {% formfield player.age %} 
+    Question 2
+    {% formfield player.gender %}
+    Question 3
+    {% formfield player.is_lef_handed %}
+    {% next_button %}
+
+{% endblock %}
+ 
