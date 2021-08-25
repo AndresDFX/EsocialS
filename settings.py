@@ -14,67 +14,73 @@ SESSION_CONFIGS = [
         num_demo_participants=1,
         app_sequence=['lideres_sociales'],
     ),
-    # dict(
+    #dict(
     #     name='myprisoners_dilemma',
     #     display_name="Gift-exchange game",
     #     num_demo_participants=4,
     #     app_sequence=['myprisoners_dilemma'],
-    # ),
-    # dict(
+    #),
+    #dict(
     #     name='prisoner',
     #     display_name="Epa",
     #     num_demo_participants=4,
     #     app_sequence=['prisoner'],
-    # ),
-dict(
-        name='experimiento_1',
-        display_name="Experimento Leidy",
-        num_demo_participants=3,
-        app_sequence=['experimiento_1']
-    ),
-dict(
-        name='laboratorio',
-        display_name="Experimento Nicolas",
-        num_demo_participants=1,
-        app_sequence=['laboratorio'],
-    ),
-dict(
+    #),
+    #dict(
+    #    name='experimiento_1',
+    #    display_name="Experimento Leidy",
+    #    num_demo_participants=3,
+    #    app_sequence=['experimiento_1']
+    #),
+    #dict(
+    #    name='laboratorio',
+    #    display_name="Experimento Nicolas",
+    #    num_demo_participants=1,
+    #    app_sequence=['laboratorio'],
+    #),
+    dict(
         name='real_effort_numbers',
-        display_name="Gift-exchange Game T-T",
+        display_name="Gift-exchange General",
         num_demo_participants=12,
         app_sequence=['real_effort_numbers']
     ),
-dict(
+    dict(
+        name='real_effort_numbers_t_t',
+        display_name="Gift-exchange Game T-T",
+        num_demo_participants=12,
+        app_sequence=['real_effort_numbers_t_t']
+    ),
+    dict(
         name='real_effort_numbers_t_nt',
         display_name="Gift-exchange Game T-NT",
         num_demo_participants=12,
         app_sequence=['real_effort_numbers_t_nt']
     ),
-dict(
+    dict(
         name='real_effort_numbers_nt_t',
         display_name="Gift-exchange Game NT-T",
         num_demo_participants=12,
         app_sequence=['real_effort_numbers_nt_t']
     ),
-dict(
+    dict(
         name='real_effort_numbers_nt_nt',
         display_name="Gift-exchange Game NT-NT",
         num_demo_participants=12,
         app_sequence=['real_effort_numbers_nt_nt']
     ),
-    # dict(
+    #dict(
     #     name='public_goods',
     #     display_name="Public Goods",
     #     num_demo_participants=6,
     #     app_sequence=['public_goods', 'payment_info'],
     # ),
-    # dict(
+    #dict(
     #     name='guess_two_thirds',
     #     display_name="Guess 2/3 of the Average",
     #     num_demo_participants=3,
     #     app_sequence=['guess_two_thirds', 'payment_info'],
     # ),
-    # dict(
+    #dict(
     #     name='public_goods',
     #     display_name='PGasa',
     #     num_demo_participants=4,

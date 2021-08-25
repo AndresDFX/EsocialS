@@ -1,3 +1,4 @@
+
 from otree.api import (
     models,
     widgets,
@@ -19,7 +20,7 @@ Your app description
 
 
 class Constants(BaseConstants):
-    name_in_url = 'real_effort_numbers_t_nt'
+    name_in_url = 'real_effort_numbers_t_t'
     players_per_group = 2
     num_rounds = 100
     payment_per_correct_answer = 50
@@ -28,47 +29,40 @@ class Constants(BaseConstants):
     sumas_obligatorias_contrato = 50
     num_min_stage_1 = 10
     num_min_stage_2 = 5
+    #cara_sello_value = random.random()
 
 
 class Subsession(BaseSubsession):
     def creating_session(self):
-        #print("Matriz del grupo: " + str(self.get_group_matrix()))
-        #print("Grupos: " + str(self.get_groups()))
-        # for player in self.get_players():
-        #     print("Jugador id_group: " + str(player.id_in_group))
-        #     print("Jugador id_session: " + str(player.participant.id_in_session))
-
-        #Teams in the first half, different teams in the second
-
-        team_label = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL', 'MN', 'OP', 'QR', 'ST', 'UV', 'WX', 'YZ']
+        team_assign = ''
+        team_label = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL',
+                      'MN', 'OP', 'QR', 'ST', 'UV', 'WX', 'YZ']
         number_of_groups = self.session.num_participants // Constants.players_per_group
+        for i in range(0, number_of_groups):
+            for j in range(0, Constants.players_per_group):
+                self.get_group_matrix()[i][j] = team_label[i]
+                team_assign = team_label[i]
 
         for player in self.get_players():
             player.cara_sello_value = random.random()
-
-        if self.round_number >= 1 and self.round_number <= (Constants.num_rounds/2):
-            for i in range(0,number_of_groups):
-                for j in range(0,Constants.players_per_group):
-                    self.get_group_matrix()[i][j].team = team_label[i]
-            # print("Matriz del grupo: " + str(self.get_group_matrix()))
-
-        if self.round_number == (Constants.num_rounds/2)+1:
-            # print("Cambio")
-            self.group_randomly(fixed_id_in_group=True)
-
-        if self.round_number >= (Constants.num_rounds/2)+1:
-            self.group_like_round((Constants.num_rounds/2+1))
-            for i in range(0,number_of_groups):
-                for j in range(0,Constants.players_per_group):
-                    self.get_group_matrix()[i][j].team = team_label[i]
-            # print("Matriz del grupo N: " + str(self.get_group_matrix()))
-
+            player.team = player.group_id
+            #player.team = team_assign
+        # for player in self.get_players():
+        #     print("Jugador id_group: " + str(player.id_in_group))
+        #     print("Jugador id_session: " + str(player.participant.id_in_session))
+        # if self.round_number == (Constants.num_rounds/2)+1:
+        #     print("Cambio")
+        #     self.group_randomly(fixed_id_in_group=True)
+        # if self.round_number >= (Constants.num_rounds/2)+1:
+        #     self.group_like_round((Constants.num_rounds/2+1))
+       # print("Matriz del grupo N: " + str(self.get_group_matrix()))
         #print("Grupos N: " + str(self.get_groups()))
-
 class Group(BaseGroup):
     pass
 
+
 class Player(BasePlayer):
+
 # ******************************************************************************************************************** #
 # *** Variables Etapa 1
 # ******************************************************************************************************************** #
@@ -95,81 +89,81 @@ class Player(BasePlayer):
 # ******************************************************************************************************************** #
 # *** Variables Riesgo
 # ******************************************************************************************************************** #
-    monto = models.IntegerField(label =
-    "Por favor, indica el monto que invertirás en el activo de riesgo (sin puntos o comas)", min=0, max=5000)
+    monto = models.IntegerField(
+        label="Por favor, indica el monto que invertirás en el activo de riesgo (sin puntos o comas)", min=0, max=5000)
     pago_total = models.IntegerField()
 # ******************************************************************************************************************** #
 # *** Preguntas de Control: 1
 # ******************************************************************************************************************** #
     control_question_1 = models.BooleanField(
         label="¿Estaré emparejado con la misma persona en toda la Etapa 1?",
-        choices = [
+        choices=[
             [True, "Sí"],
             [False, "No"],
         ],
-        widget = widgets.RadioSelect,
+        widget=widgets.RadioSelect,
     )
 
     control_question_2 = models.IntegerField(
         label="Si en la ronda 1, mi compañero(a) y yo logramos 20 sumas correctas, cada uno ganará:",
-        choices = [
+        choices=[
             [1, "1000"],
             [2, "2000"],
             [3, "3000"],
         ],
-        widget = widgets.RadioSelect,
+        widget=widgets.RadioSelect,
     )
 # ******************************************************************************************************************** #
 # *** Preguntas de Control: 2
 # ******************************************************************************************************************** #
     control_question_3 = models.IntegerField(
         label="En la Etapa 2 usted estará emparejado con:",
-        choices = [
+        choices=[
             [1, "Nadie, es un juego individual"],
             [2, "Con la misma persona de la Etapa 1"],
             [3, "Con una persona distinta a la de la Etapa 1"],
         ],
-        widget = widgets.RadioSelect,
+        widget=widgets.RadioSelect,
     )
 
     control_question_4 = models.IntegerField(
         label="¿De dónde salen los $2500 que se le entregan al jugador Y al inicio de la Etapa 1?",
-        choices = [
+        choices=[
             [1, "Se los entregan las personas que administran esta actividad"],
             [2, "El jugador Y no recibe $2500, sino el jugador X. Ese dinero viene de las ganancias acumuladas del jugador Y"],
             [3, "De las ganancias acumuladas del jugador X."],
             [4, "Todos los jugadores reciben $2500 al iniciar la Etapa 2. No solamente el jugador Y."],
         ],
-        widget = widgets.RadioSelect,
+        widget=widgets.RadioSelect,
     )
 
     control_question_5 = models.IntegerField(
         label="¿Para qué sirve el contrato?",
-        choices = [
+        choices=[
             [1, "Para que el jugador X se asegure de que el jugador Y le transfiera los $2500 del salario"],
             [2, "Para que el jugador Y se asegure de que el jugador X realizará un esfuerzo mínimo de 50 sumas en la Etapa 2."],
         ],
-        widget = widgets.RadioSelect,
+        widget=widgets.RadioSelect,
     )
 
     control_question_6 = models.IntegerField(
         label="Si el jugador Y NO paga por el contrato y el jugador X realiza 100 sumas correctas y 0 incorrectas en todas las rondas, ¿cuánto ganarán los jugadores en la Etapa 2?",
-        choices = [
+        choices=[
             [1, "Jugador Y = -2500 + (100 sumas x $100) = -2500 + 10000 = 7500. Jugador X = 2500 – (100 sumas x $20) = 2500 – 2000 = 500"],
             [2, "Jugador Y = -2500 + (100 sumas x $30) = -2500 + 3000 = 500. Jugador X = 2500 - (100 sumas x $100) = 2500 –10000 = -7500"],
             [3, "Jugador Y = -2500 + 5000 = 2500. Jugador X = 2500 – 5000 = -2500"],
         ],
-        widget = widgets.RadioSelect,
+        widget=widgets.RadioSelect,
     )
 
     control_question_7 = models.IntegerField(
         label="Si el jugador Y SÍ paga los $2500 del contrato y el jugador X realiza 10 sumas correctas y 0 incorrectas en todas las rondas, ¿cuánto ganarán los jugadores en la Etapa 2?",
-        choices = [
+        choices=[
             [1, "Jugador Y = -2500 + (10 sumas x $100) - 2500) = -2500 + 1000 – 2500  = -4000. Jugador X = 2500 – (10 sumas x $20) = 2500 – 200 = 2300"],
             [2, "Jugador Y = -2500 + (10 sumas x $100) - 2500) = -2500 + 1000 – 2500  = -4000. Jugador X = 2500 – (10 sumas x $20) + 2500 = 2500 – 200 + 2500 = 4800"],
             [3, "Jugador Y = -2500 + 5000 – 2500 = 0. Jugador X = 2500 – 5000 = -2500"],
         ],
-        widget = widgets.RadioSelect,
+        widget=widgets.RadioSelect,
     )
 # ******************************************************************************************************************** #
 # *** Validaciones
@@ -185,8 +179,8 @@ class Player(BasePlayer):
 
     def control_question_3_error_message(self, value):
         print(value)
-        if value != 3:
-            return 'Recuerde que usted será emparejado con una persona distinta a la de la Etapa 1.'
+        if value != 2:
+            return 'Recuerde que usted será emparejado con la misma persona de la Etapa 1.'
 
     def control_question_4_error_message(self, value):
         if value != 2:
@@ -207,10 +201,11 @@ class Player(BasePlayer):
 # ******************************************************************************************************************** #
 # *** Variables Consentimiento
 # ******************************************************************************************************************** #
-    num_temporal = models.IntegerField(label= "Por favor, ingrese el numero de identificación temporal que le llegó en el correo de invitación")
+    num_temporal = models.IntegerField(
+        label="Por favor, ingrese el numero de identificación temporal que le llegó en el correo de invitación")
     accepts_data = models.BooleanField(
-        label = "¿Autoriza el uso de los datos recolectados para futuros estudios?",
-        choices = [
+        label="¿Autoriza el uso de los datos recolectados para futuros estudios?",
+        choices=[
             [True, "Sí"],
             [False, "No"],
         ],
@@ -220,38 +215,38 @@ class Player(BasePlayer):
 # *** Variables Contrato
 # ******************************************************************************************************************** #
     pay_contract = models.BooleanField(
-        label = "",
-         choices = [
+        label="",
+        choices=[
             [True, "Sí"],
             [False, "No"],
         ],
-        widget = widgets.RadioSelect,
-        blank = True
+        widget=widgets.RadioSelect,
+        blank=True
     )
     believe_pay_contract = models.BooleanField(
-        label = "",
-         choices = [
+        label="",
+        choices=[
             [True, "Sí"],
             [False, "No"],
         ],
-        widget = widgets.RadioSelect,
-        blank = True
+        widget=widgets.RadioSelect,
+        blank=True
     )
-    suggested_sums = models.IntegerField(blank = True, label="")
+    suggested_sums = models.IntegerField(blank=True, label="")
 # ******************************************************************************************************************** #
 # *** Variables Encuesta sociodemográfica
 # ******************************************************************************************************************** #
     genero = models.StringField(
         label="¿Cuál es su género?",
-        choices=[["Masculino", "Masculino"], #[StoredValue, "Label"]
-                ["Femenino", "Femenino"]],
+        choices=[["Masculino", "Masculino"],  # [StoredValue, "Label"]
+                 ["Femenino", "Femenino"]],
         widget=widgets.RadioSelect,
     )
     edad = models.IntegerField(label="¿Cuántos años cumplidos tiene usted?")
     ciudad = models.StringField(label="¿En qué ciudad vive actualmente?")
     estrato = models.IntegerField(
         label="¿Cuál es el estrato de la vivienda en la cual habita actualmente?",
-        choices = [
+        choices=[
             [1, "1"],
             [2, "2"],
             [3, "3"],
@@ -259,9 +254,9 @@ class Player(BasePlayer):
             [5, "5"],
             [6, "6"]],
         widget=widgets.RadioSelect)
-    estado_civil =  models.StringField(
+    estado_civil = models.StringField(
         label="¿Cuál es su estado civil? Escoja una opción",
-        choices = [
+        choices=[
             ["Soltero", "Soltero"],
             ["Casado ", "Casado "],
             ["Unión libre", "Unión libre"],
@@ -274,7 +269,7 @@ class Player(BasePlayer):
     numero_hijos = models.IntegerField(label="¿Cuántos hijos tiene usted?")
     identifica_cultura = models.StringField(
         label="De acuerdo con su cultura o rasgos físicos, usted es o se reconoce como:",
-        choices = [
+        choices=[
             ["Afro-colombiano", "Afro-colombiano"],
             ["Indígena ", "Indígena "],
             ["Mestizo", "Mestizo"],
@@ -289,7 +284,7 @@ class Player(BasePlayer):
     )
     identifica_religion = models.StringField(
         label="¿En cuál de los siguientes grupos se identifica usted? Escoja una opción",
-        choices = [
+        choices=[
             ["Católico", "Católico"],
             ["Cristiano ", "Cristiano "],
             ["Testigo de Jehová", "Testigo de Jehová"],
@@ -304,11 +299,13 @@ class Player(BasePlayer):
     )
     nivel_estudios = models.StringField(
         label="¿Cuál es el máximo nivel de estudios alcanzado a la fecha? Escoja una opción",
-        choices = [
+        choices=[
             ["Primaria incompleta", "Primaria incompleta"],
             ["Primaria completa ", "Primaria completa "],
-            ["Básica secundaria (9o grado completo)", "Básica secundaria (9o grado completo)"],
-            ["Media secundaria (11o grado completo)", "Media secundaria (11o grado completo)"],
+            ["Básica secundaria (9o grado completo)",
+             "Básica secundaria (9o grado completo)"],
+            ["Media secundaria (11o grado completo)",
+             "Media secundaria (11o grado completo)"],
             ["Técnico incompleto", "Técnico incompleto"],
             ["Técnico completo", "Técnico completo"],
             ["Tecnológico incompleto", "Tecnológico incompleto"],
@@ -322,7 +319,7 @@ class Player(BasePlayer):
     )
     tendencia_politica = models.IntegerField(
         label="Hoy en día cuando se habla de tendencias políticas, mucha gente habla de aquellos que simpatizan más con la izquierda o con la derecha. Según el sentido que tengan para usted los términos 'izquierda' y 'derecha' cuando piensa sobre su punto de vista político, ¿dónde se encontraría usted en esta escala?",
-        choices = [
+        choices=[
             [1, "1"],
             [2, "2"],
             [3, "3"],
@@ -338,7 +335,7 @@ class Player(BasePlayer):
     )
     disposicion_riesgos = models.IntegerField(
         label="Por favor, califique en un escala de 1 a 10 su disposición a asumir riesgos en general, siendo 1 para nada dispuesto y 10 completamente dispuesto",
-        choices = [
+        choices=[
             [1, "1"],
             [2, "2"],
             [3, "3"],
@@ -352,12 +349,12 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-     # ******************************************************************************************************************** #
+    # ******************************************************************************************************************** #
 # *** Pregunta 24: Primer conjunto de afirmaciones (10 preguntas)
 # ******************************************************************************************************************** #
-    conseguir_esfuerzo =  models.StringField(
+    conseguir_esfuerzo = models.StringField(
         label="Por lo general, cuando consigo lo que quiero es porque me he esforzado por lograrlo.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -367,9 +364,9 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-    planes_termino =  models.StringField(
+    planes_termino = models.StringField(
         label="Cuando hago planes estoy casi seguro (a) que conseguiré que lleguen a buen término.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -379,9 +376,9 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-    juego_suerte =  models.StringField(
+    juego_suerte = models.StringField(
         label="Prefiero los juegos que entrañan algo de suerte que los que sólo requieren habilidad.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -391,9 +388,9 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-    propongo_aprender =  models.StringField(
+    propongo_aprender = models.StringField(
         label="Si me lo propongo, puedo aprender casi cualquier cosa.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -403,9 +400,9 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-    mayores_logros =  models.StringField(
+    mayores_logros = models.StringField(
         label="Mis mayores logros se deben más que nada a mi trabajo arduo y a mi capacidad",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -415,9 +412,9 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-    establecer_metas =  models.StringField(
+    establecer_metas = models.StringField(
         label="Por lo general no establezco metas porque se me dificulta mucho hacer lo necesario para alcanzarlas.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -427,9 +424,9 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-    competencia_excelencia =  models.StringField(
+    competencia_excelencia = models.StringField(
         label="La competencia desalienta la excelencia",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -439,9 +436,9 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-    salir_adelante =  models.StringField(
+    salir_adelante = models.StringField(
         label="Las personas a menudo salen adelante por pura suerte.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -451,9 +448,9 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-    comparar_calificaciones =  models.StringField(
+    comparar_calificaciones = models.StringField(
         label="En cualquier tipo de examen o competencia me gusta comparar mis calificaciones con las de los demás.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -465,7 +462,7 @@ class Player(BasePlayer):
     )
     empeno_trabajo = models.StringField(
         label="Pienso que no tiene sentido empeñarme en trabajar en algo que es demasiado difícil para mí.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -480,7 +477,7 @@ class Player(BasePlayer):
 # ******************************************************************************************************************** #
     alcanzar_objetivos = models.StringField(
         label="Podré alcanzar la mayoría de los objetivos que me he propuesto.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -492,7 +489,7 @@ class Player(BasePlayer):
     )
     cumplir_tareas = models.StringField(
         label="Cuando me enfrento a tareas difíciles, estoy seguro de que las cumpliré.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -504,7 +501,7 @@ class Player(BasePlayer):
     )
     obtener_resultados = models.StringField(
         label="En general, creo que puedo obtener resultados que son importantes para mí.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -516,7 +513,7 @@ class Player(BasePlayer):
     )
     exito_esfuerzo = models.StringField(
         label="Creo que puedo tener éxito en cualquier esfuerzo que me proponga.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -528,7 +525,7 @@ class Player(BasePlayer):
     )
     superar_desafios = models.StringField(
         label="Seré capaz de superar con éxito muchos desafíos.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -540,7 +537,7 @@ class Player(BasePlayer):
     )
     confianza_tareas = models.StringField(
         label="Confío en que puedo realizar eficazmente muchas tareas diferentes.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -552,7 +549,7 @@ class Player(BasePlayer):
     )
     tareas_excelencia = models.StringField(
         label="Comparado con otras personas, puedo hacer la mayoría de las tareas muy bien.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -564,7 +561,7 @@ class Player(BasePlayer):
     )
     tareas_dificiles = models.StringField(
         label="Incluso cuando las cosas son difíciles, puedo realizarlas bastante bien.",
-        choices = [
+        choices=[
             ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
             ["En desacuerdo", "En desacuerdo"],
             ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
@@ -574,12 +571,12 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-     # ******************************************************************************************************************** #
+    # ******************************************************************************************************************** #
 # *** Pregunta 26: Segundo conjunto de afirmaciones (10 preguntas)
 # ******************************************************************************************************************** #
     tarde_cita = models.IntegerField(
         label="Llegar tarde a una cita",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -591,7 +588,7 @@ class Player(BasePlayer):
     )
     comprar_vendedores_ambulantes = models.IntegerField(
         label="Comprar a vendedores ambulantes",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -603,7 +600,7 @@ class Player(BasePlayer):
     )
     trabajar_sin_contrato = models.IntegerField(
         label="Trabajar y recibir un pago sin que haya firmado un contrato formal (pintar una casa, realizar un reporte, etc.)",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -615,7 +612,7 @@ class Player(BasePlayer):
     )
     emplear_sin_contrato = models.IntegerField(
         label="Darle trabajo a alguien y pagarle sin pedirle que firme un contrato formal (pintar una casa, realizar un reporte, etc.)",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -627,7 +624,7 @@ class Player(BasePlayer):
     )
     no_cotizar_pension = models.IntegerField(
         label="No cotizar al sistema de pensiones",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -639,7 +636,7 @@ class Player(BasePlayer):
     )
     no_cotizar_salud = models.IntegerField(
         label="No aportar al sistema de salud",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -651,7 +648,7 @@ class Player(BasePlayer):
     )
     no_cuenta_bancaria = models.IntegerField(
         label="No tener cuenta bancaria",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -663,7 +660,7 @@ class Player(BasePlayer):
     )
     pedir_prestado = models.IntegerField(
         label="Pedir dinero prestado a prestamistas informales (ejemplo: gota a gota)",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -675,7 +672,7 @@ class Player(BasePlayer):
     )
     transporte_alternativo = models.IntegerField(
         label="Usar transportes alternativos como piratas o mototaxis",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -687,7 +684,7 @@ class Player(BasePlayer):
     )
     vender_informal = models.IntegerField(
         label="Vender cosas o hacer negocios de manera informal",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -699,7 +696,7 @@ class Player(BasePlayer):
     )
     no_votar = models.IntegerField(
         label="No votar",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -711,7 +708,7 @@ class Player(BasePlayer):
     )
     comprar_sin_factura = models.IntegerField(
         label="Comprar productos sin factura",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -726,7 +723,7 @@ class Player(BasePlayer):
 # ******************************************************************************************************************** #
     tarde_cita_otros = models.IntegerField(
         label="Llegar tarde a una cita",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -738,7 +735,7 @@ class Player(BasePlayer):
     )
     comprar_vendedores_ambulantes_otros = models.IntegerField(
         label="Comprar a vendedores ambulantes",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -750,7 +747,7 @@ class Player(BasePlayer):
     )
     trabajar_sin_contrato_otros = models.IntegerField(
         label="Trabajar y recibir un pago sin que haya firmado un contrato formal (pintar una casa, realizar un reporte, etc.)",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -762,7 +759,7 @@ class Player(BasePlayer):
     )
     emplear_sin_contrato_otros = models.IntegerField(
         label="Darle trabajo a alguien y pagarle sin pedirle que firme un contrato formal (pintar una casa, realizar un reporte, etc.)",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -774,7 +771,7 @@ class Player(BasePlayer):
     )
     no_cotizar_pension_otros = models.IntegerField(
         label="No cotizar al sistema de pensiones",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -786,7 +783,7 @@ class Player(BasePlayer):
     )
     no_cotizar_salud_otros = models.IntegerField(
         label="No aportar al sistema de salud",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -798,7 +795,7 @@ class Player(BasePlayer):
     )
     no_cuenta_bancaria_otros = models.IntegerField(
         label="No tener cuenta bancaria",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -810,7 +807,7 @@ class Player(BasePlayer):
     )
     pedir_prestado_otros = models.IntegerField(
         label="Pedir dinero prestado a prestamistas informales (ejemplo: gota a gota)",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -822,7 +819,7 @@ class Player(BasePlayer):
     )
     transporte_alternativo_otros = models.IntegerField(
         label="Usar transportes alternativos como piratas o mototaxis",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -834,7 +831,7 @@ class Player(BasePlayer):
     )
     vender_informal_otros = models.IntegerField(
         label="Vender cosas o hacer negocios de manera informal",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -846,7 +843,7 @@ class Player(BasePlayer):
     )
     no_votar_otros = models.IntegerField(
         label="No votar",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -858,7 +855,7 @@ class Player(BasePlayer):
     )
     comprar_sin_factura_otros = models.IntegerField(
         label="Comprar productos sin factura",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -868,12 +865,12 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect
     )
-     # ******************************************************************************************************************** #
+    # ******************************************************************************************************************** #
 # *** Pregunta 28: Apropiado (10 preguntas)
 # ******************************************************************************************************************** #
     tarde_cita_apropiado = models.IntegerField(
         label="Llegar tarde a una cita",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -885,7 +882,7 @@ class Player(BasePlayer):
     )
     comprar_vendedores_ambulantes_apropiado = models.IntegerField(
         label="Comprar a vendedores ambulantes",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -897,7 +894,7 @@ class Player(BasePlayer):
     )
     trabajar_sin_contrato_apropiado = models.IntegerField(
         label="Trabajar y recibir un pago sin que haya firmado un contrato formal (pintar una casa, realizar un reporte, etc.)",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -909,7 +906,7 @@ class Player(BasePlayer):
     )
     emplear_sin_contrato_apropiado = models.IntegerField(
         label="Darle trabajo a alguien y pagarle sin pedirle que firme un contrato formal (pintar una casa, realizar un reporte, etc.)",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -921,7 +918,7 @@ class Player(BasePlayer):
     )
     no_cotizar_pension_apropiado = models.IntegerField(
         label="No cotizar al sistema de pensiones",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -933,7 +930,7 @@ class Player(BasePlayer):
     )
     no_cotizar_salud_apropiado = models.IntegerField(
         label="No aportar al sistema de salud",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -945,7 +942,7 @@ class Player(BasePlayer):
     )
     no_cuenta_bancaria_apropiado = models.IntegerField(
         label="No tener cuenta bancaria",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -957,7 +954,7 @@ class Player(BasePlayer):
     )
     pedir_prestado_apropiado = models.IntegerField(
         label="Pedir dinero prestado a prestamistas informales (ejemplo: gota a gota)",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -969,7 +966,7 @@ class Player(BasePlayer):
     )
     transporte_alternativo_apropiado = models.IntegerField(
         label="Usar transportes alternativos como piratas o mototaxis",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -981,7 +978,7 @@ class Player(BasePlayer):
     )
     vender_informal_apropiado = models.IntegerField(
         label="Vender cosas o hacer negocios de manera informal",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -993,7 +990,7 @@ class Player(BasePlayer):
     )
     no_votar_apropiado = models.IntegerField(
         label="No votar",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -1005,7 +1002,7 @@ class Player(BasePlayer):
     )
     comprar_sin_factura_apropiado = models.IntegerField(
         label="Comprar productos sin factura",
-        choices = [
+        choices=[
             [0, "0"],
             [1, "1"],
             [2, "2"],
@@ -1018,6 +1015,7 @@ class Player(BasePlayer):
 # ******************************************************************************************************************** #
 # *** Acceder al otro jugador
 # ******************************************************************************************************************** #
+
     def other_player(self):
-        #self.get_others_in_group() -> Vector[<Player  2>, <Player  3>, <Player  4>]
+        # self.get_others_in_group() -> Vector[<Player  2>, <Player  3>, <Player  4>]
         return self.get_others_in_group()[0]

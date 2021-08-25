@@ -1,0 +1,38 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers_t_t/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Instrucciones generales" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify">
+            Usted estará interactuando con otras personas a lo largo de este ejercicio, pero ni ellas ni usted conocerán las identidades de los demás.
+            Existe un tiempo prudencial para realizar cada una de las actividades el cual les será informado oportunamente. Por favor, evite conversar, hacer llamadas telefónicas
+            o realizar otras actividades mientras participa del ejercicio pues su demora evitará que otras personas puedan avanzar, y que puedan obtener mayores ganancias.<br><br>
+
+            Además de los <b>$5,000</b> que ganan por completar todo el ejercicio, en promedio, nuestros participantes pueden ganar entre
+            <b>$0 y $22,000 </b>por esta actividad.
+        </p>
+    </div>
+    {% next_button %}
+{% endblock %}
