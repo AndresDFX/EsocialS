@@ -1,2 +1,2 @@
-otree>=2.5.0
-django-model-utils==3.2.0
+otree==5.3.1
+django-model-utils==4.1.1
