@@ -1,6 +1,6 @@
 # this is for Heroku and other servers.
 # Locally, you should install requirements_base.txt
 -r requirements_base.txt
-psycopg2>=2.5.1
-otree<5
+otree>=5.0.0a21
+psycopg2>=2.8.4
 django-model-utils==4.1.1
