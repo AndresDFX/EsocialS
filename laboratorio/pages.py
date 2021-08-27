@@ -365,13 +365,16 @@ class DateWaitPage(Page):
 
         fecha = ""
         if self.round_number == 6:
-            fecha = self.player.in_round(1).next_date
+            #fecha = self.player.in_round(1).next_date
+            fecha = date.now()
             date_time_obj = datetime.strptime(fecha, '%Y-%m-%d')
         if self.round_number == 10:
-            fecha = self.player.in_round(1).date_after_next
+            #fecha = self.player.in_round(1).date_after_next
+            fecha = date.now()
             date_time_obj = datetime.strptime(fecha, '%Y-%m-%d')
         if self.round_number == 14:
-            fecha = self.player.in_round(1).date_after_next
+            #fecha = self.player.in_round(1).date_after_next
+            fecha = date.now()
             date_time_obj = datetime.strptime(fecha, '%Y-%m-%d')
 
         return {
