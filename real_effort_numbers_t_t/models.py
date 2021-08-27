@@ -11,6 +11,7 @@ from otree.api import (
 )
 
 import random
+from django import forms
 
 author = 'Your name here'
 
@@ -79,7 +80,7 @@ class Player(BasePlayer):
 # *** Variables Riesgo
 # ******************************************************************************************************************** #
     monto = models.IntegerField(
-        label="<b>Por favor, indica el monto que invertirás en el activo de riesgo (sin puntos o comas)</b>", min=0, max=5000)
+        label="Por favor, indica el monto que invertirás en el activo de riesgo (sin puntos o comas)", min=0, max=5000)
     pago_total = models.IntegerField()
 # ******************************************************************************************************************** #
 # *** Preguntas de Control: 1
