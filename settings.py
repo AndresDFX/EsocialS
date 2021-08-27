@@ -32,12 +32,12 @@ SESSION_CONFIGS = [
     #    num_demo_participants=3,
     #    app_sequence=['experimiento_1']
     #),
-    #dict(
-    #    name='laboratorio',
-    #    display_name="Experimento Nicolas",
-    #    num_demo_participants=1,
-    #    app_sequence=['laboratorio'],
-    #),
+    dict(
+        name='laboratorio',
+        display_name="Experimento Nicolas",
+        num_demo_participants=1,
+        app_sequence=['laboratorio'],
+    ),
     dict(
         name='real_effort_numbers',
         display_name="Gift-exchange General",
