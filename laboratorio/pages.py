@@ -412,8 +412,8 @@ class Test(Page):
 
     live_method ='live_test'
 
-    def is_displayed(self):
-        return self.round_number == Constants.num_rounds
+    #def is_displayed(self):
+    #    return self.round_number == Constants.num_rounds
 
     form_model = 'player'
     form_fields = ['actividad_2']
