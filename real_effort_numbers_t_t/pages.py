@@ -468,6 +468,12 @@ class HeadTails(Page):
 
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
+    
+    def vars_for_template(self):
+        inversion = math.trunc(c(self.player.monto))
+        return {
+            'inversion' : inversion
+        }
 
 class ResultsDoubleMoney(Page):
 
