@@ -36,7 +36,7 @@
             Ejemplo: si inviertes $1,000 y la moneda cae cara (color rojo), tus pagos serán: <br><br>
             <b>$6,000 =</b> $4,000 (que guardaste) + $2,000 (que ganaste)
         </p>
-        <b>{% formfield player.monto.label %}</b>
+        {% formfield player.monto %}
     </div>
 
     {% next_button %}
