@@ -26,8 +26,8 @@ class Constants(BaseConstants):
     payment_per_correct_answer_2 = 50
     fixed_payment = 5000
     sumas_obligatorias_contrato = 50
-    num_min_stage_1 = 10
-    num_min_stage_2 = 5
+    num_min_stage_1 = 2
+    num_min_stage_2 = 2
 
 
 class Subsession(BaseSubsession):
