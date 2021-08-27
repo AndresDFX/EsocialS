@@ -11,6 +11,7 @@ from otree.api import (
 )
 
 import random
+from django.core.validators import RegexValidator
 
 author = 'Your name here'
 
@@ -46,17 +47,6 @@ class Subsession(BaseSubsession):
             player.cara_sello_value = random.random()
             player.participant.label = labels[i]
             
-
-        # for player in self.get_players():
-        #     print("Jugador id_group: " + str(player.id_in_group))
-        #     print("Jugador id_session: " + str(player.participant.id_in_session))
-        # if self.round_number == (Constants.num_rounds/2)+1:
-        #     print("Cambio")
-        #     self.group_randomly(fixed_id_in_group=True)
-        # if self.round_number >= (Constants.num_rounds/2)+1:
-        #     self.group_like_round((Constants.num_rounds/2+1))
-       # print("Matriz del grupo N: " + str(self.get_group_matrix()))
-        #print("Grupos N: " + str(self.get_groups()))
 class Group(BaseGroup):
     pass
 
@@ -89,8 +79,10 @@ class Player(BasePlayer):
 # ******************************************************************************************************************** #
 # *** Variables Riesgo
 # ******************************************************************************************************************** #
+
+    monto_regex = RegexValidator(regex=r'^\d+', message="Digite el numero sin puntos ni comas.")
     monto = models.IntegerField(
-        label="Por favor, indica el monto que invertirás en el activo de riesgo (sin puntos o comas)", min=0, max=5000)
+        label="Por favor, indica el monto que invertirás en el activo de riesgo (sin puntos o comas)", validators=[monto_regex], min=0, max=5000)
     pago_total = models.IntegerField()
 # ******************************************************************************************************************** #
 # *** Preguntas de Control: 1
