@@ -489,10 +489,10 @@ class ResultsDoubleMoney(Page):
         inversion = math.trunc(c(self.player.monto))
         # print(self.player.cara_sello_value)
         if(self.player.cara_sello_value <= 0.5):
-            cara_sello_name = "Cara"
+            cara_sello_name = "azul"
             self.player.monto = 5000-inversion + math.trunc(self.player.monto*2)
         else:
-            cara_sello_name = "Sello"
+            cara_sello_name = "rojo"
             self.player.monto = 5000-inversion + 0
         # print(cara_sello_name)
         #combined_payoff = math.trunc(self.player.payoff) + cara_sello_payoff
