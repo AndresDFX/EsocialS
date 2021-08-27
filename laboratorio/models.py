@@ -310,7 +310,7 @@ class Player(BasePlayer):
     texto_digitado11 = models.TextField(label='',)
     texto_digitado12 = models.TextField(label='',)
 
-    #porcentaje1 = models.DecimalField(max_digits=5, decimal_places=2)
+    porcentaje1 = models.DecimalField(max_digits=5, decimal_places=2)
 
     #Productos
     productos_alimentos = models.CurrencyField(initial=0)
