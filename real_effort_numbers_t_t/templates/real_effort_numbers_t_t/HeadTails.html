@@ -45,7 +45,13 @@
     </div>
     <h1>Haga Clic para girar la moneda. Esta vez el resultado sí determinará tu pago</h1>
     {% block scripts %}
-        <script> var flipResult = {{player.cara_sello_value}};</script>
+
+        <script> 
+            
+            var flipResult = '{{player.team}}';
+            console.log(flipResult);
+
+        </script>
         <script src="{% static 'mpl/js/headtails.js' %}"></script>
         {% comment %} <script type="text/javascript"> document.getElementById('coin').onclick = () => false; } </script>
         <script type="text/javascript"> document.getElementById('side-a').onclick = () => false; </script>
