@@ -29,7 +29,7 @@ class Constants(BaseConstants):
     sumas_obligatorias_contrato = 50
     num_min_stage_1 = 10
     num_min_stage_2 = 5
-    #cara_sello_value = random.random()
+
 
 
 class Subsession(BaseSubsession):
@@ -45,6 +45,7 @@ class Subsession(BaseSubsession):
         for i, player in enumerate(self.get_players()):
             player.cara_sello_value = random.random()
             player.participant.label = labels[i]
+            
 
         # for player in self.get_players():
         #     print("Jugador id_group: " + str(player.id_in_group))
