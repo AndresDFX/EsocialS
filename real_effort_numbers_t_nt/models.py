@@ -46,7 +46,7 @@ class Subsession(BaseSubsession):
 
         for i, player in enumerate(self.get_players()):
             player.cara_sello_value = random.random()
-            player.participant.label = label[i]
+            player.participant.label = labels[i]
 
         if self.round_number >= 1 and self.round_number <= (Constants.num_rounds/2):
             for i in range(0,number_of_groups):
