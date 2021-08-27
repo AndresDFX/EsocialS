@@ -512,6 +512,7 @@ class EndGame(Page):
         else: 
             return False
 
+"""
 page_sequence = [
     ConsentimientoInformado,
     Instrucciones, 
@@ -522,6 +523,18 @@ page_sequence = [
     Contrato_informal_indefinido,
     Contrato_informal_servicios,
     Identificacion,
+    Ronda_1,
+    Results,
+    Test,
+    Pago,
+    Articulos,
+    DateWaitPage,
+    ArticulosPost,
+    Encuesta, 
+    EndGame]
+"""
+
+page_sequence = [
     Ronda_1,
     Results,
     Test,
