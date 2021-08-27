@@ -44,7 +44,7 @@ class Subsession(BaseSubsession):
 
         for i, player in enumerate(self.get_players()):
             player.cara_sello_value = random.random()
-            player.participant.label = label[i]
+            player.participant_label = label[i]
 
         # for player in self.get_players():
         #     print("Jugador id_group: " + str(player.id_in_group))
