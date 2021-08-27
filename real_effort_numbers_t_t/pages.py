@@ -557,9 +557,10 @@ class ReminderNequi(Page):
         }
 
 
-
-#page_sequence = [Stage1Instructions, Stage1Questions, Start, AddNumbers, ResultsWaitPage,  CombinedResults, Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2,PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
 page_sequence = [PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
+page_sequence = [CombinedResults3, CombinedResults4]
+#page_sequence = [Stage1Instructions, Stage1Questions, Start, AddNumbers, ResultsWaitPage,  CombinedResults, Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2,PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
+#page_sequence = [PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
 # page_sequence = [Start, AddNumbers, ResultsWaitPage, CombinedResults, RoleAssignment, Decision, ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2, PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3,SocioDemSurvey, CombinedResults4, ReminderNequi]
 # page_sequence = [Start, AddNumbers, ResultsWaitPage, CombinedResults]
 
