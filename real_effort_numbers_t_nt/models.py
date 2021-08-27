@@ -40,11 +40,13 @@ class Subsession(BaseSubsession):
 
         #Teams in the first half, different teams in the second
 
-        team_label = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL', 'MN', 'OP', 'QR', 'ST', 'UV', 'WX', 'YZ']
+        team_label = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL'] 
+        labes = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P8', 'P9', 'P10', 'P11', 'P12']
         number_of_groups = self.session.num_participants // Constants.players_per_group
 
-        for player in self.get_players():
+        for i, player in enumerate(self.get_players()):
             player.cara_sello_value = random.random()
+            player.participant.label = label[i]
 
         if self.round_number >= 1 and self.round_number <= (Constants.num_rounds/2):
             for i in range(0,number_of_groups):
