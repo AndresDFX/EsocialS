@@ -24,7 +24,7 @@
 {# ****************************************************************************************************************** #}
 {% block content %}
 
-    <div class="wrapper instructions">
+    < class="wrapper instructions">
         <p align = "justify">
                 Para esta actividad has recibido $5.000, ya son tuyos y te los agregaremos a tu pago final. 
                 Sin embargo, puedes usar todo o parte de este dinero para realizar una inversión que puede salir bien o no.<br><br>
@@ -37,7 +37,8 @@
 
                 <b>6,000 =</b> $4,000 (que guardaste) + $2,000 (que ganaste) 
         </p>
-        ${% formfield player.monto %}
+        <p>$ {% formfield player.monto %}</p>
+        
     </div>
 
     {% next_button %}
