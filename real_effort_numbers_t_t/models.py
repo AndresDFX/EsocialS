@@ -29,6 +29,9 @@ class Constants(BaseConstants):
     sumas_obligatorias_contrato = 50
     num_min_stage_1 = 10
     num_min_stage_2 = 5
+    sub_rounds_stage_1 = 10
+    sub_rounds_stage_2 = 5
+
 
 
 
@@ -65,6 +68,8 @@ class Player(BasePlayer):
     contador_numero_aux = models.IntegerField(initial=0)
     team = models.StringField()
     cara_sello_value = models.FloatField(initial=0.0)
+    sub_rounds_stage_1 = models.IntegerField(initial=0
+    sub_rounds_stage_2 = models.IntegerField(initial=0)
 # ******************************************************************************************************************** #
 # *** Variables Etapa 2
 # ******************************************************************************************************************** #

@@ -7,6 +7,7 @@ class AddNumbers(Page):
     #Falta algoritmo de asignación de equipos
     form_model = 'player'
     form_fields = ['number_entered']
+    timeout_seconds = 60 
     timer_text = 'Tiempo restante para completar la Etapa 1:'
 
 
@@ -20,22 +21,24 @@ class AddNumbers(Page):
             self.player.wrong_sums = 1
         return
 
-    def get_timeout_seconds(self):
-        import time
-        #Timeout variable used to show the timer
-        return self.participant.vars['expiry'] - time.time()
+    #def get_timeout_seconds(self):
+    #    import time
+    #    #Timeout variable used to show the timer
+    #    return self.participant.vars['expiry'] - time.time()
 
     def is_displayed(self):
         #Luego de que se acaba el tiempo, se salta las rondas (no las muestra) y va automáticamente a la siguiente página (Pagos).
+        #self.sub_rounds_stage_1 += 1 #Aumentar las sub rondas en el stage 1
+        #if self.sub_rounds_stage_1 > Constants.sub_rounds_stage_1: #cuando la subronda es 
+        #    return False
         if self.round_number <= Constants.num_rounds/2:
-            return self.get_timeout_seconds() > 3
+            return self.timeout_seconds > 3
 
     def vars_for_template(self):
         number_1 = random.randint(1,100)
         number_2 = random.randint(1,100)
         correct_answers = 0
         combined_payoff = 0
-        combined_payoff_others = 0
         wrong_sums = 0
         total_sums = 0
         self.player.sum_of_numbers = number_1 + number_2
@@ -91,16 +94,16 @@ class AddNumbers2(Page):
         return self.participant.vars['expiry'] - time.time()
 
     def is_displayed(self):
+        
         #Luego de que se acaba el tiempo, se salta las rondas (no las muestra) y va automáticamente a la siguiente página (Pagos).
         if self.round_number >= (Constants.num_rounds/2)+1:
-            return self.get_timeout_seconds() > 3
+            return self.get_timeout_seconds() > 3 
 
     def vars_for_template(self):
         number_1 = random.randint(1,100)
         number_2 = random.randint(1,100)
         correct_answers = 0
         combined_payoff = 0
-        combined_payoff_others = 0
         wrong_sums_2 = 0
         total_sums_2 = 0
         self.player.sum_of_numbers_2 = number_1 + number_2
@@ -175,7 +178,6 @@ class CombinedResults2(Page):
         opponent_id = self.player.other_player().id_in_group
         correct_answers = 0
         combined_payoff = 0
-        combined_payoff_others = 0
         wrong_sums_2 = 0
         total_sums_2 = 0
         wrong_sums_2_opponent = 0
