@@ -13,7 +13,6 @@ class AddNumbers(Page):
 
     def before_next_page(self):
         #Here's where the payoff is calculated
-        self.player.sub_rounds_stage_1 = self.player.sub_rounds_stage_1 + 1
         self.player.total_sums = 1
         if self.player.sum_of_numbers == self.player.number_entered:
             self.player.payoff = Constants.payment_per_correct_answer
@@ -29,10 +28,8 @@ class AddNumbers(Page):
     def is_displayed(self):
         #Luego de que se acaba el tiempo, se salta las rondas (no las muestra) y va automáticamente a la siguiente página (Pagos).
         #Aumentar las sub rondas en el stage 1
-        if self.player.sub_rounds_stage_1 > 5: #cuando la subronda es 
-            return False
-        elif self.round_number <= Constants.num_rounds/2:
-            return True
+        if self.round_number <= Constants.num_rounds/2:
+            return self.round_number == Constants.sub_rounds_stage_1
         
 
     def vars_for_template(self):
