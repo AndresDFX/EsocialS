@@ -27,8 +27,8 @@ class AddNumbers(Page):
 
     def is_displayed(self):
         #Luego de que se acaba el tiempo, se salta las rondas (no las muestra) y va automáticamente a la siguiente página (Pagos).
-        self.sub_rounds_stage_1 += 1 #Aumentar las sub rondas en el stage 1
-        if self.sub_rounds_stage_1 > 2: #cuando la subronda es 
+        self.player.sub_rounds_stage_1 += 1 #Aumentar las sub rondas en el stage 1
+        if self.player.sub_rounds_stage_1 > 2: #cuando la subronda es 
             return False
         elif self.round_number <= Constants.num_rounds/2:
             return self.timeout_seconds > 3
