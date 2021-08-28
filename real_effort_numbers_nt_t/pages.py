@@ -461,7 +461,13 @@ class HeadTails(Page):
     form_model = 'player'
 
     def is_displayed(self):
-        return self.round_number == Constants.num_rounds        
+        return self.round_number == Constants.num_rounds
+    
+    def vars_for_template(self):
+        inversion = math.trunc(c(self.player.monto))
+        return {
+            'inversion' : inversion
+        }    
 
 class ResultsDoubleMoney(Page):
 
@@ -476,10 +482,10 @@ class ResultsDoubleMoney(Page):
         cara_sello_payof = 0
         inversion = math.trunc(c(self.player.monto))
         if(self.player.cara_sello_value <= 0.5):
-            cara_sello_name = "Cara"
+            cara_sello_name = "azul"
             self.player.monto = 5000-inversion + math.trunc(self.player.monto*2)
         else:
-            cara_sello_name = "Sello"
+            cara_sello_name = "rojo"
             self.player.monto = 5000-inversion + 0
         # print(cara_sello_name)
         #combined_payoff = math.trunc(self.player.payoff) + cara_sello_payoff

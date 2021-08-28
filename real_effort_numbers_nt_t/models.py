@@ -40,11 +40,13 @@ class Subsession(BaseSubsession):
 
         #Groups players randomly in the first half and in the second half assigns players with their teammates
 
-        team_label = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL', 'MN', 'OP', 'QR', 'ST', 'UV', 'WX', 'YZ']
+        team_label = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL'] 
+        labels = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12']
         number_of_groups = self.session.num_participants // Constants.players_per_group
         
-        for player in self.get_players():
+        for i, player in enumerate(self.get_players()):
             player.cara_sello_value = random.random()
+            player.participant.label = labels[i]
 
         if self.round_number == 1:
             self.group_randomly(fixed_id_in_group=True)

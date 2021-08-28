@@ -11,7 +11,6 @@ from otree.api import (
 )
 
 import random
-from django import forms
 
 author = 'Your name here'
 

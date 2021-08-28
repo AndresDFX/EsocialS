@@ -13,20 +13,17 @@
 {# ****************************************************************************************************************** #}
 
 {% block title %}
-    Pagos Etapa 1
+    Resumen Etapa 1
 {% endblock %}
 
 {% block content %}
  <div class="wrapper instructions">
     <p align = "justify">
-    {% comment %} <b>Jugador {{player.id_in_group}}</b> vs Jugador {{opponent_id}}.<br><br> {% endcomment %}
-    Número de sumas correctas <b>Jugador {{player.id_in_group}}</b>: {{correct_answers}}<br>
-    Número de sumas correctas <b>Jugador {{opponent_id}}</b>: {{correct_answers_opponent}}<br>
-    Número de sumas correctas del equipo: {{correct_answers_team}}<br><br>
-    Ganancias totales <b>Jugador {{player.id_in_group}}</b> Etapa 1: {{ combined_payoff }}<br>
-    Ganancias totales <b>Jugador {{opponent_id}}</b> Etapa 1: {{ combined_payoff_opponent }}<br>
-    Ganancias acumuladas del equipo: {{combined_payoff_team}} <br><br>
-    Ganancias acumuladas <b>Jugador {{player.id_in_group}}</b>: {{combined_payoff_total}}
+        Usted y la persona con la que fue emparejado(a) consiguieron:<br><br>
+
+        Número de restas correctas: {{correct_answers_team}}<br><br>
+
+        Usted ha acumulado en la Etapa 1:: ${{combined_payoff_total}}<br><br>
     </p>
 </div>
     {% next_button %}

@@ -36,14 +36,17 @@ class Subsession(BaseSubsession):
         # for player in self.get_players():
         #     print("Jugador id_group: " + str(player.id_in_group))
         #     print("Jugador id_session: " + str(player.participant.id_in_session))
-        team_label = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL', 'MN', 'OP', 'QR', 'ST', 'UV', 'WX', 'YZ']
+        team_label = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL'] 
+        labels = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12']
         number_of_groups = self.session.num_participants // Constants.players_per_group
 
         if self.round_number == 1:
             self.group_randomly(fixed_id_in_group=True)
             
-        for player in self.get_players():
+        for i, player in enumerate(self.get_players()):
             player.cara_sello_value = random.random()
+            player.participant.label = labels[i]
+            
         # Teams assignation
         if self.round_number >= 1 and self.round_number <= (Constants.num_rounds/2):
             # Groups teams like round 1
