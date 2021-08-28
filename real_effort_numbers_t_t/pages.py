@@ -21,17 +21,16 @@ class AddNumbers(Page):
             self.player.wrong_sums = 1
         return
 
-    #def get_timeout_seconds(self):
-    #    import time
-    #    #Timeout variable used to show the timer
-    #    return self.participant.vars['expiry'] - time.time()
+    def get_timeout_seconds(self):
+        import time
+        return self.participant.vars['expiry'] - time.time()
 
     def is_displayed(self):
         #Luego de que se acaba el tiempo, se salta las rondas (no las muestra) y va automáticamente a la siguiente página (Pagos).
-        #self.sub_rounds_stage_1 += 1 #Aumentar las sub rondas en el stage 1
-        #if self.sub_rounds_stage_1 > Constants.sub_rounds_stage_1: #cuando la subronda es 
-        #    return False
-        if self.round_number <= Constants.num_rounds/2:
+        self.sub_rounds_stage_1 += 1 #Aumentar las sub rondas en el stage 1
+        if self.sub_rounds_stage_1 > 2: #cuando la subronda es 
+            return False
+        elif self.round_number <= Constants.num_rounds/2:
             return self.timeout_seconds > 3
 
     def vars_for_template(self):
