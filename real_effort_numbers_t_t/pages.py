@@ -32,7 +32,7 @@ class AddNumbers(Page):
         if self.player.sub_rounds_stage_1 > 2: #cuando la subronda es 
             return False
         elif self.round_number <= Constants.num_rounds/2:
-            return self.round
+            return True
 
     def vars_for_template(self):
         number_1 = random.randint(1,100)
@@ -392,7 +392,8 @@ class Decision2(Page):
 
 class CombinedResults(Page):
     def is_displayed(self):
-        return self.round_number == Constants.num_rounds/2
+        #return self.round_number == Constants.num_rounds/2
+        return self.player.sub_rounds_stage_1 < 3
 
     def vars_for_template(self):
         # self.player.get_others_in_group()[0] == self.player.other_player() -> Player Object
