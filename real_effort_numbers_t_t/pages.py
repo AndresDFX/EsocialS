@@ -13,6 +13,7 @@ class AddNumbers(Page):
 
     def before_next_page(self):
         #Here's where the payoff is calculated
+        self.player.sub_rounds_stage_1 += 1
         self.player.total_sums = 1
         if self.player.sum_of_numbers == self.player.number_entered:
             self.player.payoff = Constants.payment_per_correct_answer
@@ -21,9 +22,9 @@ class AddNumbers(Page):
             self.player.wrong_sums = 1
         return
 
-    def get_timeout_seconds(self):
-        import time
-        return self.participant.vars['expiry'] - time.time()
+    #def get_timeout_seconds(self):
+    #    import time
+    #   return self.participant.vars['expiry'] - time.time()
 
     def is_displayed(self):
         #Luego de que se acaba el tiempo, se salta las rondas (no las muestra) y va automáticamente a la siguiente página (Pagos).
@@ -31,7 +32,7 @@ class AddNumbers(Page):
         if self.player.sub_rounds_stage_1 > 2: #cuando la subronda es 
             return False
         elif self.round_number <= Constants.num_rounds/2:
-            return self.timeout_seconds > 3
+            return True
 
     def vars_for_template(self):
         number_1 = random.randint(1,100)
