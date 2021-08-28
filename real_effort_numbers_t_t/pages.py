@@ -13,6 +13,7 @@ class AddNumbers(Page):
 
     def before_next_page(self):
         #Here's where the payoff is calculated
+        self.player.sub_rounds_stage_1 = self.player.sub_rounds_stage_1 + 1
         self.player.total_sums = 1
         if self.player.sum_of_numbers == self.player.number_entered:
             self.player.payoff = Constants.payment_per_correct_answer
@@ -28,8 +29,10 @@ class AddNumbers(Page):
     def is_displayed(self):
         #Luego de que se acaba el tiempo, se salta las rondas (no las muestra) y va automáticamente a la siguiente página (Pagos).
         #Aumentar las sub rondas en el stage 1
-        if self.round_number <= Constants.num_rounds/2:
-            return self.round_number == Constants.sub_rounds_stage_1
+        if self.player.sub_rounds_stage_1 > 5: #cuando la subronda es 
+            return False
+        elif self.round_number <= Constants.num_rounds/2:
+            return True
         
 
     def vars_for_template(self):
@@ -391,7 +394,12 @@ class Decision2(Page):
 
 class CombinedResults(Page):
     def is_displayed(self):
-        return self.round_number < Constants.sub_rounds_stage_1
+        self.round_number == Constants.num_rounds/2
+        if self.round_number < Constants.sub_rounds_stage_1:
+            return True
+        else:
+            self.round_number == Constants.num_rounds/2
+            return False
 
     def vars_for_template(self):
         # self.player.get_others_in_group()[0] == self.player.other_player() -> Player Object
@@ -412,6 +420,52 @@ class CombinedResults(Page):
         # print("Other " + str(others))
         # print("All Others " + str(all_others))
         # print("Group players" + str(self.group.get_players()))
+        for player in all_players:
+            combined_payoff += player.payoff
+            correct_answers += player.correct_answers
+            correct_answers_opponent += player.other_player().correct_answers
+            combined_payoff_opponent += player.other_player().payoff
+
+        correct_answers_team = correct_answers + correct_answers_opponent
+        combined_payoff_team = combined_payoff + combined_payoff_opponent
+        combined_payoff_total = combined_payoff_team
+        #Si es T-T o T-NT el pago en la etapa uno es el pago del equipo más el pago fijo
+        self.player.payment_stage_1 = math.trunc(combined_payoff_total)
+        # print("Jugador "+ str(player.id_in_group) + ". Pago total "+ str(self.player.payment_stage_1))
+        return {
+            'combined_payoff' : math.trunc(combined_payoff),
+            'combined_payoff_opponent': math.trunc(combined_payoff_opponent),
+            'correct_answers': correct_answers,
+            'correct_answers_opponent': correct_answers_opponent,
+            'round_number' : self.round_number,
+            'opponent_id': opponent_id,
+            'correct_answers_team': correct_answers_team,
+            'combined_payoff_team': math.trunc(combined_payoff_team),
+            'combined_payoff_total': self.player.payment_stage_1
+        }
+
+class PartialResults(Page):
+    def is_displayed(self):
+        if self.round_number < Constants.sub_rounds_stage_1:
+            return True
+        else:
+            return False
+
+    def vars_for_template(self):
+
+        all_players = self.player.in_all_rounds()
+        all_others = self.player.get_others_in_group()[0].in_all_rounds()
+        others = self.player.get_others_in_group()[0]
+        combined_payoff = 0
+        correct_answers = 0
+        correct_answers_opponent = 0
+        correct_answers_team = 0
+        combined_payoff_opponent = 0
+        combined_payoff_team = 0
+        combined_payoff_total = 0
+        opponent = self.player.other_player()
+        opponent_id = self.player.other_player().id_in_group
+
         for player in all_players:
             combined_payoff += player.payoff
             correct_answers += player.correct_answers
@@ -549,7 +603,7 @@ class ReminderNequi(Page):
         }
 
 #All stages
-page_sequence = [Consent, GenInstructions,Stage1Instructions, Stage1Questions, Start, AddNumbers, ResultsWaitPage,  CombinedResults, Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2,PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
+page_sequence = [Consent, GenInstructions,Stage1Instructions, Stage1Questions, Start, AddNumbers, PartialResults, ResultsWaitPage,  CombinedResults, Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2,PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
 #page_sequence = [PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
 #page_sequence = [Start, AddNumbers, ResultsWaitPage, CombinedResults, RoleAssignment, Decision, ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2, PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3,SocioDemSurvey, CombinedResults4, ReminderNequi]
 #page_sequence = [Start, AddNumbers, ResultsWaitPage, CombinedResults]
