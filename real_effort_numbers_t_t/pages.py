@@ -51,23 +51,7 @@ class AddNumbers(Page):
         numero_aux = self.player.num_min_stage_1
         contador_numero_aux = 1
         round_label = 0
-        # print("Matriz Ronda 1" + str(self.subsession.get_group_matrix()))
-        # Matriz del grupo:
-        # [[<Player  1>, <Player  2>],
-        # [<Player  3>, <Player  4>]]
-        # Yo: 1
-        # Yo en la sesión: 1
-        # Oponente: 2
-        # all_players: Jugadores en todas las rondas. O sea yo, en mi ronda.
-        # Others: Otros jugadores (distintos a mí) en el grupo.
-        # print("Yo " + str(me))
-        # print("Yo en la sesión " + str(me_in_session))
-        # print("Oponente " + str(opponent))
-        # print("All players: " + str(all_players))
-        # print("Others: " + str(others))
-        # print("Epa: " + str(self.player.get_others_in_subsession()))
-        # self.player.contador_numero_aux = 1
-        # Lo de del timeout hay que hacerlo dimacamente, tomando el evento y actialuzando la pagina
+
         for player in all_players:
             #Calculating the payoff for each player
             combined_payoff += player.payoff
@@ -79,7 +63,7 @@ class AddNumbers(Page):
             'number_2': number_2,
             'combined_payoff' : math.trunc(combined_payoff),
             'correct_answers': correct_answers,
-            'round_number' : self.round_number,
+            'ronda' : self.round_number,
             'opponent_id': opponent_id,
             'wrong_sums': wrong_sums,
             'total_sums': total_sums,
