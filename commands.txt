@@ -1,0 +1,6 @@
+git add .
+git commit -m "Mensaje"
+git push origin main
+git push --all
+git push heroku main
+heroku run otree resetdb
