@@ -13,7 +13,7 @@ class AddNumbers(Page):
 
     def before_next_page(self):
         #Here's where the payoff is calculated
-        self.player.sub_rounds_stage_1 = 1 self.player.sub_rounds_stage_1
+        self.player.sub_rounds_stage_1 = self.player.sub_rounds_stage_1 + 1
         self.player.total_sums = 1
         if self.player.sum_of_numbers == self.player.number_entered:
             self.player.payoff = Constants.payment_per_correct_answer
