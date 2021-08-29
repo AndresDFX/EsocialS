@@ -4,11 +4,10 @@ from .models import Constants
 import random, math
 
 class AddNumbers(Page):
-    #Falta algoritmo de asignación de equipos
     form_model = 'player'
     form_fields = ['number_entered']
     timeout_seconds = 60 
-    timer_text = 'Tiempo restante para completar la Etapa 1:'
+    timer_text = 'Tiempo restante para completar la Ronda:'
 
 
     def before_next_page(self):
@@ -21,27 +20,21 @@ class AddNumbers(Page):
             self.player.wrong_sums = 1
         return
 
-    #def get_timeout_seconds(self):
-    #    import time
-    #   return self.participant.vars['expiry'] - time.time()
-
     def is_displayed(self):
-        #Luego de que se acaba el tiempo, se salta las rondas (no las muestra) y va automáticamente a la siguiente página (Pagos).
-        #Aumentar las sub rondas en el stage 1
-        if self.round_number > Constants.sub_rounds_stage_1: #cuando la subronda es 
+        if self.round_number > Constants.sub_rounds_stage_1: 
             return False
         elif self.round_number <= Constants.num_rounds/2:
             return True
         
 
     def vars_for_template(self):
-        number_1 = random.randint(1,100)
-        number_2 = random.randint(1,100)
+        number_1 = random.randint(1,10000)
+        number_2 = random.randint(number_1+1,20000)
         correct_answers = 0
         combined_payoff = 0
         wrong_sums = 0
         total_sums = 0
-        self.player.sum_of_numbers = number_1 + number_2
+        self.player.sum_of_numbers = number_1 - number_2
         all_players = self.player.in_all_rounds()
         me = self.player.id_in_group
         me_in_session = self.player.participant.id_in_session
