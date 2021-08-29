@@ -7,7 +7,7 @@ class AddNumbers(Page):
     form_model = 'player'
     form_fields = ['number_entered']
     timeout_seconds = 60 
-    timer_text = 'Tiempo restante para completar la Ronda {}: '.format(self.player.round_number) 
+    timer_text = 'Tiempo restante para completar la Ronda: '
 
 
     def before_next_page(self):
