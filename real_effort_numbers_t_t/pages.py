@@ -71,8 +71,7 @@ class AddNumbers(Page):
             'wrong_sums': wrong_sums,
             'total_sums': total_sums,
             'round_label': round_label,
-            'opponent_id_in_session': opponent_id_in_session,
-            'sub_round_stages': self.player.sub_rounds_stage_1
+            'opponent_id_in_session': opponent_id_in_session
         }
 
 class AddNumbers2(Page):
