@@ -391,7 +391,7 @@ class Decision2(Page):
                 'opponent_suggested_sums': opponent_suggested_sums
             }
 
-class CombinedResults(WaitPage):
+class CombinedResults(Page):
     def is_displayed(self):
         return self.round_number == Constants.num_rounds/2  
 
