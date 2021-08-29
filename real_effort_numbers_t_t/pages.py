@@ -444,11 +444,14 @@ class CombinedResults(Page):
 
 class PartialResults(Page):
     def is_displayed(self):
-        if self.round_number == 11:  
+        #if self.round_number == 11:  
+        #    return False
+        #else:
+        #    return self.round_number == (Constants.num_rounds/2)
+        if self.round_number > Constants.sub_rounds_stage_1: #cuando la subronda es 
             return False
-        else:
-            return self.round_number == (Constants.num_rounds/2)
-
+        elif self.round_number <= Constants.num_rounds/2:
+            return True
     def vars_for_template(self):
 
         all_players = self.player.in_all_rounds()
