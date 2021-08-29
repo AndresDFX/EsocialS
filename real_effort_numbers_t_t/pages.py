@@ -71,7 +71,8 @@ class AddNumbers(Page):
             'wrong_sums': wrong_sums,
             'total_sums': total_sums,
             'round_label': round_label,
-            'opponent_id_in_session': opponent_id_in_session
+            'opponent_id_in_session': opponent_id_in_session,
+
         }
 
 class AddNumbers2(Page):
@@ -593,7 +594,7 @@ class ReminderNequi(Page):
         }
 
 #All stages
-page_sequence = [Consent, GenInstructions,Stage1Instructions, Stage1Questions, Start, AddNumbers, PartialResults, CombinedResults, Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2,PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
+page_sequence = [Consent, GenInstructions,Stage1Instructions, Stage1Questions, Start, AddNumbers, PartialResults, ResultsWaitPage, CombinedResults, Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2,PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
 #page_sequence = [PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
 #page_sequence = [Start, AddNumbers, ResultsWaitPage, CombinedResults, RoleAssignment, Decision, ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2, PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3,SocioDemSurvey, CombinedResults4, ReminderNequi]
 #page_sequence = [Start, AddNumbers, ResultsWaitPage, CombinedResults]
