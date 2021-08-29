@@ -381,10 +381,9 @@ class Decision2(Page):
 
 class CombinedResults(Page):
     def is_displayed(self):
-        return self.round_number == Constants.num_rounds/2
+        return self.round_number == Constants.num_rounds/2  
 
     def vars_for_template(self):
-        # self.player.get_others_in_group()[0] == self.player.other_player() -> Player Object
         all_players = self.player.in_all_rounds()
         all_others = self.player.get_others_in_group()[0].in_all_rounds()
         others = self.player.get_others_in_group()[0]
@@ -397,11 +396,8 @@ class CombinedResults(Page):
         combined_payoff_total = 0
         opponent = self.player.other_player()
         opponent_id = self.player.other_player().id_in_group
-        # print("Yo " + str(me))
-        # print("Oponente " + str(opponent_id))
-        # print("Other " + str(others))
-        # print("All Others " + str(all_others))
-        # print("Group players" + str(self.group.get_players()))
+        opponent_id_in_subsession = self.player.other_player().id_in_subsession
+
         for player in all_players:
             combined_payoff += player.payoff
             correct_answers += player.correct_answers
@@ -413,7 +409,6 @@ class CombinedResults(Page):
         combined_payoff_total = combined_payoff
         #Si es T-T o T-NT el pago en la etapa uno es el pago del equipo más el pago fijo
         self.player.payment_stage_1 = math.trunc(combined_payoff_total)
-        # print("Jugador "+ str(player.id_in_group) + ". Pago total "+ str(self.player.payment_stage_1))
         return {
             'combined_payoff' : math.trunc(combined_payoff),
             'combined_payoff_opponent': math.trunc(combined_payoff_opponent),
@@ -421,10 +416,12 @@ class CombinedResults(Page):
             'correct_answers_opponent': correct_answers_opponent,
             'round_number' : self.round_number,
             'opponent_id': opponent_id,
+            'opponent_id_in_subsession': opponent_id_in_subsession, 
             'correct_answers_team': correct_answers_team,
             'combined_payoff_team': math.trunc(combined_payoff_team),
             'combined_payoff_total': self.player.payment_stage_1
         }
+
 
 class PlayCoin(Page):
     form_model = 'player'
@@ -537,7 +534,52 @@ class ReminderNequi(Page):
             'num_temporal': num_temporal
         }
 
-    
+class PartialResults(Page):
+
+    def is_displayed(self):
+        if self.round_number > Constants.sub_rounds_stage_1: 
+            return False
+        elif self.round_number <= Constants.num_rounds/2:
+            return True
+
+    def vars_for_template(self):
+
+        all_players = self.player.in_all_rounds()
+        opponent_id = self.player.other_player().id_in_group
+        opponent_id_in_subsession = self.player.other_player().id_in_subsession
+
+        combined_payoff = 0
+        combined_payoff_opponent = 0
+        combined_payoff_team = 0
+        correct_answers = 0
+        correct_answers_opponent = 0
+        correct_answers_team = 0
+        combined_payoff_total = 0
+        
+        for player in all_players:
+            combined_payoff += player.payoff
+            correct_answers += player.correct_answers
+            correct_answers_opponent += player.other_player().correct_answers
+            combined_payoff_opponent += player.other_player().payoff
+
+        correct_answers_team = correct_answers + correct_answers_opponent
+        combined_payoff_team = combined_payoff + combined_payoff_opponent
+        combined_payoff_total = combined_payoff_team
+
+        # Si es T-T o T-NT el pago en la etapa uno es el pago del equipo más el pago fijo
+        self.player.payment_stage_1 = math.trunc(combined_payoff_total)
+        
+        return {
+            'combined_payoff' : math.trunc(combined_payoff),
+            'combined_payoff_opponent': math.trunc(combined_payoff_opponent),
+            'correct_answers': correct_answers,
+            'correct_answers_opponent': correct_answers_opponent,
+            'round_number' : self.round_number,
+            'opponent_id': opponent_id,
+            'opponent_id_in_subsession': opponent_id_in_subsession, 
+            'correct_answers_team': correct_answers_team,
+            'combined_payoff_team': math.trunc(combined_payoff_team)
+        }  
 
 page_sequence = [Consent, GenInstructions,Stage1Instructions, Stage1Questions, Start, AddNumbers, ResultsWaitPage,  CombinedResults, Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2,PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
 # page_sequence = [Start, AddNumbers, ResultsWaitPage, CombinedResults, RoleAssignment, Decision, ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2, PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3,SocioDemSurvey, CombinedResults4, ReminderNequi]
