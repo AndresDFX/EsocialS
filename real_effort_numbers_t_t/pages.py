@@ -28,8 +28,8 @@ class AddNumbers(Page):
         
 
     def vars_for_template(self):
-        number_1 = random.randint(1,10000)
-        number_2 = random.randint(number_1+1,20000)
+        number_1 = random.randint(1,5000)
+        number_2 = random.randint(number_1+1,10000)
         correct_answers = 0
         combined_payoff = 0
         wrong_sums = 0
