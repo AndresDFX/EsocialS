@@ -13,7 +13,6 @@ class AddNumbers(Page):
 
     def before_next_page(self):
         #Here's where the payoff is calculated
-        self.player.sub_rounds_stage_1 = self.player.sub_rounds_stage_1 + 1
         self.player.total_sums = 1
         if self.player.sum_of_numbers == self.player.number_entered:
             self.player.payoff = Constants.payment_per_correct_answer
@@ -29,7 +28,7 @@ class AddNumbers(Page):
     def is_displayed(self):
         #Luego de que se acaba el tiempo, se salta las rondas (no las muestra) y va automáticamente a la siguiente página (Pagos).
         #Aumentar las sub rondas en el stage 1
-        if self.player.sub_rounds_stage_1 > 5: #cuando la subronda es 
+        if self.round_number == 11: #cuando la subronda es 
             return False
         elif self.round_number <= Constants.num_rounds/2:
             return True
@@ -395,11 +394,11 @@ class Decision2(Page):
 class CombinedResults(Page):
     def is_displayed(self):
         self.round_number == Constants.num_rounds/2
-        if self.round_number < Constants.sub_rounds_stage_1:
+        if self.round_number < Constants.sub_rounds_stage_1 + 1:
             return True
         else:
-            self.round_number == Constants.num_rounds/2
-            return False
+            return self.round_number == Constants.num_rounds/2
+            
 
     def vars_for_template(self):
         # self.player.get_others_in_group()[0] == self.player.other_player() -> Player Object
@@ -446,10 +445,10 @@ class CombinedResults(Page):
 
 class PartialResults(Page):
     def is_displayed(self):
-        if self.round_number < Constants.sub_rounds_stage_1:
-            return True
-        else:
+        if self.round_number == 11: #cuando la subronda es 
             return False
+        else:
+            return self.round_number == (Constants.num_rounds/2)+1
 
     def vars_for_template(self):
 
