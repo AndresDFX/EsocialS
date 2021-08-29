@@ -99,7 +99,7 @@ class Player(BasePlayer):
     )
 
     control_question_2 = models.IntegerField(
-        label="Si en la ronda 1, mi compañero(a) y yo logramos 20 sumas correctas, cada uno ganará:",
+        label="Si en la ronda 1, mi compañero(a) y yo logramos 20 restas correctas, cada uno ganará:",
         choices=[
             [1, "1000"],
             [2, "2000"],
