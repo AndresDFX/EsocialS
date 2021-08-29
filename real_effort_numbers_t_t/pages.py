@@ -7,7 +7,7 @@ class AddNumbers(Page):
     form_model = 'player'
     form_fields = ['number_entered']
     timeout_seconds = 60 
-    timer_text = 'Tiempo restante para completar la Ronda:'
+    timer_text = 'Tiempo restante para completar la Ronda: ' + self.player.round_number 
 
 
     def before_next_page(self):
@@ -34,19 +34,17 @@ class AddNumbers(Page):
         combined_payoff = 0
         wrong_sums = 0
         total_sums = 0
+        #Realizar la operacion (Suma o Resta)
         self.player.sum_of_numbers = number_2 - number_1
         all_players = self.player.in_all_rounds()
         me = self.player.id_in_group
-        me_in_session = self.player.participant.id_in_session
-        #opponent = self.player.other_player().id_in_group #self.player.get_others_in_group()[0].id_in_group
-        others = self.player.get_others_in_group()[0] #Como es un juego de dos jugadres, devuelve al oponente. Nótese que "Oponente" es sólamente el id del otro jugador en el grupo
+        me_in_session = self.player.participant.id_in_session 
+        others = self.player.get_others_in_group()[0] 
         opponent = self.player.other_player()
         correct_answers_opponent = 0
         opponent_id = self.player.other_player().id_in_group
         opponent_id_in_session = self.player.other_player().participant.id_in_session
         numero_aux = self.player.num_min_stage_1
-        contador_numero_aux = 1
-        round_label = 0
 
         for player in all_players:
             #Calculating the payoff for each player
@@ -54,18 +52,17 @@ class AddNumbers(Page):
             correct_answers += player.correct_answers
             wrong_sums += player.wrong_sums
             total_sums += player.total_sums
+
         return {
             'number_1': number_1,
             'number_2': number_2,
             'combined_payoff' : math.trunc(combined_payoff),
             'correct_answers': correct_answers,
-            'ronda' : self.round_number,
+            'round' : self.round_number,
             'opponent_id': opponent_id,
             'wrong_sums': wrong_sums,
             'total_sums': total_sums,
-            'round_label': round_label,
-            'opponent_id_in_session': opponent_id_in_session,
-
+            'opponent_id_in_session': opponent_id_in_session
         }
 
 class AddNumbers2(Page):
