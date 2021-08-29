@@ -335,7 +335,8 @@ class ResultsWaitPage(WaitPage):
     def is_displayed(self):
         # print("Matriz Ronda 2" + str(self.subsession.get_group_matrix()))
         if self.round_number == Constants.sub_rounds_stage_1 + 1:
-            return self.round_number == Constants.num_rounds/2
+            self.round_number = Constants.num_rounds/2
+            return True
 
 class ResultsWaitPage2(WaitPage):
     #Muestra el WaitPage al final de todo. Antes del pago
