@@ -392,8 +392,7 @@ class Decision2(Page):
 
 class CombinedResults(Page):
     def is_displayed(self):
-        self.round_number == Constants.num_rounds/2
-        if self.round_number < Constants.sub_rounds_stage_1 + 1:
+        if self.round_number == Constants.sub_rounds_stage_1 + 1:
             return True
         else:
             return self.round_number == Constants.num_rounds/2
@@ -448,10 +447,10 @@ class PartialResults(Page):
         #    return False
         #else:
         #    return self.round_number == (Constants.num_rounds/2)
-        if self.round_number > Constants.sub_rounds_stage_1: #cuando la subronda es 
+        if self.round_number == Constants.sub_rounds_stage_1 + 1: #cuando la subronda es 
             return False
-        elif self.round_number <= Constants.num_rounds/2:
-            return True
+        else:
+            return self.round_number == (Constants.num_rounds/2) +1
     def vars_for_template(self):
 
         all_players = self.player.in_all_rounds()
