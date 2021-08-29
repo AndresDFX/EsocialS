@@ -32,7 +32,7 @@ class Constants(BaseConstants):
     sub_rounds_stage_1 = 10
     sub_rounds_stage_2 = 5
     stage_1_initial_page = 1
-    stage_1_final_page = 5 + sub_rounds_stage_1*2  
+    stage_1_final_page = 5 + sub_rounds_stage_1*2 
 
 
 

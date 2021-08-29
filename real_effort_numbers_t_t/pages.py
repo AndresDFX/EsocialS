@@ -428,7 +428,7 @@ class PartialResults(Page):
 
     def is_displayed(self):
         if self.round_number > Constants.sub_rounds_stage_1: 
-            return False
+            return self.round_number == Constants.num_rounds/2
         elif self.round_number <= Constants.num_rounds/2:
             return True
 

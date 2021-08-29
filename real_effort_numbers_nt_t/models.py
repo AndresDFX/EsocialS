@@ -28,6 +28,10 @@ class Constants(BaseConstants):
     sumas_obligatorias_contrato = 50
     num_min_stage_1 = 10
     num_min_stage_2 = 5
+    sub_rounds_stage_1 = 10
+    sub_rounds_stage_2 = 5
+    stage_1_initial_page = 1
+    stage_1_final_page = 5 + sub_rounds_stage_1*2  
     
 
 class Subsession(BaseSubsession):

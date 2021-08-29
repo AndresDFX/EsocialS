@@ -4,82 +4,64 @@ from .models import Constants
 import random, math
 
 class AddNumbers(Page):
-    #Falta algoritmo de asignación de equipos
     form_model = 'player'
     form_fields = ['number_entered']
-    timer_text = 'Tiempo restante para completar la Etapa 1:'
+    timeout_seconds = 60 
+    timer_text = 'Tiempo restante para completar la Ronda: '
+
 
     def before_next_page(self):
-        self.player.total_sums = 1            
+        #Here's where the payoff is calculated
+        self.player.total_sums = 1
         if self.player.sum_of_numbers == self.player.number_entered:
             self.player.payoff = Constants.payment_per_correct_answer
             self.player.correct_answers = 1
         else:
-            self.player.wrong_sums = 1    
+            self.player.wrong_sums = 1
         return
 
-    def get_timeout_seconds(self):
-        import time
-        return self.participant.vars['expiry'] - time.time()
-
     def is_displayed(self):
-        #Luego de que se acaba el tiempo, se salta las rondas (no las muestra) y va automáticamente a la siguiente página (Pagos).
-        if self.round_number <= Constants.num_rounds/2:
-            return self.get_timeout_seconds() > 3
+        if self.round_number > Constants.sub_rounds_stage_1: 
+            return False
+        elif self.round_number <= Constants.num_rounds/2:
+            return True
+        
 
     def vars_for_template(self):
-        number_1 = random.randint(1,100)
-        number_2 = random.randint(1,100)
+        number_1 = random.randint(1,5000)
+        number_2 = random.randint(number_1+1,10000)
         correct_answers = 0
         combined_payoff = 0
-        combined_payoff_others = 0
         wrong_sums = 0
         total_sums = 0
-        self.player.sum_of_numbers = number_1 + number_2
+        #Realizar la operacion (Suma o Resta)
+        self.player.sum_of_numbers = number_2 - number_1
         all_players = self.player.in_all_rounds()
         me = self.player.id_in_group
-        me_in_session = self.player.participant.id_in_session
-        #opponent = self.player.other_player().id_in_group #self.player.get_others_in_group()[0].id_in_group
-        others = self.player.get_others_in_group()[0] #Como es un juego de dos jugadres, devuelve al oponente. Nótese que "Oponente" es sólamente el id del otro jugador en el grupo
+        me_in_session = self.player.participant.id_in_session 
+        others = self.player.get_others_in_group()[0] 
         opponent = self.player.other_player()
         correct_answers_opponent = 0
         opponent_id = self.player.other_player().id_in_group
         opponent_id_in_session = self.player.other_player().participant.id_in_session
         numero_aux = self.player.num_min_stage_1
-        contador_numero_aux = 1
-        round_label = 0
-        # print("Matriz Ronda 1" + str(self.subsession.get_group_matrix()))
-        # Matriz del grupo: 
-        # [[<Player  1>, <Player  2>], 
-        # [<Player  3>, <Player  4>]]
-        # Yo: 1
-        # Yo en la sesión: 1
-        # Oponente: 2 
-        # all_players: Jugadores en todas las rondas. O sea yo, en mi ronda.
-        # Others: Otros jugadores (distintos a mí) en el grupo. 
-        # print("Yo " + str(me))
-        # print("Yo en la sesión " + str(me_in_session))
-        # print("Oponente " + str(opponent))
-        # print("All players: " + str(all_players))
-        # print("Others: " + str(others))
-        # print("Epa: " + str(self.player.get_others_in_subsession()))
-        # self.player.contador_numero_aux = 1
-        # Lo de del timeout hay que hacerlo dimacamente, tomando el evento y actialuzando la pagina    
+
         for player in all_players:
+            #Calculating the payoff for each player
             combined_payoff += player.payoff
             correct_answers += player.correct_answers
             wrong_sums += player.wrong_sums
             total_sums += player.total_sums
+
         return {
             'number_1': number_1,
             'number_2': number_2,
             'combined_payoff' : math.trunc(combined_payoff),
             'correct_answers': correct_answers,
-            'round_number' : self.round_number,
+            'round' : self.round_number,
             'opponent_id': opponent_id,
             'wrong_sums': wrong_sums,
             'total_sums': total_sums,
-            'round_label': round_label,
             'opponent_id_in_session': opponent_id_in_session
         }
 
