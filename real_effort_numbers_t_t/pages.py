@@ -334,7 +334,8 @@ class ResultsWaitPage(WaitPage):
     #Muestra el WaitPage al final de la cuarta ronda. Antes del pago
     def is_displayed(self):
         # print("Matriz Ronda 2" + str(self.subsession.get_group_matrix()))
-        return self.round_number == Constants.num_rounds/2
+        if self.round_number == Constants.sub_rounds_stage_1 + 1:
+            return self.round_number == Constants.num_rounds/2
 
 class ResultsWaitPage2(WaitPage):
     #Muestra el WaitPage al final de todo. Antes del pago
@@ -392,11 +393,7 @@ class Decision2(Page):
 
 class CombinedResults(Page):
     def is_displayed(self):
-        if self.round_number == Constants.sub_rounds_stage_1 + 1:
-            return True
-        else:
-            return self.round_number == Constants.num_rounds/2
-            
+        return self.round_number == Constants.num_rounds/2  
 
     def vars_for_template(self):
         # self.player.get_others_in_group()[0] == self.player.other_player() -> Player Object
