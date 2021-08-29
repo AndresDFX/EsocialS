@@ -34,7 +34,7 @@ class AddNumbers(Page):
         combined_payoff = 0
         wrong_sums = 0
         total_sums = 0
-        self.player.sum_of_numbers = number_1 - number_2
+        self.player.sum_of_numbers = number_2 - number_1
         all_players = self.player.in_all_rounds()
         me = self.player.id_in_group
         me_in_session = self.player.participant.id_in_session
