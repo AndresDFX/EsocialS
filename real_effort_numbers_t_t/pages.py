@@ -444,10 +444,10 @@ class CombinedResults(Page):
 
 class PartialResults(Page):
     def is_displayed(self):
-        if self.round_number == 11: #cuando la subronda es 
+        if self.round_number == 11:  
             return False
         else:
-            return self.round_number == (Constants.num_rounds/2)+1
+            return self.round_number == (Constants.num_rounds/2)
 
     def vars_for_template(self):
 
