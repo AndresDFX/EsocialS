@@ -4,3 +4,5 @@ git push origin main
 git push --all
 git push heroku main
 heroku run otree resetdb
+heroku run python manage.py makemigrations 
+heroku run python manage.py migrate
