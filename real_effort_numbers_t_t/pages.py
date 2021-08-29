@@ -28,7 +28,7 @@ class AddNumbers(Page):
     def is_displayed(self):
         #Luego de que se acaba el tiempo, se salta las rondas (no las muestra) y va automáticamente a la siguiente página (Pagos).
         #Aumentar las sub rondas en el stage 1
-        if self.round_number == 11: #cuando la subronda es 
+        if self.round_number > Constants.sub_rounds_stage_1: #cuando la subronda es 
             return False
         elif self.round_number <= Constants.num_rounds/2:
             return True
@@ -54,7 +54,6 @@ class AddNumbers(Page):
         numero_aux = self.player.num_min_stage_1
         contador_numero_aux = 1
         round_label = 0
-        self.player.sub_rounds_stage_1 +=1
 
         for player in all_players:
             #Calculating the payoff for each player
