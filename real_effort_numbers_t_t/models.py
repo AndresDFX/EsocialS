@@ -12,7 +12,7 @@ from otree.api import (
 
 
 import random
-import django.db.models.ManyToManyField
+from django.forms import MultipleChoiceField
 
 
 author = 'Your name here'
@@ -179,7 +179,15 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
     )
 
-    control_question_7 = ManyToManyField(B, limit_choices_to={'opcion_1': True})
+    control_question_7 = MultipleChoiceField(
+        widget=widgets.RadioSelect, required=False,
+        choices=[
+            [1, "$10,000 siempre"],
+            [2, "$10,000 si el Jugador X realiza la tarea completa, y $0 si no lo hace"],
+            [3, "$30,000"],
+            [4, "Todos los jugadores ganan $15,000 en la Etapa 2"],
+        ],
+    )
     
 # ******************************************************************************************************************** #
 # *** Validaciones
