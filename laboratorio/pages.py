@@ -535,12 +535,5 @@ page_sequence = [
 """
 
 page_sequence = [
-    Ronda_1,
-    Results,
-    Test,
-    Pago,
-    Articulos,
-    DateWaitPage,
-    ArticulosPost,
     Encuesta, 
     EndGame]
