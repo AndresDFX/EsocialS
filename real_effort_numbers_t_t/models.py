@@ -179,14 +179,15 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
     )
 
-    control_question_7 = MultipleChoiceField(
-        widget=widgets.RadioSelect, required=False,
+    control_question_7 = models.IntegerField(
+        label="¿Cuánto gana el Jugador Y cuando SÍ hay un contrato?",
         choices=[
             [1, "$10,000 siempre"],
             [2, "$10,000 si el Jugador X realiza la tarea completa, y $0 si no lo hace"],
             [3, "$30,000"],
             [4, "Todos los jugadores ganan $15,000 en la Etapa 2"],
         ],
+        widget=widgets.RadioSelect,
     )
     
 # ******************************************************************************************************************** #
