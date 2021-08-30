@@ -23,14 +23,21 @@ class Constants(BaseConstants):
     name_in_url = 'real_effort_numbers_t_t'
     players_per_group = 2
     num_rounds = 100
-    payment_per_correct_answer = 50
-    payment_per_correct_answer_2 = 50
     fixed_payment = 5000
-    restas_obligatorias_contrato = 50
+
+    #Stage 1
+    payment_per_correct_answer = 50
     num_seconds_stage_1 = 10 
-    num_seconds_stage_2 = 10
     sub_rounds_stage_1 = 10
-    sub_rounds_stage_2 = 10
+    num1_random_stage_1 = 1000
+    num2_random_stage_1 = 2000
+
+    #Stage 2
+    payment_per_correct_answer_2 = 50
+    num_seconds_stage_2 = 10
+    restas_obligatorias_contrato = 50
+    num1_random_stage_2 = 1000
+    num2_random_stage_2 = 2000
 
 
 class Subsession(BaseSubsession):
@@ -52,6 +59,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    team = models.StringField()
 
 # ******************************************************************************************************************** #
 # *** Variables Etapa 1
@@ -62,8 +70,6 @@ class Player(BasePlayer):
     wrong_sums = models.IntegerField(initial=0)
     total_sums = models.IntegerField(initial=0)
     payment_stage_1 = models.IntegerField(initial=0)
-    contador_numero_aux = models.IntegerField(initial=0)
-    team = models.StringField()
     cara_sello_value = models.FloatField(initial=0.0)
 # ******************************************************************************************************************** #
 # *** Variables Etapa 2
@@ -347,7 +353,7 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-    # ******************************************************************************************************************** #
+# ******************************************************************************************************************** #
 # *** Pregunta 24: Primer conjunto de afirmaciones (10 preguntas)
 # ******************************************************************************************************************** #
     conseguir_esfuerzo = models.StringField(
@@ -470,7 +476,7 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-    # ******************************************************************************************************************** #
+# ******************************************************************************************************************** #
 # *** Pregunta 25: Segundo conjunto de afirmaciones (10 preguntas)
 # ******************************************************************************************************************** #
     alcanzar_objetivos = models.StringField(
@@ -569,7 +575,7 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
-    # ******************************************************************************************************************** #
+# ******************************************************************************************************************** #
 # *** Pregunta 26: Segundo conjunto de afirmaciones (10 preguntas)
 # ******************************************************************************************************************** #
     tarde_cita = models.IntegerField(
@@ -716,7 +722,7 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect
     )
-    # ******************************************************************************************************************** #
+# ******************************************************************************************************************** #
 # *** Pregunta 27: Segundo conjunto de afirmaciones (10 preguntas)
 # ******************************************************************************************************************** #
     tarde_cita_otros = models.IntegerField(
@@ -863,7 +869,7 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect
     )
-    # ******************************************************************************************************************** #
+# ******************************************************************************************************************** #
 # *** Pregunta 28: Apropiado (10 preguntas)
 # ******************************************************************************************************************** #
     tarde_cita_apropiado = models.IntegerField(
@@ -1010,6 +1016,7 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect
     )
+
 # ******************************************************************************************************************** #
 # *** Acceder al otro jugador
 # ******************************************************************************************************************** #

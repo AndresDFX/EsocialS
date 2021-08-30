@@ -8,6 +8,40 @@ import random, math
 # *** STAGE 1
 # ******************************************************************************************************************** #
 
+class Consent(Page):
+    form_model = 'player'
+    form_fields = ['accepts_data', 'num_temporal', 'accepts_terms']
+
+    def is_displayed(self):
+        return self.round_number == 1
+
+#=======================================================================================================================
+class GenInstructions(Page):
+    def is_displayed(self):
+        return self.round_number == 1
+
+#=======================================================================================================================
+class Stage1Instructions(Page):
+    def is_displayed(self):
+        return self.round_number == 1
+
+#=======================================================================================================================
+class Stage1Questions(Page):
+    form_model = 'player'
+    form_fields = ['control_question_1', 'control_question_2']
+    
+    def is_displayed(self):
+        return self.round_number == 1
+#=======================================================================================================================
+class Start(Page):
+    def is_displayed(self):
+        return self.round_number == 1
+
+    def before_next_page(self):
+        import time
+        self.participant.vars['expiry'] = time.time() + Constants.num_seconds_stage_1
+
+#=======================================================================================================================
 
 class AddNumbers(Page):
     form_model = 'player'
@@ -30,10 +64,9 @@ class AddNumbers(Page):
         elif self.round_number <= Constants.num_rounds/2:
             return True
         
-
     def vars_for_template(self):
-        number_1 = random.randint(1,5000)
-        number_2 = random.randint(number_1+1,10000)
+        number_1 = random.randint(1, Constants.num1_random_stage_1 )
+        number_2 = random.randint(number_1+1, Constants.num2_random_stage_1)
         correct_answers = 0
         combined_payoff = 0
         wrong_sums = 0
@@ -66,6 +99,190 @@ class AddNumbers(Page):
             'total_sums': total_sums,
             'opponent_id_in_session': opponent_id_in_session
         }
+#=======================================================================================================================
+
+class PartialResults(Page):
+
+    def is_displayed(self):
+        if self.round_number > Constants.sub_rounds_stage_1: 
+            return False
+        elif self.round_number <= Constants.num_rounds/2:
+            return True
+
+    def vars_for_template(self):
+
+        all_players = self.player.in_all_rounds()
+        opponent_id = self.player.other_player().id_in_group
+        opponent_id_in_subsession = self.player.other_player().id_in_subsession
+
+        combined_payoff = 0
+        combined_payoff_opponent = 0
+        combined_payoff_team = 0
+        correct_answers = 0
+        correct_answers_opponent = 0
+        correct_answers_team = 0
+        combined_payoff_total = 0
+        
+        for player in all_players:
+            combined_payoff += player.payoff
+            correct_answers += player.correct_answers
+            correct_answers_opponent += player.other_player().correct_answers
+            combined_payoff_opponent += player.other_player().payoff
+
+        correct_answers_team = correct_answers + correct_answers_opponent
+        combined_payoff_team = combined_payoff + combined_payoff_opponent
+        combined_payoff_total = combined_payoff_team
+
+        # Si es T-T o T-NT el pago en la etapa uno es el pago del equipo más el pago fijo
+        self.player.payment_stage_1 = math.trunc(combined_payoff_total)
+        
+        return {
+            'combined_payoff' : math.trunc(combined_payoff),
+            'combined_payoff_opponent': math.trunc(combined_payoff_opponent),
+            'correct_answers': correct_answers,
+            'correct_answers_opponent': correct_answers_opponent,
+            'round_number' : self.round_number,
+            'opponent_id': opponent_id,
+            'opponent_id_in_subsession': opponent_id_in_subsession, 
+            'correct_answers_team': correct_answers_team,
+            'combined_payoff_team': math.trunc(combined_payoff_team)
+        }
+#=======================================================================================================================
+
+class ResultsWaitPage(WaitPage):
+    def is_displayed(self):
+        if self.round_number == Constants.sub_rounds_stage_1 + 1:
+            return True
+
+#=======================================================================================================================
+
+class CombinedResults(Page):
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds/2  
+
+    def vars_for_template(self):
+        all_players = self.player.in_all_rounds()
+        all_others = self.player.get_others_in_group()[0].in_all_rounds()
+        others = self.player.get_others_in_group()[0]
+        combined_payoff = 0
+        correct_answers = 0
+        correct_answers_opponent = 0
+        correct_answers_team = 0
+        combined_payoff_opponent = 0
+        combined_payoff_team = 0
+        combined_payoff_total = 0
+        opponent = self.player.other_player()
+        opponent_id = self.player.other_player().id_in_group
+        opponent_id_in_subsession = self.player.other_player().id_in_subsession
+
+        for player in all_players:
+            combined_payoff += player.payoff
+            correct_answers += player.correct_answers
+            correct_answers_opponent += player.other_player().correct_answers
+            combined_payoff_opponent += player.other_player().payoff
+
+        correct_answers_team = correct_answers + correct_answers_opponent
+        combined_payoff_team = combined_payoff + combined_payoff_opponent
+        combined_payoff_total = combined_payoff_team
+        
+        #Si es T-T o T-NT el pago en la etapa uno es el pago del equipo más el pago fijo
+        self.player.payment_stage_1 = math.trunc(combined_payoff_total)
+        return {
+            'combined_payoff' : math.trunc(combined_payoff),
+            'combined_payoff_opponent': math.trunc(combined_payoff_opponent),
+            'correct_answers': correct_answers,
+            'correct_answers_opponent': correct_answers_opponent,
+            'round_number' : self.round_number,
+            'opponent_id': opponent_id,
+            'opponent_id_in_subsession': opponent_id_in_subsession, 
+            'correct_answers_team': correct_answers_team,
+            'combined_payoff_team': math.trunc(combined_payoff_team),
+            'combined_payoff_total': self.player.payment_stage_1
+        }
+
+# ******************************************************************************************************************** #
+# *** STAGE 2
+# ******************************************************************************************************************** #
+
+class Stage2Instructions(Page):
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds/2
+
+#=======================================================================================================================
+
+class Stage2Questions(Page):
+    form_model = 'player'
+    form_fields = ['control_question_3', 'control_question_4', 'control_question_5', 'control_question_6', 'control_question_7']
+    
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds/2
+
+#=======================================================================================================================
+
+class RoleAssignment(Page):
+    form_model = 'player'
+
+    def is_displayed(self):
+        return self.round_number == (Constants.num_rounds/2)+1
+
+#=======================================================================================================================
+
+class Decision(Page):
+    form_model = 'player'
+    form_fields = ['pay_contract', 'believe_pay_contract']
+
+    def is_displayed(self):
+        return self.round_number == (Constants.num_rounds/2)+1
+
+    def vars_for_template(self):
+        me = self.player.id_in_group
+        titulo = ""
+        if me == 1:
+            titulo = "Decision Jugador X - Parte 1"
+        else:
+            titulo = "Decision Jugador Y - Parte 1"
+        return{
+                'titulo': titulo
+            }
+
+#=======================================================================================================================
+
+class ResultsWaitPage3(WaitPage):
+    def is_displayed(self):
+        return self.round_number == (Constants.num_rounds/2)+1
+
+#=======================================================================================================================
+
+class Decision2(Page):
+    form_model = 'player'
+
+    def is_displayed(self):
+        return self.round_number == (Constants.num_rounds/2)+1
+    def vars_for_template(self):
+        me = self.player.id_in_group
+        opponent = self.player.other_player()
+        opponent_contract_decision = opponent.pay_contract
+        titulo = ""
+        if me == 1:
+            titulo = "Reporte de decisión Jugador X"
+        else:
+            titulo = "Decision Jugador Y - Parte 2"
+        return{
+                'titulo': titulo,
+                'opponent_contract_decision': opponent_contract_decision
+            }
+
+#=======================================================================================================================
+
+class Start2(Page):
+    def is_displayed(self):
+        return self.round_number == (Constants.num_rounds/2)+1
+
+    def before_next_page(self):
+        import time
+        self.participant.vars['expiry'] = time.time() + Constants.num_seconds_stage_2
+
+#=======================================================================================================================
 
 class AddNumbers2(Page):
     form_model = 'player'
@@ -128,6 +345,70 @@ class AddNumbers2(Page):
             'opponent_contract_decision': opponent_contract_decision,
             'opponent_id_in_session': opponent_id_in_session
         }
+
+#=======================================================================================================================
+
+class ResultsWaitPage2(WaitPage):
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds
+
+#=======================================================================================================================
+
+class SecondQuoteY(Page):
+    form_model = 'player'
+    form_fields = ['pay_second_quote']
+    
+    def is_displayed(self):
+        if self.player.id_in_group == 2:
+            return self.round_number == Constants.num_rounds
+    
+    def vars_for_template(self):
+        opponent = self.player.other_player()
+        contract_decision = self.player.in_round((Constants.num_rounds/2)+1).pay_contract
+        correct_answers_2_opponent = 0
+        all_players = self.player.in_all_rounds()
+
+        for player in all_players:
+            correct_answers_2_opponent += player.other_player().correct_answers_2
+
+        return {
+            'contract_decision': contract_decision,
+            'correct_answers_2_opponent': correct_answers_2_opponent
+        }
+#=======================================================================================================================
+
+class WaitPageX(WaitPage):
+    def is_displayed(self):
+        if self.player.id_in_group == 1:
+            return self.round_number == Constants.num_rounds
+
+#=======================================================================================================================
+
+class SecondQuoteX(Page):
+    form_model = 'player'
+
+    def is_displayed(self):
+        if self.player.id_in_group == 1:
+            return self.round_number == Constants.num_rounds
+    
+    def vars_for_template(self):
+        opponent = self.player.other_player()
+        opponent_pay_second_quote = opponent.in_round((Constants.num_rounds/2)+1).pay_second_quote 
+        opponent_contract_decision = opponent.in_round((Constants.num_rounds/2)+1).pay_contract
+        correct_answers_2 = 0
+        all_players = self.player.in_all_rounds()
+
+        for player in all_players:
+            correct_answers_2 += player.correct_answers_2
+
+        return {
+            'opponent_pay_second_quote': opponent_pay_second_quote,
+            'opponent_contract_decision': opponent_contract_decision,
+            'opponent_pay_second_quote': opponent_pay_second_quote,
+            'correct_answers_2': correct_answers_2
+        }
+
+#=======================================================================================================================
 
 class CombinedResults2(Page):
     def is_displayed(self):
@@ -241,198 +522,9 @@ class CombinedResults2(Page):
             'total_sums_2_opponent': total_sums_2_opponent
         }
 
-class GenInstructions(Page):
-    def is_displayed(self):
-        return self.round_number == 1
-
-class Stage1Instructions(Page):
-    def is_displayed(self):
-        return self.round_number == 1
-
-class Stage1Questions(Page):
-    form_model = 'player'
-    form_fields = ['control_question_1', 'control_question_2']
-    def is_displayed(self):
-        return self.round_number == 1
-
-class Stage2Instructions(Page):
-    def is_displayed(self):
-        return self.round_number == Constants.num_rounds/2
-
-class Stage2Questions(Page):
-    form_model = 'player'
-    form_fields = ['control_question_3', 'control_question_4', 'control_question_5', 'control_question_6', 'control_question_7']
-    def is_displayed(self):
-        return self.round_number == Constants.num_rounds/2
-
-class Start(Page):
-    def is_displayed(self):
-        return self.round_number == 1
-
-    def before_next_page(self):
-        import time
-        self.participant.vars['expiry'] = time.time() + Constants.num_seconds_stage_1
-
-class Start2(Page):
-    def is_displayed(self):
-        return self.round_number == (Constants.num_rounds/2)+1
-
-    def before_next_page(self):
-        import time
-        self.participant.vars['expiry'] = time.time() + Constants.num_seconds_stage_2
-
-class Consent(Page):
-    form_model = 'player'
-    form_fields = ['accepts_data', 'num_temporal', 'accepts_terms']
-
-    def is_displayed(self):
-        # print(self.player.cara_sello_value)
-        return self.round_number == 1
-
-class ResultsWaitPage(WaitPage):
-    def is_displayed(self):
-        if self.round_number == Constants.sub_rounds_stage_1 + 1:
-            return True
-
-class ResultsWaitPage2(WaitPage):
-    def is_displayed(self):
-        return self.round_number == Constants.num_rounds
-
-class ResultsWaitPage3(WaitPage):
-    def is_displayed(self):
-        # print("Matriz Ronda 2" + str(self.subsession.get_group_matrix()))
-        return self.round_number == (Constants.num_rounds/2)+1
-
-class RoleAssignment(Page):
-    form_model = 'player'
-
-    def is_displayed(self):
-        return self.round_number == (Constants.num_rounds/2)+1
-
-class Decision(Page):
-    form_model = 'player'
-    form_fields = ['pay_contract', 'believe_pay_contract']
-    def is_displayed(self):
-        return self.round_number == (Constants.num_rounds/2)+1
-    def vars_for_template(self):
-        me = self.player.id_in_group
-        titulo = ""
-        if me == 1:
-            titulo = "Decision Jugador X - Parte 1"
-        else:
-            titulo = "Decision Jugador Y - Parte 1"
-        return{
-                'titulo': titulo
-            }
-
-class Decision2(Page):
-    form_model = 'player'
-
-    def is_displayed(self):
-        return self.round_number == (Constants.num_rounds/2)+1
-    def vars_for_template(self):
-        me = self.player.id_in_group
-        opponent = self.player.other_player()
-        opponent_contract_decision = opponent.pay_contract
-        titulo = ""
-        if me == 1:
-            titulo = "Reporte de decisión Jugador X"
-        else:
-            titulo = "Decision Jugador Y - Parte 2"
-        return{
-                'titulo': titulo,
-                'opponent_contract_decision': opponent_contract_decision
-            }
-
-class CombinedResults(Page):
-    def is_displayed(self):
-        return self.round_number == Constants.num_rounds/2  
-
-    def vars_for_template(self):
-        all_players = self.player.in_all_rounds()
-        all_others = self.player.get_others_in_group()[0].in_all_rounds()
-        others = self.player.get_others_in_group()[0]
-        combined_payoff = 0
-        correct_answers = 0
-        correct_answers_opponent = 0
-        correct_answers_team = 0
-        combined_payoff_opponent = 0
-        combined_payoff_team = 0
-        combined_payoff_total = 0
-        opponent = self.player.other_player()
-        opponent_id = self.player.other_player().id_in_group
-        opponent_id_in_subsession = self.player.other_player().id_in_subsession
-
-        for player in all_players:
-            combined_payoff += player.payoff
-            correct_answers += player.correct_answers
-            correct_answers_opponent += player.other_player().correct_answers
-            combined_payoff_opponent += player.other_player().payoff
-
-        correct_answers_team = correct_answers + correct_answers_opponent
-        combined_payoff_team = combined_payoff + combined_payoff_opponent
-        combined_payoff_total = combined_payoff_team
-        #Si es T-T o T-NT el pago en la etapa uno es el pago del equipo más el pago fijo
-        self.player.payment_stage_1 = math.trunc(combined_payoff_total)
-        return {
-            'combined_payoff' : math.trunc(combined_payoff),
-            'combined_payoff_opponent': math.trunc(combined_payoff_opponent),
-            'correct_answers': correct_answers,
-            'correct_answers_opponent': correct_answers_opponent,
-            'round_number' : self.round_number,
-            'opponent_id': opponent_id,
-            'opponent_id_in_subsession': opponent_id_in_subsession, 
-            'correct_answers_team': correct_answers_team,
-            'combined_payoff_team': math.trunc(combined_payoff_team),
-            'combined_payoff_total': self.player.payment_stage_1
-        }
-
-class PartialResults(Page):
-
-    def is_displayed(self):
-        if self.round_number > Constants.sub_rounds_stage_1: 
-            return False
-        elif self.round_number <= Constants.num_rounds/2:
-            return True
-
-    def vars_for_template(self):
-
-        all_players = self.player.in_all_rounds()
-        opponent_id = self.player.other_player().id_in_group
-        opponent_id_in_subsession = self.player.other_player().id_in_subsession
-
-        combined_payoff = 0
-        combined_payoff_opponent = 0
-        combined_payoff_team = 0
-        correct_answers = 0
-        correct_answers_opponent = 0
-        correct_answers_team = 0
-        combined_payoff_total = 0
-        
-        for player in all_players:
-            combined_payoff += player.payoff
-            correct_answers += player.correct_answers
-            correct_answers_opponent += player.other_player().correct_answers
-            combined_payoff_opponent += player.other_player().payoff
-
-        correct_answers_team = correct_answers + correct_answers_opponent
-        combined_payoff_team = combined_payoff + combined_payoff_opponent
-        combined_payoff_total = combined_payoff_team
-
-        # Si es T-T o T-NT el pago en la etapa uno es el pago del equipo más el pago fijo
-        self.player.payment_stage_1 = math.trunc(combined_payoff_total)
-        
-        return {
-            'combined_payoff' : math.trunc(combined_payoff),
-            'combined_payoff_opponent': math.trunc(combined_payoff_opponent),
-            'correct_answers': correct_answers,
-            'correct_answers_opponent': correct_answers_opponent,
-            'round_number' : self.round_number,
-            'opponent_id': opponent_id,
-            'opponent_id_in_subsession': opponent_id_in_subsession, 
-            'correct_answers_team': correct_answers_team,
-            'combined_payoff_team': math.trunc(combined_payoff_team)
-        }
+# ******************************************************************************************************************** #
+# *** STAGE 3
+# ******************************************************************************************************************** #
 
 class PlayCoin(Page):
     form_model = 'player'
@@ -440,12 +532,16 @@ class PlayCoin(Page):
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
 
+#=======================================================================================================================
+
 class DoubleMoney(Page):
-    form_model = 'player' #Le dice que es un jugador
+    form_model = 'player' 
     form_fields = ['monto']
 
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
+
+#=======================================================================================================================
 
 class HeadTails(Page):
     form_model = 'player'
@@ -458,34 +554,33 @@ class HeadTails(Page):
         return {
             'inversion' : inversion
         }
+#=======================================================================================================================
 
 class ResultsDoubleMoney(Page):
 
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
-    #form_model = 'player' #Le dice que es un jugador
-    #form_fields = ['monto', 'combined_payoff', 'inversion', 'cara_sello_payoff' ]
+
     def vars_for_template(self):
-        #all_players = self.player.in_all_rounds()
         cara_sello_name = ""
         combined_payoff = 0
         cara_sello_payof = 0
         inversion = math.trunc(c(self.player.monto))
-        # print(self.player.cara_sello_value)
+
         if(self.player.cara_sello_value <= 0.5):
             cara_sello_name = "azul"
             self.player.monto = 5000-inversion + math.trunc(self.player.monto*2)
         else:
             cara_sello_name = "rojo"
             self.player.monto = 5000-inversion + 0
-        # print(cara_sello_name)
-        #combined_payoff = math.trunc(self.player.payoff) + cara_sello_payoff
+
         return {
-            #'combined_payoff' : combined_payoff,
             'inversion' : inversion,
             'cara_sello_name' : cara_sello_name,
             'cara_sello_payoff' : self.player.monto
         }
+
+#=======================================================================================================================
 
 class CombinedResults3(Page):
 
@@ -501,19 +596,7 @@ class CombinedResults3(Page):
             'ganancias_acumuladas': ganancias_acumuladas
         }
 
-class CombinedResults4(Page):
-
-    def is_displayed(self):
-        return self.round_number == Constants.num_rounds
-
-    def vars_for_template(self):
-        ganancias_acumuladas = self.player.in_round(Constants.num_rounds/2).payment_stage_1 + self.player.payment_stage_2 + self.player.monto + 5000
-        return {
-            'payment_stage_1' : self.player.in_round(Constants.num_rounds/2).payment_stage_1,
-            'payment_stage_2' : self.player.payment_stage_2,
-            'payment_stage_3' : self.player.monto,
-            'ganancias_acumuladas': ganancias_acumuladas
-        }
+#=======================================================================================================================
 
 class SocioDemSurvey(Page):
     form_model = 'player'
@@ -533,6 +616,24 @@ class SocioDemSurvey(Page):
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
 
+#=======================================================================================================================
+
+class CombinedResults4(Page):
+
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds
+
+    def vars_for_template(self):
+        ganancias_acumuladas = self.player.in_round(Constants.num_rounds/2).payment_stage_1 + self.player.payment_stage_2 + self.player.monto + 5000
+        return {
+            'payment_stage_1' : self.player.in_round(Constants.num_rounds/2).payment_stage_1,
+            'payment_stage_2' : self.player.payment_stage_2,
+            'payment_stage_3' : self.player.monto,
+            'ganancias_acumuladas': ganancias_acumuladas
+        }
+
+#=======================================================================================================================
+
 class ReminderNequi(Page):
     form_model = 'player'
     def is_displayed(self):
@@ -540,69 +641,18 @@ class ReminderNequi(Page):
 
     def vars_for_template(self):
         num_temporal = self.player.in_round(1).num_temporal
-        ganancias_acumuladas = self.player.in_round(Constants.num_rounds/2).payment_stage_1 + self.player.payment_stage_2 + self.player.monto + 5000
+        ganancias_acumuladas = self.player.in_round(Constants.num_rounds/2).payment_stage_1 + self.player.payment_stage_2 + self.player.monto + Constants.fixed_payment
         return {
             'ganancias_acumuladas': ganancias_acumuladas,
             'num_temporal': num_temporal
         }
 
+# ******************************************************************************************************************** #
+# *** MANAGEMENT STAGE
+# ******************************************************************************************************************** #
+stage_1_sequence = [Consent, GenInstructions, Stage1Instructions, Stage1Questions, Start, AddNumbers, PartialResults, ResultsWaitPage, CombinedResults]
+stage_2_sequence = [Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, SecondQuoteY, WaitPageX, SecondQuoteX, CombinedResults2]
+stage_3_sequence = [PlayCoin, DoubleMoney, HeadTails, ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
 
-class SecondQuoteX(Page):
-    form_model = 'player'
-
-    def is_displayed(self):
-        if self.player.id_in_group == 1:
-            return self.round_number == Constants.num_rounds
-    
-    def vars_for_template(self):
-        opponent = self.player.other_player()
-        opponent_pay_second_quote = opponent.in_round((Constants.num_rounds/2)+1).pay_second_quote 
-        opponent_contract_decision = opponent.in_round((Constants.num_rounds/2)+1).pay_contract
-        correct_answers_2 = 0
-        all_players = self.player.in_all_rounds()
-
-        for player in all_players:
-            correct_answers_2 += player.correct_answers_2
-
-        return {
-            'opponent_pay_second_quote': opponent_pay_second_quote,
-            'opponent_contract_decision': opponent_contract_decision,
-            'opponent_pay_second_quote': opponent_pay_second_quote,
-            'correct_answers_2': correct_answers_2
-        }
-
-class SecondQuoteY(Page):
-    form_model = 'player'
-    form_fields = ['pay_second_quote']
-    
-    def is_displayed(self):
-        if self.player.id_in_group == 2:
-            return self.round_number == Constants.num_rounds
-    
-    def vars_for_template(self):
-        opponent = self.player.other_player()
-        contract_decision = self.player.in_round((Constants.num_rounds/2)+1).pay_contract
-        correct_answers_2_opponent = 0
-        all_players = self.player.in_all_rounds()
-
-        for player in all_players:
-            correct_answers_2_opponent += player.other_player().correct_answers_2
-
-        return {
-            'contract_decision': contract_decision,
-            'correct_answers_2_opponent': correct_answers_2_opponent
-        }
-
-
-class WaitPageX(WaitPage):
-    def is_displayed(self):
-        if self.player.id_in_group == 1:
-            return self.round_number == Constants.num_rounds
-
-
-#MANAGMENTE STAGES
-stage_1_sequence = [Consent, GenInstructions, Stage1Instructions, Stage1Questions, Start, AddNumbers, PartialResults, CombinedResults]
-stage_2_sequence = [Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, SecondQuoteY, WaitPageX ,SecondQuoteX, CombinedResults2]
-stage_3_sequence = [PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
-page_sequence = stage_1_sequence + stage_2_sequence
+page_sequence = stage_1_sequence + stage_2_sequence + stage_3_sequence
 
