@@ -17,16 +17,15 @@
 {% endblock %}
 
 {% block content %}
- <div class="wrapper instructions">
-    <p align = "justify">
-    <b>Ganancias Etapa 1:</b> {{payment_stage_1}}<br>
-    <b>Ganancias Etapa 2:</b> {{payment_stage_2}}<br>
-    <b>Ganancias Etapa 3:</b> {{payment_stage_3}}<br>
-    <b>Ganancias Acumuladas:</b> {{ganancias_acumuladas}}<br
-    </p>
-</div>
+    <div class="wrapper instructions">
+        <p align = "justify">
+            <b>Ganancias Etapa 1:</b> ${{payment_stage_1}}<br>
+            <b>Ganancias Etapa 2:</b> ${{payment_stage_2}}<br>
+            <b>Ganancias Etapa 3:</b> ${{payment_stage_3}}<br>
+            <b>Ganancias Acumuladas:</b> ${{ganancias_acumuladas}}<br>
+        </p>
+    </div>
     {% next_button %}
-
 {% endblock %}
 
 
