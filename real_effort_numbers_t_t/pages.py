@@ -201,7 +201,7 @@ class CombinedResults2(Page):
                     self.player.payment_stage_2 = -18000
 
             else: # Sin contrato
-                if not pay_second_quote: #Solo la primera cuota
+                if not opponent_pay_second_quote: #Solo la primera cuota
                     self.player.payment_stage_2 = 8000 
                 else: #Pagando el jugador Y ambas cuotas
                     self.player.payment_stage_2 = 15000
@@ -214,13 +214,13 @@ class CombinedResults2(Page):
 
             else: #Sin contrato
                 if total_sums_2_opponent >= Constants.sumas_obligatorias_contrato: #Si X cumple con la cantidad de restas
-                    if not pay_second_quote: #Si decide no pagar la segunda cuota
+                    if not opponent_pay_second_quote: #Si decide no pagar la segunda cuota
                         self.player.payment_stage_2 = 22000
                     else: #Si decide pagar la segunda cuota
                         self.player.payment_stage_2 = 15000
 
                 else:  #Si X no cumple con la cantidad de restas
-                    if not pay_second_quote: #Si decide no pagar la segunda cuota
+                    if not opponent_pay_second_quote: #Si decide no pagar la segunda cuota
                         self.player.payment_stage_2 = -8000
                     else: #Si decide pagar la segunda cuota
                         self.player.payment_stage_2 = -15000
