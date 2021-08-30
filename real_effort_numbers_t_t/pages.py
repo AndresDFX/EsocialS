@@ -3,15 +3,19 @@ from ._builtin import Page, WaitPage
 from .models import Constants
 import random, math
 
+
+# ******************************************************************************************************************** #
+# *** STAGE 1
+# ******************************************************************************************************************** #
+
+
 class AddNumbers(Page):
     form_model = 'player'
     form_fields = ['number_entered']
-    timeout_seconds = 60 
+    timeout_seconds = Constants.num_seconds_stage_1 
     timer_text = 'Tiempo restante para completar la Ronda: '
 
-
     def before_next_page(self):
-        #Here's where the payoff is calculated
         self.player.total_sums = 1
         if self.player.sum_of_numbers == self.player.number_entered:
             self.player.payoff = Constants.payment_per_correct_answer
@@ -44,10 +48,8 @@ class AddNumbers(Page):
         correct_answers_opponent = 0
         opponent_id = self.player.other_player().id_in_group
         opponent_id_in_session = self.player.other_player().participant.id_in_session
-        numero_aux = self.player.num_min_stage_1
 
         for player in all_players:
-            #Calculating the payoff for each player
             combined_payoff += player.payoff
             correct_answers += player.correct_answers
             wrong_sums += player.wrong_sums
@@ -66,7 +68,6 @@ class AddNumbers(Page):
         }
 
 class AddNumbers2(Page):
-    # Works in similar way as the previous class
     form_model = 'player'
     form_fields = ['number_entered_2']
     timer_text = 'Tiempo restante para completar la Etapa 2:'
@@ -85,7 +86,6 @@ class AddNumbers2(Page):
         return self.participant.vars['expiry'] - time.time()
 
     def is_displayed(self):
-        
         #Luego de que se acaba el tiempo, se salta las rondas (no las muestra) y va automáticamente a la siguiente página (Pagos).
         if self.round_number >= (Constants.num_rounds/2)+1:
             return self.get_timeout_seconds() > 3 
@@ -195,7 +195,7 @@ class CombinedResults2(Page):
         if player.id_in_group == 1:
             
             if opponent_contract_decision: # Con contrato
-                if total_sums_2 >= Constants.sumas_obligatorias_contrato: #Si cumple con la cantidad de restas
+                if total_sums_2 >= Constants.restas_obligatorias_contrato: #Si cumple con la cantidad de restas
                     self.player.payment_stage_2 = 12000
                 else: #Si no cumple con la cantidad de restas
                     self.player.payment_stage_2 = -18000
@@ -213,7 +213,7 @@ class CombinedResults2(Page):
                 self.player.payment_stage_2 = 10000
 
             else: #Sin contrato
-                if total_sums_2_opponent >= Constants.sumas_obligatorias_contrato: #Si X cumple con la cantidad de restas
+                if total_sums_2_opponent >= Constants.restas_obligatorias_contrato: #Si X cumple con la cantidad de restas
                     if not opponent_pay_second_quote: #Si decide no pagar la segunda cuota
                         self.player.payment_stage_2 = 22000
                     else: #Si decide pagar la segunda cuota
@@ -271,7 +271,7 @@ class Start(Page):
 
     def before_next_page(self):
         import time
-        self.participant.vars['expiry'] = time.time() + Constants.num_min_stage_1*60
+        self.participant.vars['expiry'] = time.time() + Constants.num_seconds_stage_1
 
 class Start2(Page):
     def is_displayed(self):
@@ -279,7 +279,7 @@ class Start2(Page):
 
     def before_next_page(self):
         import time
-        self.participant.vars['expiry'] = time.time() + Constants.num_min_stage_2*60
+        self.participant.vars['expiry'] = time.time() + Constants.num_seconds_stage_2
 
 class Consent(Page):
     form_model = 'player'
@@ -290,19 +290,15 @@ class Consent(Page):
         return self.round_number == 1
 
 class ResultsWaitPage(WaitPage):
-    #Muestra el WaitPage al final de la cuarta ronda. Antes del pago
     def is_displayed(self):
-        # print("Matriz Ronda 2" + str(self.subsession.get_group_matrix()))
         if self.round_number == Constants.sub_rounds_stage_1 + 1:
             return True
 
 class ResultsWaitPage2(WaitPage):
-    #Muestra el WaitPage al final de todo. Antes del pago
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
 
 class ResultsWaitPage3(WaitPage):
-    #Muestra el WaitPage al final de la cuarta ronda. Antes del pago
     def is_displayed(self):
         # print("Matriz Ronda 2" + str(self.subsession.get_group_matrix()))
         return self.round_number == (Constants.num_rounds/2)+1
@@ -599,20 +595,14 @@ class SecondQuoteY(Page):
 
 
 class WaitPageX(WaitPage):
-    #Muestra el WaitPage al final de todo. Antes del pago
     def is_displayed(self):
         if self.player.id_in_group == 1:
             return self.round_number == Constants.num_rounds
 
-#All stages
-#page_sequence = [Consent, GenInstructions,Stage1Instructions, Stage1Questions, Start, AddNumbers, PartialResults, ResultsWaitPage, CombinedResults, Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2,PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
-#page_sequence = [PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
-#page_sequence = [Start, AddNumbers, ResultsWaitPage, CombinedResults, RoleAssignment, Decision, ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2, PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3,SocioDemSurvey, CombinedResults4, ReminderNequi]
-#page_sequence = [Start, AddNumbers, ResultsWaitPage, CombinedResults]
 
-#ToDo
+#MANAGMENTE STAGES
 stage_1_sequence = [Consent, GenInstructions, Stage1Instructions, Stage1Questions, Start, AddNumbers, PartialResults, CombinedResults]
-#stage_2_sequence = [Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2,PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]            
-stage_2_sequence = [RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, SecondQuoteY, WaitPageX ,SecondQuoteX, CombinedResults2,PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
-page_sequence = stage_2_sequence
+stage_2_sequence = [Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, SecondQuoteY, WaitPageX ,SecondQuoteX, CombinedResults2]
+stage_3_sequence = [PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
+page_sequence = stage_1_sequence + stage_2_sequence
 

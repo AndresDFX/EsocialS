@@ -26,15 +26,11 @@ class Constants(BaseConstants):
     payment_per_correct_answer = 50
     payment_per_correct_answer_2 = 50
     fixed_payment = 5000
-    sumas_obligatorias_contrato = 50
-    num_min_stage_1 = 10
-    num_min_stage_2 = 1
+    restas_obligatorias_contrato = 50
+    num_seconds_stage_1 = 10 
+    num_seconds_stage_2 = 10
     sub_rounds_stage_1 = 10
-    sub_rounds_stage_2 = 5
-    stage_1_initial_page = 1
-    stage_1_final_page = 5 + sub_rounds_stage_1*2 
-
-
+    sub_rounds_stage_2 = 10
 
 
 class Subsession(BaseSubsession):
@@ -66,7 +62,6 @@ class Player(BasePlayer):
     wrong_sums = models.IntegerField(initial=0)
     total_sums = models.IntegerField(initial=0)
     payment_stage_1 = models.IntegerField(initial=0)
-    num_min_stage_1 = models.IntegerField(initial=5)
     contador_numero_aux = models.IntegerField(initial=0)
     team = models.StringField()
     cara_sello_value = models.FloatField(initial=0.0)
