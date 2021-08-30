@@ -506,7 +506,7 @@ class CombinedResults2(Page):
                         self.player.payment_stage_2 = -15000
 
         combined_payoff_total = self.player.payment_stage_2 + self.player.in_round(Constants.num_rounds/2).payment_stage_1
-        
+        ganancias_acumuladas = self.player.in_round(Constants.num_rounds/2).payment_stage_1 + self.player.payment_stage_2
         return {
             'payment_stage_1': self.player.in_round(Constants.num_rounds/2).payment_stage_1,
             'payment_stage_2': self.player.payment_stage_2,
@@ -518,7 +518,8 @@ class CombinedResults2(Page):
             'correct_answers': correct_answers,
             'correct_answers_opponent': correct_answers_opponent,
             'total_sums_2': total_sums_2,
-            'total_sums_2_opponent': total_sums_2_opponent
+            'total_sums_2_opponent': total_sums_2_opponent,
+            'ganancias_acumuladas': ganancias_acumuladas
         }
 
 # ******************************************************************************************************************** #
