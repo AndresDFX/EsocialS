@@ -303,18 +303,17 @@ class AddNumbers2(Page):
         return self.participant.vars['expiry'] - time.time()
 
     def is_displayed(self):
-        #Luego de que se acaba el tiempo, se salta las rondas (no las muestra) y va automáticamente a la siguiente página (Pagos).
         if self.round_number >= (Constants.num_rounds/2)+1:
             return self.get_timeout_seconds() > 3 
 
     def vars_for_template(self):
-        number_1 = random.randint(1,100)
-        number_2 = random.randint(1,100)
+        number_1 = random.randint(1, Constants.num1_random_stage_2 )
+        number_2 = random.randint(number_1+1, Constants.num2_random_stage_2)
         correct_answers = 0
         combined_payoff = 0
-        wrong_sums_2 = 0
-        total_sums_2 = 0
-        self.player.sum_of_numbers_2 = number_1 + number_2
+        wrong_sums = 0
+        total_sums = 0
+        self.player.sum_of_numbers_2 = number_2 - number_1
         all_players = self.player.in_all_rounds()
         me = self.player.id_in_group
         me_in_session = self.player.participant.id_in_session
@@ -327,8 +326,8 @@ class AddNumbers2(Page):
         for player in all_players:
             combined_payoff += player.pago
             correct_answers += player.correct_answers_2
-            wrong_sums_2 += player.wrong_sums_2
-            total_sums_2 += player.total_sums_2
+            wrong_sums += player.wrong_sums_2
+            total_sums += player.total_sums_2
 
         pay_contract = self.player.in_round((Constants.num_rounds/2)+1).pay_contract
         opponent_contract_decision = self.player.other_player().in_round((Constants.num_rounds/2)+1).pay_contract
@@ -340,8 +339,8 @@ class AddNumbers2(Page):
             'correct_answers': correct_answers,
             'round_number' : self.round_number,
             'opponent_id': opponent_id,
-            'wrong_sums': wrong_sums_2,
-            'total_sums': total_sums_2,
+            'wrong_sums': wrong_sums,
+            'total_sums': total_sums,
             'opponent_contract_decision': opponent_contract_decision,
             'opponent_id_in_session': opponent_id_in_session
         }
