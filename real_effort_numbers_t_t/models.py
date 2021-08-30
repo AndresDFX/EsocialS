@@ -233,6 +233,7 @@ class Player(BasePlayer):
             [False, "No"],
         ],
         widget=widgets.RadioSelect,
+        default=True,
         blank=True
     )
 # ******************************************************************************************************************** #

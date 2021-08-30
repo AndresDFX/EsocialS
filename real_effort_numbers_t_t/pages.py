@@ -159,14 +159,14 @@ class CombinedResults2(Page):
         pay_contract = self.player.in_round((Constants.num_rounds/2)+1).pay_contract
         pay_contract_label = ""
         opponent_contract_decision = opponent.in_round((Constants.num_rounds/2)+1).pay_contract
-        opponent_pay_second_quote = False
+        opponent_pay_second_quote = opponent.in_round((Constants.num_rounds/2)+1).pay_second_quote
         opponent_contract_decision_label = ""
         
         if me == 1:
             titulo = "Pagos Etapa 2 - Jugador X"
         else:
             titulo = "Pagos Etapa 2 - Jugador Y"
-            opponent_pay_second_quote = self.pay_second_quote
+            opponent_pay_second_quote = self.player.pay_second_quote
 
         for player in all_players:
             combined_payoff += player.payoff

@@ -25,15 +25,10 @@
     <div class="wrapper instructions">
         <p align = "justify">
             El Jugador X realizó {{correct_answers_2_opponent}} restas correctas y, por lo tanto, 
-            {% if correct_answers_2_opponent >= Constants.sumas_obligatorias_contrato %}
-                usted ha ganado $30,000 de esta etapa.<br><br>
-            {% else %}
-                usted no ha ganado los $30,000 de esta etapa.<br><br>
-            {% endif %}
+
             
             ¿Desea pagarle al Jugador X la segunda cuota de $7,000?.<br><br>
             {% formfield player.pay_second_quote %}
-            {{form.pay_second_quote.errors}}
         </p>
     </div>
     {% endif %}
