@@ -13,7 +13,7 @@ from otree.api import (
 
 import random
 
-from django import forms
+from otree_tools.models import fields as tool_models
 
 author = 'Your name here'
 
