@@ -24,8 +24,8 @@
     {% if player.id_in_group == 2 and  contract_decision == False %}
     <div class="wrapper instructions">
         <p align = "justify">
-            El Jugador X realizó {{player.correct_answers_2_opponent}} restas correctas y, por lo tanto, 
-            {% if player.correct_answers_2_opponent >= Constants.sumas_obligatorias_contrato %}
+            El Jugador X realizó {{correct_answers_2_opponent}} restas correctas y, por lo tanto, 
+            {% if correct_answers_2_opponent >= Constants.sumas_obligatorias_contrato %}
                 usted ha ganado $30,000 de esta etapa.<br><br>
             {% else %}
                 usted no ha ganado los $30,000 de esta etapa.<br><br>
@@ -41,7 +41,7 @@
     {% if player.id_in_group == 2 and  contract_decision == True %}
     <div class="wrapper instructions">
         <p align = "justify">
-            El Jugador X realizó {{player.correct_answers_2_opponent}} restas correctas.<br><br>
+            El Jugador X realizó {{correct_answers_2_opponent}} restas correctas.<br><br>
 
             A continuación, vamos a transferirle al Jugador X los $7,000 de la segunda cuota. Ese dinero saldrá de sus ganancias acumuladas.
         </p>
