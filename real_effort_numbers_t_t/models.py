@@ -179,14 +179,14 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
     )
 
-    control_question_7 = MultiSelectField(
+    providers = MultiSelectField(
         choices=[
             [1, "Jugador Y = -2500 + (10 sumas x $100) - 2500) = -2500 + 1000 – 2500  = -4000. Jugador X = 2500 – (10 sumas x $20) = 2500 – 200 = 2300"],
             [2, "Jugador Y = -2500 + (10 sumas x $100) - 2500) = -2500 + 1000 – 2500  = -4000. Jugador X = 2500 – (10 sumas x $20) + 2500 = 2500 – 200 + 2500 = 4800"],
             [3, "Jugador Y = -2500 + 5000 – 2500 = 0. Jugador X = 2500 – 5000 = -2500"],
         ],
         max_choices=2,
-        max_length=2
+        max_length=3
     )
 # ******************************************************************************************************************** #
 # *** Validaciones
@@ -216,9 +216,9 @@ class Player(BasePlayer):
         if value != 1:
             return 'Por favor, lea nuevamente las instrucciones'
 
-    def control_question_7_error_message(self, value):
-        if value != 3:
-            return 'Por favor, lea nuevamente las instrucciones'
+    #def control_question_7_error_message(self, value):
+    #    if value != 3:
+    #        return 'Por favor, lea nuevamente las instrucciones'
 
 # ******************************************************************************************************************** #
 # *** Variables Consentimiento
