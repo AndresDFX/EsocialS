@@ -185,6 +185,25 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect,
     )
+
+
+    control_question_7_1 = models.BooleanField(
+        label="¿Cuánto gana el Jugador Y cuando SÍ hay un contrato?",
+        blank=True,
+        widget=widgets.RadioSelect,
+    )
+
+    control_question_7_2 = models.BooleanField(
+        label="Debe pagar el costo del contrato de $3,000",
+        blank=True,
+        widget=widgets.RadioSelect,
+    )
+
+    control_question_7_3 = models.BooleanField(
+        label="Debe pagar el costo del contrato de $5,000",
+        blank=True,
+        widget=widgets.RadioSelect,
+    )
     
 # ******************************************************************************************************************** #
 # *** Validaciones
