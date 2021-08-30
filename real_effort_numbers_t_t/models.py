@@ -13,6 +13,8 @@ from otree.api import (
 
 import random
 
+from django.forms import MultipleChoiceField
+
 author = 'Your name here'
 
 doc = """
@@ -153,7 +155,7 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
     )
 
-    control_question_7 = models.MultipleChoiceField(
+    control_question_7 = MultipleChoiceField(
         label="Si el jugador Y SÍ paga los $2500 del contrato y el jugador X realiza 10 sumas correctas y 0 incorrectas en todas las rondas, ¿cuánto ganarán los jugadores en la Etapa 2?",
         choices=[
             [1, "Jugador Y = -2500 + (10 sumas x $100) - 2500) = -2500 + 1000 – 2500  = -4000. Jugador X = 2500 – (10 sumas x $20) = 2500 – 200 = 2300"],
