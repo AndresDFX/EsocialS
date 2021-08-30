@@ -10,7 +10,7 @@ from otree.api import (
     currency_range,
 )
 
-from django.forms import SelectMultiple
+from django.forms import CheckboxSelectMultiple
 
 import random
 
@@ -154,14 +154,14 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
     )
 
-    control_question_7 = models.IntegerField(
+    control_question_7 = models.MultipleChoiceField(
         label="Si el jugador Y SÍ paga los $2500 del contrato y el jugador X realiza 10 sumas correctas y 0 incorrectas en todas las rondas, ¿cuánto ganarán los jugadores en la Etapa 2?",
         choices=[
             [1, "Jugador Y = -2500 + (10 sumas x $100) - 2500) = -2500 + 1000 – 2500  = -4000. Jugador X = 2500 – (10 sumas x $20) = 2500 – 200 = 2300"],
             [2, "Jugador Y = -2500 + (10 sumas x $100) - 2500) = -2500 + 1000 – 2500  = -4000. Jugador X = 2500 – (10 sumas x $20) + 2500 = 2500 – 200 + 2500 = 4800"],
             [3, "Jugador Y = -2500 + 5000 – 2500 = 0. Jugador X = 2500 – 5000 = -2500"],
         ],
-        widget=SelectMultiple,
+        widget=CheckboxSelectMultiple,
     )
 # ******************************************************************************************************************** #
 # *** Validaciones
