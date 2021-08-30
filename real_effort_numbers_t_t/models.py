@@ -122,31 +122,32 @@ class Player(BasePlayer):
     )
 
     control_question_4 = models.IntegerField(
-        label="¿De dónde salen los $2500 que se le entregan al jugador Y al inicio de la Etapa 1?",
+        label="El Jugador X puede rechazar el contrato",
         choices=[
-            [1, "Se los entregan las personas que administran esta actividad"],
-            [2, "El jugador Y no recibe $2500, sino el jugador X. Ese dinero viene de las ganancias acumuladas del jugador Y"],
-            [3, "De las ganancias acumuladas del jugador X."],
-            [4, "Todos los jugadores reciben $2500 al iniciar la Etapa 2. No solamente el jugador Y."],
+            [1, "Verdadero"],
+            [2, "Falso"],
         ],
         widget=widgets.RadioSelect,
     )
 
     control_question_5 = models.IntegerField(
-        label="¿Para qué sirve el contrato?",
+        label="¿Cuánto gana el Jugador X cuando NO hay un contrato?",
         choices=[
-            [1, "Para que el jugador X se asegure de que el jugador Y le transfiera los $2500 del salario"],
-            [2, "Para que el jugador Y se asegure de que el jugador X realizará un esfuerzo mínimo de 50 sumas en la Etapa 2."],
+            [1, "$15,000 siempre"],
+            [2, "$8,000 si el Jugador Y sólo le pagan una cuota y $15,000 si el Jugador Y le paga ambas cuotas"],
+            [3, "Máximo $8,000"],
+            [4, "Todos los jugadores reciben $8,000 al iniciar la Etapa 2."],
         ],
         widget=widgets.RadioSelect,
     )
 
     control_question_6 = models.IntegerField(
-        label="Si el jugador Y NO paga por el contrato y el jugador X realiza 100 sumas correctas y 0 incorrectas en todas las rondas, ¿cuánto ganarán los jugadores en la Etapa 2?",
+        label="¿Cuánto gana el Jugador Y cuando SÍ hay un contrato?",
         choices=[
-            [1, "Jugador Y = -2500 + (100 sumas x $100) = -2500 + 10000 = 7500. Jugador X = 2500 – (100 sumas x $20) = 2500 – 2000 = 500"],
-            [2, "Jugador Y = -2500 + (100 sumas x $30) = -2500 + 3000 = 500. Jugador X = 2500 - (100 sumas x $100) = 2500 –10000 = -7500"],
-            [3, "Jugador Y = -2500 + 5000 = 2500. Jugador X = 2500 – 5000 = -2500"],
+            [1, "$10,000 siempre"],
+            [2, "$10,000 si el Jugador X realiza la tarea completa, y $0 si no lo hace"],
+            [3, "$30,000"],
+            [4, "Todos los jugadores ganan $15,000 en la Etapa 2"],
         ],
         widget=widgets.RadioSelect,
     )
@@ -158,7 +159,7 @@ class Player(BasePlayer):
             [2, "Jugador Y = -2500 + (10 sumas x $100) - 2500) = -2500 + 1000 – 2500  = -4000. Jugador X = 2500 – (10 sumas x $20) + 2500 = 2500 – 200 + 2500 = 4800"],
             [3, "Jugador Y = -2500 + 5000 – 2500 = 0. Jugador X = 2500 – 5000 = -2500"],
         ],
-        widget=widgets.RadioSelect,
+        widget=widgets.SelectMultiple,
     )
 # ******************************************************************************************************************** #
 # *** Validaciones
@@ -173,7 +174,6 @@ class Player(BasePlayer):
             return 'Recuerde que ganarán $50 por cada respuesta correcta que hayan dado juntos.'
 
     def control_question_3_error_message(self, value):
-        print(value)
         if value != 2:
             return 'Recuerde que usted será emparejado con la misma persona de la Etapa 1.'
 
