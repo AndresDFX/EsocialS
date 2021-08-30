@@ -226,7 +226,15 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         blank=True
     )
-    suggested_sums = models.IntegerField(blank=True, label="")
+    pay_second_quote = models.BooleanField(
+        label="",
+        choices=[
+            [True, "Sí"],
+            [False, "No"],
+        ],
+        default=True,
+        widget=widgets.RadioSelect,
+    )
 # ******************************************************************************************************************** #
 # *** Variables Encuesta sociodemográfica
 # ******************************************************************************************************************** #

@@ -101,27 +101,12 @@ class AddNumbers2(Page):
         all_players = self.player.in_all_rounds()
         me = self.player.id_in_group
         me_in_session = self.player.participant.id_in_session
-        #opponent = self.player.other_player().id_in_group #self.player.get_others_in_group()[0].id_in_group
-        others = self.player.get_others_in_group()[0] #Como es un juego de dos jugadres, devuelve al oponente. Nótese que "Oponente" es sólamente el id del otro jugador en el grupo
+        others = self.player.get_others_in_group()[0] 
         opponent = self.player.other_player()
         opponent_id = self.player.other_player().id_in_group
         opponent_contract_decision = opponent.pay_contract
-        opponent_suggested_sums = opponent.suggested_sums
         opponent_id_in_session = self.player.other_player().participant.id_in_session
-        # Matriz del grupo:
-        # [[<Player  1>, <Player  2>],
-        # [<Player  3>, <Player  4>]]
-        # Yo: 1
-        # Yo en la sesión: 1
-        # Oponente: 2
-        # all_players: Jugadores en todas las rondas. O sea yo, en mi ronda.
-        # Others: Otros jugadores (distintos a mí) en el grupo.
-        # print("Yo " + str(me))
-        # print("Yo en la sesión " + str(me_in_session))
-        # print("Oponente " + str(opponent))
-        # print("All players: " + str(all_players))
-        # print("Others: " + str(others))
-        # print("Epa: " + str(self.player.get_others_in_subsession()))
+
         for player in all_players:
             combined_payoff += player.pago
             correct_answers += player.correct_answers_2
@@ -130,12 +115,7 @@ class AddNumbers2(Page):
 
         pay_contract = self.player.in_round((Constants.num_rounds/2)+1).pay_contract
         opponent_contract_decision = self.player.other_player().in_round((Constants.num_rounds/2)+1).pay_contract
-        # print(me)
-        # print(opponent_id)
-        # print(opponent_contract_decision)
-        # print(pay_contract)
-        # print("Matriz Ronda 3" + str(self.subsession.get_group_matrix()))
-        # print("Pago ronda 1" + str(self.player.payment_stage_1))
+
         return {
             'number_1': number_1,
             'number_2': number_2,
@@ -175,21 +155,19 @@ class CombinedResults2(Page):
         total_sums_2_opponent = 0
         me = self.player.id_in_group
         titulo = ""
-        opponent_suggested_sums = opponent.in_round((Constants.num_rounds/2)+1).suggested_sums
         contrato = 0
         pay_contract = self.player.in_round((Constants.num_rounds/2)+1).pay_contract
         pay_contract_label = ""
         opponent_contract_decision = opponent.in_round((Constants.num_rounds/2)+1).pay_contract
+        opponent_pay_second_quote = False
         opponent_contract_decision_label = ""
+        
         if me == 1:
             titulo = "Pagos Etapa 2 - Jugador X"
         else:
             titulo = "Pagos Etapa 2 - Jugador Y"
-        # print("Yo " + str(me))
-        # print("Oponente " + str(opponent_id))
-        # print("Other " + str(others))
-        # print("All Others " + str(all_others))
-        # print("Group players" + str(self.group.get_players()))
+            opponent_pay_second_quote = self.pay_second_quote
+
         for player in all_players:
             combined_payoff += player.payoff
             correct_answers += player.correct_answers_2
@@ -213,51 +191,42 @@ class CombinedResults2(Page):
         if pay_contract == True:
             pay_contract_label = "Sí"
 
+        ############### JUGADOR X ###############
+        if player.id_in_group == 1:
+            
+            if opponent_contract_decision: # Con contrato
+                if total_sums_2 >= Constants.sumas_obligatorias_contrato: #Si cumple con la cantidad de restas
+                    self.player.payment_stage_2 = 12000
+                else: #Si no cumple con la cantidad de restas
+                    self.player.payment_stage_2 = -18000
 
-        #Jugador X sin contrato
-        if player.id_in_group == 1 and opponent_contract_decision == False:
-            # print("11" + "Ba")
-            self.player.payment_stage_2 = 2500 - (20 * total_sums_2 )
-            contrato = 0
+            else: # Sin contrato
+                if not pay_second_quote: #Solo la primera cuota
+                    self.player.payment_stage_2 = 8000 
+                else: #Pagando el jugador Y ambas cuotas
+                    self.player.payment_stage_2 = 15000
+             
+        ############### JUGADOR Y ###############
+        if player.id_in_group == 2:
+            
+            if pay_contract: #Con contrato
+                self.player.payment_stage_2 = 10000
 
-         #Jugador Y sin contrato
-        if player.id_in_group == 2 and pay_contract == False:
-            self.player.payment_stage_2 = -2500 + (100 * correct_answers_opponent )
-            # print("22" + "Be")
-            contrato = 0
+            else: #Sin contrato
+                if total_sums_2_opponent >= Constants.sumas_obligatorias_contrato: #Si X cumple con la cantidad de restas
+                    if not pay_second_quote: #Si decide no pagar la segunda cuota
+                        self.player.payment_stage_2 = 22000
+                    else: #Si decide pagar la segunda cuota
+                        self.player.payment_stage_2 = 15000
 
-        #Jugador X cumple con sumas
-        if player.id_in_group == 1 and opponent_contract_decision == True:
-            if correct_answers >= Constants.sumas_obligatorias_contrato:
-                # print(33)
-                self.player.payment_stage_2 = 2500 - (20 * total_sums_2 )
-                contrato = 2500
+                else:  #Si X no cumple con la cantidad de restas
+                    if not pay_second_quote: #Si decide no pagar la segunda cuota
+                        self.player.payment_stage_2 = -8000
+                    else: #Si decide pagar la segunda cuota
+                        self.player.payment_stage_2 = -15000
 
-        #Jugador X no cumple con sumas
-        if player.id_in_group == 1 and opponent_contract_decision == True:
-            if correct_answers < Constants.sumas_obligatorias_contrato:
-                # print(44)
-                self.player.payment_stage_2 = -2500
-                contrato = 2500
-
-        #Y: Jugador X cumple con sumas
-        if player.id_in_group == 2 and pay_contract == True:
-            if correct_answers_opponent >= Constants.sumas_obligatorias_contrato:
-                # print(55)
-                self.player.payment_stage_2 = -5000 + (100 * correct_answers_opponent )
-                contrato = 2500
-
-        #Y: Jugador X no cumple con sumas
-        if player.id_in_group == 2 and pay_contract == True:
-            if correct_answers_opponent < Constants.sumas_obligatorias_contrato:
-                # print(66)
-                self.player.payment_stage_2 = 0
-                contrato = 2500
-
-        # print("Jugador "+ str(player.id_in_group) + ". Contrato Op "+ str(opponent_contract_decision))
-        # print("Jugador "+ str(player.id_in_group) + ". Contrato Jug "+ str(pay_contract))
-        #self.player.payment_stage_1 = math.trunc(combined_payoff) + Constants.fixed_payment
         combined_payoff_total = self.player.payment_stage_2 + self.player.in_round(Constants.num_rounds/2).payment_stage_1
+        
         return {
             'payment_stage_1': self.player.in_round(Constants.num_rounds/2).payment_stage_1,
             'payment_stage_2': self.player.payment_stage_2,
@@ -346,7 +315,7 @@ class RoleAssignment(Page):
 
 class Decision(Page):
     form_model = 'player'
-    form_fields = ['pay_contract', 'believe_pay_contract', 'suggested_sums']
+    form_fields = ['pay_contract', 'believe_pay_contract']
     def is_displayed(self):
         return self.round_number == (Constants.num_rounds/2)+1
     def vars_for_template(self):
@@ -362,14 +331,13 @@ class Decision(Page):
 
 class Decision2(Page):
     form_model = 'player'
-    form_fields = ['suggested_sums']
+
     def is_displayed(self):
         return self.round_number == (Constants.num_rounds/2)+1
     def vars_for_template(self):
         me = self.player.id_in_group
         opponent = self.player.other_player()
         opponent_contract_decision = opponent.pay_contract
-        opponent_suggested_sums = opponent.suggested_sums
         titulo = ""
         if me == 1:
             titulo = "Reporte de decisión Jugador X"
@@ -377,8 +345,7 @@ class Decision2(Page):
             titulo = "Decision Jugador Y - Parte 2"
         return{
                 'titulo': titulo,
-                'opponent_contract_decision': opponent_contract_decision,
-                'opponent_suggested_sums': opponent_suggested_sums
+                'opponent_contract_decision': opponent_contract_decision
             }
 
 class CombinedResults(Page):
@@ -583,6 +550,52 @@ class ReminderNequi(Page):
             'num_temporal': num_temporal
         }
 
+
+class SecondQuoteX(Page):
+    form_model = 'player'
+
+    def is_displayed(self):
+        if self.player.id_in_group == 1:
+            return self.round_number == Constants.num_rounds
+    
+    def vars_for_template(self):
+        opponent = self.player.other_player()
+        opponent_pay_second_quote = opponent.in_round((Constants.num_rounds/2)+1).pay_second_quote 
+        opponent_contract_decision = opponent.in_round((Constants.num_rounds/2)+1).pay_contract
+        correct_answers_2 = 0
+
+        for player in all_players:
+            correct_answers += player.correct_answers_2
+
+        return {
+            'opponent_pay_second_quote': opponent_pay_second_quote,
+            'opponent_contract_decision': opponent_contract_decision,
+            'opponent_pay_second_quote': opponent_pay_second_quote,
+            'correct_answers_2': correct_answers_2
+        }
+
+class SecondQuoteY(Page):
+    form_model = 'player'
+    form_fields = ['pay_second_quote']
+    
+    def is_displayed(self):
+        if self.player.id_in_group == 2:
+            return self.round_number == Constants.num_rounds
+    
+    def vars_for_template(self):
+        opponent = self.player.other_player()
+        contract_decision = self.pay_contract
+        correct_answers_2_opponent = 0
+
+        for player in all_players:
+            correct_answers_opponent += player.other_player().correct_answers_2
+
+        return {
+            'contract_decision': contract_decision,
+            'correct_answers_2_opponent': correct_answers_2_opponent
+        }
+
+
 #All stages
 #page_sequence = [Consent, GenInstructions,Stage1Instructions, Stage1Questions, Start, AddNumbers, PartialResults, ResultsWaitPage, CombinedResults, Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2,PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
 #page_sequence = [PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
@@ -592,6 +605,6 @@ class ReminderNequi(Page):
 #ToDo
 stage_1_sequence = [Consent, GenInstructions, Stage1Instructions, Stage1Questions, Start, AddNumbers, PartialResults, CombinedResults]
 #stage_2_sequence = [Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2,PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]            
-stage_2_sequence = [RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, CombinedResults2,PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
+stage_2_sequence = [RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, SecondQuoteX, SecondQuoteY, CombinedResults2,PlayCoin,DoubleMoney,HeadTails,ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
 page_sequence = stage_2_sequence
 

@@ -15,36 +15,27 @@
 {# *** TITLE *** #}
 {# ****************************************************************************************************************** #}
 
-    {% block title %}
-        {{titulo}}
-    {% endblock %}
+{% block title %}
+    {{titulo}}
+{% endblock %}
 
 {% block content %}
-
-{% if player.id_in_group == 1 %}
-    <div class="wrapper instructions">
-        <p align = "justify">
-            ¿Cree usted que el <b>Jugador Y </b> pagará $2500 por el contrato que garantizará que usted realice como mínimo 50 sumas en esta etapa?
-            {% formfield player.believe_pay_contract %}
-        </p>
-    </div>
-{% else %}
-
-    <div class="wrapper instructions">
+    {% if player.id_in_group == 1 %}
+        <!--Jugador X-->
+        <div class="wrapper instructions">
             <p align = "justify">
-                ¿Desea usted pagar $2500 por el contrato que garantizará que el <b>Jugador X</b> realice como mínimo 50 sumas en esta etapa?<br>
-                <input name="pay_contract" id="pay_contract_yes" type="radio" value="True" style="margin-right: 10px; margin: 10px" onclick="ShowHideDiv()">Sí<br>
-                <input name="pay_contract" id="pay_contract_no" type="radio" value="False" style="margin-right: 10px; margin: 10px" onclick="ShowHideDiv()">No<br>
-                {% comment %} {% formfield player.1 %} {% endcomment %}
+                ¿Cree usted que el Jugador Y decidirá establecer un contrato por el cual deberá pagar $5,000 y usted deberá pagar $3,000?
+                {% formfield player.believe_pay_contract %}
             </p>
-            <div id="myDIV" style="display: none">
-            ¿Cuántas sumas le sugiere usted realizar al <b>Jugador X?</b>
-                {% formfield player.suggested_sums%}
-            </div>
         </div>
-{% endif %}
-{% block scripts %}
-        <script src="{% static 'real_effort_numbers/js/showhide.js' %}"></script>
-    {% endblock %}
+    {% else %}
+        <!--Jugador Y-->
+        <div class="wrapper instructions">
+            <p align = "justify">
+                ¿Desea establecer un contrato, por el que usted deberá pagar $5,000 y el Jugador X deberá pagar $3,000?
+                {% formfield player.pay_contract %} 
+            </p>
+        </div>
+    {% endif %}
 {% next_button %}
 {% endblock %}
