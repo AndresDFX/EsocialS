@@ -28,7 +28,7 @@ class Constants(BaseConstants):
     fixed_payment = 5000
     sumas_obligatorias_contrato = 50
     num_min_stage_1 = 10
-    num_min_stage_2 = 5
+    num_min_stage_2 = 1
     sub_rounds_stage_1 = 10
     sub_rounds_stage_2 = 5
     stage_1_initial_page = 1
