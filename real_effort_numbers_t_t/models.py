@@ -10,6 +10,8 @@ from otree.api import (
     currency_range,
 )
 
+from django.forms import SelectMultiple
+
 import random
 
 author = 'Your name here'
@@ -159,7 +161,7 @@ class Player(BasePlayer):
             [2, "Jugador Y = -2500 + (10 sumas x $100) - 2500) = -2500 + 1000 – 2500  = -4000. Jugador X = 2500 – (10 sumas x $20) + 2500 = 2500 – 200 + 2500 = 4800"],
             [3, "Jugador Y = -2500 + 5000 – 2500 = 0. Jugador X = 2500 – 5000 = -2500"],
         ],
-        widget=widgets.SelectMultiple,
+        widget=SelectMultiple,
     )
 # ******************************************************************************************************************** #
 # *** Validaciones
