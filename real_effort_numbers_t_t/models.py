@@ -12,6 +12,7 @@ from otree.api import (
 
 
 import random
+import django.db.models.ManyToManyField
 
 
 author = 'Your name here'
@@ -43,7 +44,8 @@ def make_field2(label):
         label=label,
     )
 
-
+class B(models.Model):
+    opcion_1 = models.IntegerField(label="Opcion 1:")
 class Constants(BaseConstants):
     name_in_url = 'real_effort_numbers_t_t'
     players_per_group = 2
@@ -177,15 +179,8 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
     )
 
-    control_question_7 = models.MultipleChoiceFormField(
-        choices=[
-            [1, "Jugador Y = -2500 + (10 sumas x $100) - 2500) = -2500 + 1000 – 2500  = -4000. Jugador X = 2500 – (10 sumas x $20) = 2500 – 200 = 2300"],
-            [2, "Jugador Y = -2500 + (10 sumas x $100) - 2500) = -2500 + 1000 – 2500  = -4000. Jugador X = 2500 – (10 sumas x $20) + 2500 = 2500 – 200 + 2500 = 4800"],
-            [3, "Jugador Y = -2500 + 5000 – 2500 = 0. Jugador X = 2500 – 5000 = -2500"],
-        ],
-        min_choices=3, 
-        max_choices=3
-    )
+    control_question_7 = ManyToManyField(B, limit_choices_to={'opcion_1': True})
+    
 # ******************************************************************************************************************** #
 # *** Validaciones
 # ******************************************************************************************************************** #
