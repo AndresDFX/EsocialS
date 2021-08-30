@@ -12,7 +12,6 @@ from otree.api import (
 
 
 import random
-from django.forms import MultipleChoiceField
 
 
 author = 'Your name here'
@@ -43,9 +42,6 @@ def make_field2(label):
         choices=[-2,-1,0,1,2],
         label=label,
     )
-
-class B(models.Model):
-    opcion_1 = models.IntegerField(label="Opcion 1:")
 class Constants(BaseConstants):
     name_in_url = 'real_effort_numbers_t_t'
     players_per_group = 2
@@ -218,9 +214,9 @@ class Player(BasePlayer):
         if value != 1:
             return 'Por favor, lea nuevamente las instrucciones'
 
-    #def control_question_7_error_message(self, value):
-    #    if value != 3:
-    #        return 'Por favor, lea nuevamente las instrucciones'
+    def control_question_7_error_message(self, value):
+        if value != 3:
+            return 'Por favor, lea nuevamente las instrucciones'
 
 # ******************************************************************************************************************** #
 # *** Variables Consentimiento
