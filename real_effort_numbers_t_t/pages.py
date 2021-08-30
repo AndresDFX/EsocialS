@@ -507,6 +507,7 @@ class CombinedResults2(Page):
 
         combined_payoff_total = self.player.payment_stage_2 + self.player.in_round(Constants.num_rounds/2).payment_stage_1
         ganancias_acumuladas = self.player.in_round(Constants.num_rounds/2).payment_stage_1 + self.player.payment_stage_2
+        
         return {
             'payment_stage_1': self.player.in_round(Constants.num_rounds/2).payment_stage_1,
             'payment_stage_2': self.player.payment_stage_2,
@@ -715,5 +716,5 @@ stage_1_sequence = [Consent, GenInstructions, Stage1Instructions, Stage1Question
 stage_2_sequence = [Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, SecondQuoteY, WaitPageX, SecondQuoteX, CombinedResults2]
 stage_3_sequence = [PlayCoin, DoubleMoney, HeadTails, ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
 
-page_sequence = [SocioDemSurvey]
+page_sequence = stage_1_sequence + stage_2_sequence + stage_3_sequence
 
