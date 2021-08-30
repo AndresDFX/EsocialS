@@ -233,7 +233,7 @@ class Player(BasePlayer):
             [False, "No"],
         ],
         default=True,
-        widget=widgets.RadioSelect,
+        widget=widgets.RadioSelect
     )
 # ******************************************************************************************************************** #
 # *** Variables Encuesta sociodemográfica
