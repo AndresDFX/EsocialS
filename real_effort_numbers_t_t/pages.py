@@ -566,7 +566,7 @@ class SecondQuoteX(Page):
         all_players = self.player.in_all_rounds()
 
         for player in all_players:
-            correct_answers += player.correct_answers_2
+            correct_answers_2 += player.correct_answers_2
 
         return {
             'opponent_pay_second_quote': opponent_pay_second_quote,
@@ -590,7 +590,7 @@ class SecondQuoteY(Page):
         all_players = self.player.in_all_rounds()
 
         for player in all_players:
-            correct_answers_opponent += player.other_player().correct_answers_2
+            correct_answers_2_opponent += player.other_player().correct_answers_2
 
         return {
             'contract_decision': contract_decision,
