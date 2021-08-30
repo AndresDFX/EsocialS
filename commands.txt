@@ -3,6 +3,8 @@ git commit -m "Mensaje"
 git push origin main
 git push --all
 git push heroku main
+
+--Cambios en modelos
 heroku run otree resetdb
 heroku run python manage.py makemigrations 
 heroku run python manage.py migrate

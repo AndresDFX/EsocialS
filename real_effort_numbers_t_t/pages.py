@@ -563,6 +563,7 @@ class SecondQuoteX(Page):
         opponent_pay_second_quote = opponent.in_round((Constants.num_rounds/2)+1).pay_second_quote 
         opponent_contract_decision = opponent.in_round((Constants.num_rounds/2)+1).pay_contract
         correct_answers_2 = 0
+        all_players = self.player.in_all_rounds()
 
         for player in all_players:
             correct_answers += player.correct_answers_2
@@ -584,8 +585,9 @@ class SecondQuoteY(Page):
     
     def vars_for_template(self):
         opponent = self.player.other_player()
-        contract_decision = self.pay_contract
+        contract_decision = self.player.pay_contract
         correct_answers_2_opponent = 0
+        all_players = self.player.in_all_rounds()
 
         for player in all_players:
             correct_answers_opponent += player.other_player().correct_answers_2
