@@ -217,6 +217,11 @@ class Stage2Questions(Page):
     def is_displayed(self):
         return self.round_number == Constants.num_rounds/2
 
+    def control_question_7_choices(self):
+        """Return the list of statements to choose from."""
+        return ["Statement 1", "Statement 2", "Statement 3",
+                "Statement 4", "Statement 5", "Statement 6"]
+
 #=======================================================================================================================
 
 class RoleAssignment(Page):
