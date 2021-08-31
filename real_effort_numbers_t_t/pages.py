@@ -550,6 +550,7 @@ class HeadTails(Page):
 
     def vars_for_template(self):
         inversion = math.trunc(c(self.player.monto))
+        self.player.countFlips = 1
         return {
             'inversion' : inversion
         }

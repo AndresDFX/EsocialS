@@ -36,10 +36,11 @@
         <div class="side-a"></div>
         <div class="side-b"></div>
     </div>
+    {% formfield player.cara_sello_value %}
     {% block scripts %}
         <script>
-            var doneTheStuff, flipResult = "{{ player.cara_sello_value }}" ;
-            
+            var doneTheStuff, flipResult ;
+
 
             jQuery(document).ready(function ($) {
                 flipResult = Math.random();
