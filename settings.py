@@ -127,7 +127,7 @@ Here are some oTree games.
 # don't share this with anybody.
 SECRET_KEY = 'gu0-t&wo*2un8j93kesnb5!6t2=py8uap9d4qyl)y@u(mp-&w-'
 
-INSTALLED_APPS = ['otree','multiselectfield' ]
+INSTALLED_APPS = ['otree','multiselectfield']
 
 # inactive session configs
 # dict(name='trust', display_name="Trust Game", num_demo_participants=2, app_sequence=['trust', 'payment_info']),

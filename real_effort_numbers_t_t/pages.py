@@ -735,6 +735,6 @@ stage_1_sequence = [Consent, GenInstructions, Stage1Instructions, Stage1Question
 stage_2_sequence = [Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, SecondQuoteY, WaitPageX, SecondQuoteX, CombinedResults2]
 stage_3_sequence = [PlayCoin, DoubleMoney, HeadTails, ResultsDoubleMoney, CombinedResults3,CombinedResults4, ReminderNequi]
 
-page_sequence = stage_2_sequence + stage_3_sequence
+page_sequence = stage_3_sequence
 #SocioDemSurvey
 
