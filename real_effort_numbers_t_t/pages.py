@@ -218,6 +218,13 @@ class Stage2Questions(Page):
     def is_displayed(self):
         return self.round_number == Constants.num_rounds/2
 
+    def vars_for_template(self):
+        checked_control_question_7 = ["1","2","3"]
+        return{
+            'checked_control_question_7': checked_control_question_7
+        }
+
+
 #=======================================================================================================================
 
 class RoleAssignment(Page):
