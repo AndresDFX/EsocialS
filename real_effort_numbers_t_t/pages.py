@@ -559,7 +559,6 @@ class HeadTails(Page):
             'inversion' : inversion
         }
 #=======================================================================================================================
-
 class ResultsDoubleMoney(Page):
 
     def is_displayed(self):
@@ -572,11 +571,11 @@ class ResultsDoubleMoney(Page):
         inversion = math.trunc(c(self.player.monto))
 
         if(self.player.cara_sello_value <= 0.5):
-            cara_sello_name = "azul"
+            cara_sello_name = "rojo"
             self.player.monto = 5000-inversion + math.trunc(self.player.monto*2)
         else:
-            cara_sello_name = "rojo"
-            self.player.monto = 5000-inversion + 0
+            cara_sello_name = "azul"
+            self.player.monto = 5000-inversion
 
         return {
             'inversion' : inversion,
