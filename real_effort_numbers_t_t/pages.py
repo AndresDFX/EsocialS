@@ -544,6 +544,7 @@ class DoubleMoney(Page):
 
 class HeadTails(Page):
     form_model = 'player'
+    form_fields = ['cara_sello_value']
 
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
