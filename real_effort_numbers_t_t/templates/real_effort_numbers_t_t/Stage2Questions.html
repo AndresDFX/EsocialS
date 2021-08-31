@@ -31,17 +31,17 @@
 
             Las ganancias en esta etapa dependerán del esfuerzo del Jugador X y de las decisiones que tome el Jugador Y.<br><br>
 
-            {% comment %} T-T: {% endcomment %}En esta etapa usted estará emparejado(a) de nuevo con su compañero de la Etapa 1. 
+            {% comment %} T-T: {% endcomment %}En esta etapa usted estará emparejado(a) de nuevo con su compañero de la Etapa 1.
             Por lo tanto, conformarán de nuevo el <b>Equipo {{player.team}}</b><br><br>
-            
+
             {% comment %} Todos: {% endcomment %}
             <b>Decisiones y pagos de los Jugadores X e Y</b>.<br><br>
             Por favor, preste atención a la descripción de las funciones pues de ellas dependerán sus ganancias en esta etapa.<br><br>
 
-            El Jugador X podrá realizar ejercicios de restas. 
-            Si completa 50 restas correctas en 10 minutos, el Jugador Y ganará $30,000; de lo contrario, el Jugador Y no ganará nada. 
-            Por su esfuerzo, el Jugador Y podrá pagarle al Jugador X $15,000. 
-            El pago se realizará en dos cuotas, una al inicio de $8,000 y otra al finalizar la tarea ($7,000). 
+            El Jugador X podrá realizar ejercicios de restas.
+            Si completa 50 restas correctas en 10 minutos, el Jugador Y ganará $30,000; de lo contrario, el Jugador Y no ganará nada.
+            Por su esfuerzo, el Jugador Y podrá pagarle al Jugador X $15,000.
+            El pago se realizará en dos cuotas, una al inicio de $8,000 y otra al finalizar la tarea ($7,000).
             La primera cuota es un pago automático y obligatorio; la segunda, sólo es obligatoria cuando se ha establecido un contrato. <br><br>
 
             <b>Secuencia de decisiones</b>
@@ -50,43 +50,48 @@
                 <li><b>El Jugador X</b> realiza la tarea durante 10 minutos. Si el Jugador X NO puede tomar decisiones sobre el contrato; sólo decide sobre su desempeño en la tarea.</li>
                 <li><b>El Jugador Y</b> decide si pagar la segunda cuota de la remuneración del Jugador X [si se estableció un contrato, este pago es obligatorio]</li>
               </ol>
-            
+
             <b>La tarea que debe realizar el Jugador X:</b> realizar 50 restas en 10 minutos.<br><br>
 
             <!-- ================================================== Contrato Jugador X ================================================== -->
             <b>Implicaciones del contrato para el Jugador X:</b><br><br>
 
-            <b>Obligaciones:</b> el contrato obliga al Jugador X a realizar 50 restas correctas en 10 minutos. 
+            <b>Obligaciones:</b> el contrato obliga al Jugador X a realizar 50 restas correctas en 10 minutos.
             Si luego de este tiempo el Jugador X no ha completado las 50 restas correctas, el Jugador X deberá usar sus ganancias acumuladas para pagarle $30,000 al Jugador Y en la Etapa 2.<br><br>
-            
-            <b>Beneficios:</b> el contrato garantiza que el Jugador X recibirá $8,000 al inicio de la Etapa 2, y $7,000 al finalizar. 
+
+            <b>Beneficios:</b> el contrato garantiza que el Jugador X recibirá $8,000 al inicio de la Etapa 2, y $7,000 al finalizar.
             Independientemente de que logre completar las 50 restas.<br><br>
-            
+
             <b>Costo del contrato:</b> el Jugador X debe pagar $3,000 por el contrato los cuales serán deducidos automáticamente de sus ganancias acumuladas en la Etapa 1.<br><br>
-            
+
             <!-- ================================================== Contrato Jugador Y ================================================== -->
             <b>Implicaciones del contrato para el Jugador Y:</b><br><br>
 
-            <b>Obligaciones:</b> el contrato obliga al Jugador Y a pagar <b>$8,000</b> al Jugador X al inicio de la Etapa 2, y <b>$7,000</b> al finalizar, independientemente de que logre completar las 50 restas. 
+            <b>Obligaciones:</b> el contrato obliga al Jugador Y a pagar <b>$8,000</b> al Jugador X al inicio de la Etapa 2, y <b>$7,000</b> al finalizar, independientemente de que logre completar las 50 restas.
             Ambos pagos se realizarán automáticamente y se descontarán de sus ganancias acumuladas en la Etapa 1.<br><br>
-            
+
             <b>Beneficios:</b> el contrato garantiza que el Jugador Y recibirá $30,000 al finalizar la Etapa 2, así el Jugador X no complete las 50 restas.<br><br>
-            
+
             <b>Costo del contrato:</b> el Jugador X debe pagar $3,000 por el contrato los cuales serán deducidos automáticamente de sus ganancias acumuladas en la Etapa 1.<br><br>
-            
+
             <b>Ventajas y desventajas de la ausencia del contrato:</b><br><br>
             <p align="center"><img src="{% static 'real_effort_numbers_t_t/images/ventajas_desventajas_etapa2.png' %}" alt="Ventajas y desventajas de la ausencia del contrato" style= "height: 90%; width: 90%; object-fit: cover"></p>
-            
+
             <b>La tabla presentada a continuación resume de las ganancias de la Etapa 2 para ambos jugadores.</b><br><br>
             <p align="center"><img src="{% static 'real_effort_numbers_t_t/images/ganancias_etapa2.png' %}" alt="las ganancias de la Etapa 2 para ambos jugadores" style= "height: 90%; width: 90%; object-fit: cover"></p>
-            
+
             <b>Por favor, responda las siguientes preguntas:</b>
 
             {%formfield player.control_question_3%}
             {%formfield player.control_question_4%}
             {%formfield player.control_question_5%}
             {%formfield player.control_question_6%}
-            {%formfield player.control_question_7%}
+            <select name="question7" id="question7" multiple>
+                <option value="control_question_7_1">Volvo</option>
+                <option value="control_question_7_2">Saab</option>
+                <option value="control_question_7_3">Opel</option>
+
+            </select>
 
         </p>
     </div>
