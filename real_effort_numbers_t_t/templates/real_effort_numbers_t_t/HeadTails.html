@@ -39,12 +39,9 @@
     {% block scripts %}
         <script>
             var doneTheStuff, flipResult;
-            function getRandomNumber() {
-                    flipResult = Math.floor(Math.random() * (2 - 1 + 1)) + 1
-            }
 
             jQuery(document).ready(function ($) {
-                getRandomNumber();
+                flipResult = Math.random();
                 $('#coin').on('click', function () {
                     if (!doneTheStuff) {
                         doneTheStuff = true;
