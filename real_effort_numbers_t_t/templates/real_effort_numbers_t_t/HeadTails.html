@@ -49,9 +49,10 @@
                 flipResult = Math.random();
 
                 $('#coin').on('click', function () {
-                    //if (!doneTheStuff) {
-                    //    doneTheStuff = true;
+                    if (!doneTheStuff) {
+                        doneTheStuff = true;
                         $('#id_cara_sello_value').val(flipResult);
+                        $('#btn').show();
                         setTimeout(function () {
                             console.log(flipResult);
                             if (flipResult <= 0.5) {
@@ -64,16 +65,16 @@
                                 console.log('it is tails');
                             }
                         }, 100);
-                    //}
+                    }
                 }
             );
-        });
+            });
 
         </script>
     {% endblock %}
-
-{% if player.cara_sello_value != 0.0 %}
-    {% next_button %}
+    <p>
+        <button class="otree-btn-next btn btn-primary" id="btn" hidden>Siguiente</button>
+    </p>
 {% endif%}
 
 {% endblock %}
