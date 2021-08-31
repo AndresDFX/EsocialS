@@ -568,6 +568,7 @@ class ResultsDoubleMoney(Page):
 
         #Si ya se lanzo la moneda una vez
         if self.player.countFlips == 1:
+            self.player.countFlips += 1
             inversion = math.trunc(c(self.player.monto))
             if(self.player.cara_sello_value <= 0.5):
                 cara_sello_name = "rojo"
@@ -579,7 +580,8 @@ class ResultsDoubleMoney(Page):
             return {
                 'inversion' : inversion,
                 'cara_sello_name' : cara_sello_name,
-                'cara_sello_payoff' : self.player.monto
+                'cara_sello_payoff' : self.player.monto,
+                'flips': self.player.countFlips,
             }
         else:
             inversion = math.trunc(c(self.player.monto))
