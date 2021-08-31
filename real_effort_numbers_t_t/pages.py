@@ -212,18 +212,10 @@ class Stage2Instructions(Page):
 
 class Stage2Questions(Page):
     form_model = 'player'
-    form_fields = ['control_question_3', 'control_question_4', 'control_question_5', 'control_question_6', 'control_question_7',
-                   'control_question_7_1', 'control_question_7_2', 'control_question_7_3']
+    form_fields = ['control_question_3', 'control_question_4', 'control_question_5', 'control_question_6', 'control_question_7']
 
     def is_displayed(self):
         return self.round_number == Constants.num_rounds/2
-
-    def vars_for_template(self):
-        checked_control_question_7 = ["1","2","3"]
-        return{
-            'checked_control_question_7': checked_control_question_7
-        }
-
 
 #=======================================================================================================================
 
