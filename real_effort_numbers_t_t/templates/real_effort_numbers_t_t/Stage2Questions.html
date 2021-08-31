@@ -86,12 +86,73 @@
             {%formfield player.control_question_4%}
             {%formfield player.control_question_5%}
             {%formfield player.control_question_6%}
-            <select name="question7" id="question7" multiple>
-                <option value="control_question_7_1">Volvo</option>
-                <option value="control_question_7_2">Saab</option>
-                <option value="control_question_7_3">Opel</option>
+            <form action="get" method="post">
+                <table width="100%">
+                    <tbody id="checklistwrapper">
 
-            </select>
+                        <tr class="checklisttr" id="1">
+
+                            <td align="left" width="40%"><br>
+                                <label for="veryiii" style="align:left;">Within your circle of competence?</label>
+                            </td>
+
+                            <td align="center">
+                                <label for="veryi" width="12%">Worst</label><br><br>
+                                <input type="radio" id="veryi" value="5.0" name="circle">
+                            </td>
+
+                            <td align="center" width="12%"><br><br>
+                                <input type="radio" id="vii" value="4.5" name="circle">
+                            </td>
+
+                            <td align="center" width="12%">
+                                <label for="veryiii">Neutral</label><br><br>
+                                <input type="radio" id="veryiii" value="3.0" name="circle">
+                            </td>
+
+                            <td align="center" width="12%"><br><br>
+                                <input type="radio" id="viv" value="1.5" name="circle">
+                            </td>
+
+                            <td align="center" width="12%">
+                                <label for="veryv">Best</label><br><br>
+                                <input type="radio" id="veryv" value="1.0" name="circle">
+                            </td>
+                        </tr>
+
+                        <tr class="checklisttr" id="2">
+
+                            <td align="left" width="40%"><br>
+                                <label for="veryiii" style="align:left;">Macro economic environment favorable?</label>
+                            </td>
+
+                            <td align="center" width="12%"><br>
+                                <input type="radio" id="veryi" value="5.0" name="macro">
+                            </td>
+
+                            <td align="center" width="12%"><br>
+                                <input type="radio" id="vii" value="4.5" name="macro">
+                            </td>
+
+                            <td align="center" width="12%"><br>
+                                <input type="radio" id="veryiii" value="3.0" name="macro">
+                            </td>
+
+                            <td align="center" width="12%"><br>
+                                <input type="radio" id="viv" value="1.5" name="macro">
+                            </td>
+
+                            <td align="center" width="12%"><br>
+                                <input type="radio" id="veryv" value="1.0" name="macro">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <div style="float:right;margin-top:10px;margin-bottom:5px;">
+                    <button type="button" id="savechecklist">Save Checklist</button>
+                </div>
 
         </p>
     </div>
