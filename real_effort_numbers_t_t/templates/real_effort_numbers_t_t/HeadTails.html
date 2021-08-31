@@ -44,10 +44,11 @@
 
             jQuery(document).ready(function ($) {
                 flipResult = Math.random();
-                $('#id_cara_sello_value').val(flipResult);
+
                 $('#coin').on('click', function () {
                     //if (!doneTheStuff) {
                     //    doneTheStuff = true;
+                        $('#id_cara_sello_value').val(flipResult);
                         setTimeout(function () {
                             console.log(flipResult);
                             if (flipResult <= 0.5) {
