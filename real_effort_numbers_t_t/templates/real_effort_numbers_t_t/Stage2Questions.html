@@ -86,74 +86,23 @@
             {%formfield player.control_question_4%}
             {%formfield player.control_question_5%}
             {%formfield player.control_question_6%}
-            <form action="get" method="post">
-                <table width="100%">
-                    <tbody id="checklistwrapper">
-
-                        <tr class="checklisttr" id="1">
-
-                            <td align="left" width="40%"><br>
-                                <label for="veryiii" style="align:left;">Within your circle of competence?</label>
-                            </td>
-
-                            <td align="center">
-                                <label for="veryi" width="12%">Worst</label><br><br>
-                                <input type="radio" id="veryi" value="5.0" name="circle">
-                            </td>
-
-                            <td align="center" width="12%"><br><br>
-                                <input type="radio" id="vii" value="4.5" name="circle">
-                            </td>
-
-                            <td align="center" width="12%">
-                                <label for="veryiii">Neutral</label><br><br>
-                                <input type="radio" id="veryiii" value="3.0" name="circle">
-                            </td>
-
-                            <td align="center" width="12%"><br><br>
-                                <input type="radio" id="viv" value="1.5" name="circle">
-                            </td>
-
-                            <td align="center" width="12%">
-                                <label for="veryv">Best</label><br><br>
-                                <input type="radio" id="veryv" value="1.0" name="circle">
-                            </td>
-                        </tr>
-
-                        <tr class="checklisttr" id="2">
-
-                            <td align="left" width="40%"><br>
-                                <label for="veryiii" style="align:left;">Macro economic environment favorable?</label>
-                            </td>
-
-                            <td align="center" width="12%"><br>
-                                <input type="radio" id="veryi" value="5.0" name="macro">
-                            </td>
-
-                            <td align="center" width="12%"><br>
-                                <input type="radio" id="vii" value="4.5" name="macro">
-                            </td>
-
-                            <td align="center" width="12%"><br>
-                                <input type="radio" id="veryiii" value="3.0" name="macro">
-                            </td>
-
-                            <td align="center" width="12%"><br>
-                                <input type="radio" id="viv" value="1.5" name="macro">
-                            </td>
-
-                            <td align="center" width="12%"><br>
-                                <input type="radio" id="veryv" value="1.0" name="macro">
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-
-                <div style="float:right;margin-top:10px;margin-bottom:5px;">
-                    <button type="button" id="savechecklist">Save Checklist</button>
-                </div>
-
+            <div class="form-group">
+                <label>Month</label>
+                <select id="ms" multiple="multiple" class="form-control">
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+            </div>
         </p>
     </div>
     {% next_button %}
