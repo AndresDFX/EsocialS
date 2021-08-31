@@ -594,7 +594,8 @@ class ResultsDoubleMoney(Page):
                 'inversion': inversion,
                 'cara_sello_name': cara_sello_name,
                 'cara_sello_payoff': self.player.monto,
-                'flips':self.player.countFlips
+                'flips':self.player.countFlips,
+                'cara_sello': self.player.cara_sello_value
 
             }
 
