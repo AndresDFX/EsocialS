@@ -47,12 +47,13 @@
 
             jQuery(document).ready(function ($) {
                 flipResult = Math.random();
+                $('#btn').show();
 
                 $('#coin').on('click', function () {
                     if (!doneTheStuff) {
                         doneTheStuff = true;
                         $('#id_cara_sello_value').val(flipResult);
-                        $('#btn').show();
+
                         setTimeout(function () {
                             console.log(flipResult);
                             if (flipResult <= 0.5) {
