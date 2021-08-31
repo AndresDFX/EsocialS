@@ -38,7 +38,8 @@
     </div>
     {% block scripts %}
         <script>
-            var doneTheStuff, flipResult;
+            var doneTheStuff, flipResult = "{{ player.cara_sello_value }}" ;
+            
 
             jQuery(document).ready(function ($) {
                 flipResult = Math.random();
@@ -50,24 +51,17 @@
                             if (flipResult <= 0.5) {
                                 $('#coin').addClass('heads');
                                 console.log('it is head');
-                                liveSend({ 'flipResult': flipResult});
-                                
+
                             }
                             else {
                                 $('#coin').addClass('tails');
                                 console.log('it is tails');
-                                liveSend({ 'flipResult': flipResult });
                             }
                         }, 100);
                     //}
                 }
             );
         });
-
-        function liveRecv(data) {
-                console.log('received a message!', data);
-                // your code goes here
-            }
 
         </script>
     {% endblock %}
