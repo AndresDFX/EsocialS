@@ -1,6 +1,7 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree %}
 {% load i18n %}
+{% load extras %}
 
 
 {# ****************************************************************************************************************** #}
@@ -37,11 +38,34 @@
         <div class="side-b"></div>
     </div>
     {% block scripts %}
-        <script> var flipResult = '{{player.cara_sello_value }}';</script>
-        <script src="{% static 'mpl/js/headtails.js' %}"></script>
+        <script>
+            var doneTheStuff;
+                jQuery(document).ready(function ($) {
+                $('#coin').on('click', function () {
+                    // $('#coin').removeClass();
+                    if (!doneTheStuff) {
+                        doneTheStuff = true;
+                        setTimeout(function () {
+                            console.log(flipResult);
+                            if (flipResult <= 0.5) {
+                                $('#coin').addClass('heads');
+                                console.log('it is head');
+                                liveSend(flipResult);
+                            }
+                            else {
+                                $('#coin').addClass('tails');
+                                console.log('it is tails');
+                                liveSend(flipResult);
+                            }
+                        }, 100);
+                    }
+                }
+                );
+            });
+        </script>
     {% endblock %}
 
-    
+
 {% next_button %}
 {% endblock %}
 

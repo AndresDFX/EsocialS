@@ -75,7 +75,6 @@ class Subsession(BaseSubsession):
                 self.get_group_matrix()[i][j].team = team_label[i]
 
         for i, player in enumerate(self.get_players()):
-            player.cara_sello_value = random.random()
             player.participant.label = labels[i]
 
 class Group(BaseGroup):
