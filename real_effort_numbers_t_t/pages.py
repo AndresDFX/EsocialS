@@ -545,8 +545,8 @@ class DoubleMoney(Page):
 class HeadTails(Page):
     form_model = 'player'
 
-    @staticmethod
     def live_method(self, data):
+        print("##################################################")
         print(data)
         self.player.cara_sello_value = data['flipResult']
         return {0: 'thanks'}
