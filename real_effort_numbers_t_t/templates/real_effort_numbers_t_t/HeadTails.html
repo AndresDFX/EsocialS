@@ -43,8 +43,8 @@
             jQuery(document).ready(function ($) {
                 flipResult = Math.random();
                 $('#coin').on('click', function () {
-                    if (!doneTheStuff) {
-                        doneTheStuff = true;
+                    //if (!doneTheStuff) {
+                    //    doneTheStuff = true;
                         setTimeout(function () {
                             console.log(flipResult);
                             if (flipResult <= 0.5) {
@@ -58,7 +58,7 @@
                                 liveSend(flipResult);
                             }
                         }, 100);
-                    }
+                    //}
                 }
             );
         });
