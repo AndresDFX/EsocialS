@@ -545,8 +545,10 @@ class DoubleMoney(Page):
 class HeadTails(Page):
     form_model = 'player'
 
+    @staticmethod
     def live_method(self, data):
         print(data)
+        self.player.cara_sello_value = data['flipResult']
 
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
