@@ -544,8 +544,8 @@ class DoubleMoney(Page):
 
 class HeadTails(Page):
     form_model = 'player'
-    
-    def live_method(player, data):
+
+    def live_method(self, data):
         print(data)
 
     def is_displayed(self):
