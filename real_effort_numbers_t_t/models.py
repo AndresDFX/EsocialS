@@ -12,6 +12,7 @@ from otree.api import (
 
 
 import random
+from multiselectfield import MultiSelectField
 
 
 author = 'Your name here'
@@ -175,14 +176,15 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
     )
 
-    control_question_7 = models.BooleanField(
-        label="¿Cuánto gana el Jugador Y cuando SÍ hay un contrato?",
+    control_question_7 = MultiSelectField(
         choices=[
             [1, "$10,000 siempre"],
             [2, "$10,000 si el Jugador X realiza la tarea completa, y $0 si no lo hace"],
             [3, "$30,000"],
             [4, "Todos los jugadores ganan $15,000 en la Etapa 2"],
         ],
+        max_choices=3,
+        max_length=3
     )
 
 
