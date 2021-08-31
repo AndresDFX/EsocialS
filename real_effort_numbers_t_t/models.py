@@ -235,6 +235,7 @@ class Player(BasePlayer):
             return 'Por favor, lea nuevamente las instrucciones'
 
     def control_question_7_error_message(self, value):
+        print(value)
         if value != 3:
             return 'Por favor, lea nuevamente las instrucciones'
 

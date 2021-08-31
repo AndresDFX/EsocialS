@@ -87,13 +87,6 @@
             {%formfield player.control_question_5%}
             {%formfield player.control_question_6%}
             {%formfield player.control_question_7%}
-            {% for value, text in form.control_question_7.field.choices %}
-            <div class="ui slider checkbox">
-                <input id="id_control_question_7_{{ forloop.counter0 }}" name="{{ form.control_question_7.name }}" type="checkbox" value="{{ value }}"
-                    {% if value in checked_control_question_7 %} checked="checked" {% endif %}>
-                <label>{{ text }}</label>
-            </div>
-            {% endfor %}
         </p>
     </div>
     {% next_button %}
