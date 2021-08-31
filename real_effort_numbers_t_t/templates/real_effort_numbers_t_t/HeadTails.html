@@ -38,9 +38,9 @@
     </div>
 
     <input type="number" name="cara_sello_value" value="0.0" step="any"
-    required="" id="id_cara_sello_value" class="form-control" hidden=>
+    required="" id="id_cara_sello_value" class="form-control" hidden >
     <p>
-        <button class="otree-btn-next btn btn-primary" id="btn" hidden >Siguiente</button>
+        <button class="otree-btn-next btn btn-primary" name="btn" style="display: none;"></button> Siguiente</button>
     </p>
 
     {% block scripts %}
@@ -50,7 +50,7 @@
 
             jQuery(document).ready(function ($) {
                 flipResult = Math.random();
-
+                $('#btn').hide();
 
                 $('#coin').on('click', function () {
                     if (!doneTheStuff) {
