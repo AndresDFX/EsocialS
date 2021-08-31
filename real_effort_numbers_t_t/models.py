@@ -188,11 +188,11 @@ class Player(BasePlayer):
 
     control_question_8 = MultiSelectField(
         choices=[
-            ["1", "Debe pagarle las dos cuotas al Jugador X: $15,000"],
-            ["2", "Debe pagar el costo del contrato de $3,000"],
-            ["3", "Debe pagar el costo del contrato de $5,000"],
-            ["4", "Debe realizar la tarea completa"],
-            ["5", "Sólo le pagarán si el Jugador X realiza la tarea completa"],
+            ["6", "Debe pagarle las dos cuotas al Jugador X: $15,000"],
+            ["7", "Debe pagar el costo del contrato de $3,000"],
+            ["8", "Debe pagar el costo del contrato de $5,000"],
+            ["9", "Debe realizar la tarea completa"],
+            ["10", "Sólo le pagarán si el Jugador X realiza la tarea completa"],
         ]
     )
 # ******************************************************************************************************************** #
@@ -228,7 +228,7 @@ class Player(BasePlayer):
             return 'Por favor, lea nuevamente las instrucciones'
 
     def control_question_8_error_message(self, value):
-        if value != ['1', '3']:
+        if value != ['6', '8']:
             return 'Por favor, lea nuevamente las instrucciones'
 
 
