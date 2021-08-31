@@ -36,7 +36,10 @@
         <div class="side-a"></div>
         <div class="side-b"></div>
     </div>
-    {% formfield player.cara_sello_value %}
+
+    <input type="number" name="cara_sello_value" value="0.0" step="any"
+    required="" id="id_cara_sello_value" class="form-control" hidden=>
+
     {% block scripts %}
         <script>
             var doneTheStuff, flipResult ;
@@ -69,7 +72,9 @@
         </script>
     {% endblock %}
 
+{% if player.countFlips == 1 %}
+    {% next_button %}
+{% endif%}
 
-{% next_button %}
 {% endblock %}
 
