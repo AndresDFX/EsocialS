@@ -50,7 +50,7 @@ class Constants(BaseConstants):
 
     #Stage 1
     payment_per_correct_answer = 50
-    num_seconds_stage_1 = 10 
+    num_seconds_stage_1 = 10
     sub_rounds_stage_1 = 10
     num1_random_stage_1 = 1000
     num2_random_stage_1 = 2000
@@ -65,7 +65,7 @@ class Constants(BaseConstants):
 
 class Subsession(BaseSubsession):
     def creating_session(self):
-        team_label = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL'] 
+        team_label = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL']
         labels = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12']
         number_of_groups = self.session.num_participants // Constants.players_per_group
 
@@ -76,7 +76,7 @@ class Subsession(BaseSubsession):
         for i, player in enumerate(self.get_players()):
             player.cara_sello_value = random.random()
             player.participant.label = labels[i]
-            
+
 class Group(BaseGroup):
     pass
 
@@ -175,7 +175,7 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
     )
 
-    control_question_7 = models.IntegerField(
+    control_question_7 = models.BooleanField(
         label="¿Cuánto gana el Jugador Y cuando SÍ hay un contrato?",
         choices=[
             [1, "$10,000 siempre"],
@@ -183,7 +183,6 @@ class Player(BasePlayer):
             [3, "$30,000"],
             [4, "Todos los jugadores ganan $15,000 en la Etapa 2"],
         ],
-        widget=widgets.RadioSelect,
     )
 
 
@@ -204,7 +203,7 @@ class Player(BasePlayer):
         blank=True,
         widget=widgets.RadioSelect,
     )
-    
+
 # ******************************************************************************************************************** #
 # *** Validaciones
 # ******************************************************************************************************************** #
