@@ -548,7 +548,7 @@ class HeadTails(Page):
     @staticmethod
     def live_method(self, flipResult):
         self.player.cara_sello_value = flipResult
-        Constants.countFlips = 1
+        self.player.countFlips = 1
 
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
@@ -570,7 +570,7 @@ class ResultsDoubleMoney(Page):
         cara_sello_payof = 0
 
         #Si ya se lanzo la moneda una vez
-        if Constants.countFlips == 1:
+        if self.player.countFlips == 1:
             inversion = math.trunc(c(self.player.monto))
             if(self.player.cara_sello_value <= 0.5):
                 cara_sello_name = "rojo"

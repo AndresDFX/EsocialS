@@ -63,10 +63,6 @@ class Constants(BaseConstants):
     num1_random_stage_2 = 1000
     num2_random_stage_2 = 2000
 
-    #Stage 3
-    countFlips = 0
-
-
 class Subsession(BaseSubsession):
     def creating_session(self):
         team_label = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL']
@@ -107,6 +103,10 @@ class Player(BasePlayer):
     total_sums_2 = models.IntegerField(initial=0)
     payment_stage_2 = models.IntegerField(initial=0)
     pago = models.IntegerField(initial=0)
+# ******************************************************************************************************************** #
+# *** Variables Etapa 3
+# ******************************************************************************************************************** #
+    countFlips = models.IntegerField(initial=0)
 # ******************************************************************************************************************** #
 # *** Variables Riesgo
 # ******************************************************************************************************************** #
