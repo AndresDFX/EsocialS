@@ -183,8 +183,17 @@ class Player(BasePlayer):
             ["3", "Debe pagar el costo del contrato de $5,000"],
             ["4", "Debe realizar la tarea completa o pagar $30,000 al Jugador Y"],
             ["5", "Sólo le pagarán la primera cuota de $7,000"],
-        ],
-        max_choices=2
+        ]
+    )
+
+    control_question_8 = MultiSelectField(
+        choices=[
+            ["1", "Debe pagarle las dos cuotas al Jugador X: $15,000"],
+            ["2", "Debe pagar el costo del contrato de $3,000"],
+            ["3", "Debe pagar el costo del contrato de $5,000"],
+            ["4", "Debe realizar la tarea completa"],
+            ["5", "Sólo le pagarán si el Jugador X realiza la tarea completa"],
+        ]
     )
 # ******************************************************************************************************************** #
 # *** Validaciones
@@ -217,6 +226,11 @@ class Player(BasePlayer):
     def control_question_7_error_message(self, value):
         if value != ['2','4']:
             return 'Por favor, lea nuevamente las instrucciones'
+
+    def control_question_8_error_message(self, value):
+        if value != ['1', '3']:
+            return 'Por favor, lea nuevamente las instrucciones'
+
 
 # ******************************************************************************************************************** #
 # *** Variables Consentimiento
