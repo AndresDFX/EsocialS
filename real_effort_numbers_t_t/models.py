@@ -178,34 +178,14 @@ class Player(BasePlayer):
 
     control_question_7 = MultiSelectField(
         choices=[
-            ["1", "1"],
-            ["2", "2"],
-            ["3", "3"],
-            ["4", "4"],
+            ["1", "Sólo le pagarían la primera cuota de $8,000"],
+            ["2", "Debe pagar el costo del contrato de $3,000"],
+            ["3", "Debe pagar el costo del contrato de $5,000"],
+            ["4", "Debe realizar la tarea completa o pagar $30,000 al Jugador Y"],
+            ["5", "Sólo le pagarán la primera cuota de $7,000"],
         ],
-        max_choices=3,
-        max_length=3
+        max_choices=2
     )
-
-
-    control_question_7_1 = models.BooleanField(
-        label="¿Cuánto gana el Jugador Y cuando SÍ hay un contrato?",
-        blank=True,
-        widget=widgets.RadioSelect,
-    )
-
-    control_question_7_2 = models.BooleanField(
-        label="Debe pagar el costo del contrato de $3,000",
-        blank=True,
-        widget=widgets.RadioSelect,
-    )
-
-    control_question_7_3 = models.BooleanField(
-        label="Debe pagar el costo del contrato de $5,000",
-        blank=True,
-        widget=widgets.RadioSelect,
-    )
-
 # ******************************************************************************************************************** #
 # *** Validaciones
 # ******************************************************************************************************************** #
@@ -235,8 +215,7 @@ class Player(BasePlayer):
             return 'Por favor, lea nuevamente las instrucciones'
 
     def control_question_7_error_message(self, value):
-        print(value)
-        if value != 3:
+        if value != ['2','4']:
             return 'Por favor, lea nuevamente las instrucciones'
 
 # ******************************************************************************************************************** #
