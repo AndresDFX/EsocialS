@@ -86,7 +86,13 @@
             {%formfield player.control_question_4%}
             {%formfield player.control_question_5%}
             {%formfield player.control_question_6%}
-            <label class="col-form-label">¿Cuánto gana el Jugador Y cuando SÍ hay un contrato?</label>
+
+            <label class="col-form-label">¿Cuáles de las siguientes opciones son desventajas del contrato para el Jugador X? (seleccione todas las que sean
+            necesarias)</label>
+            {%formfield player.control_question_7 label="" %}
+
+            <label class="col-form-label">¿Cuáles de las siguientes opciones son desventajas del contrato para el Jugador Y? (seleccione todas las que sean
+            necesarias)</label>
             {%formfield player.control_question_7 label="" %}
         </p>
     </div>
