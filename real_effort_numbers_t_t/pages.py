@@ -547,8 +547,8 @@ class HeadTails(Page):
 
     @staticmethod
     def live_method(self, flipResult):
-        print("LA MONEDA DIO:" + str(flipResult))
         self.player.cara_sello_value = flipResult
+        Constants.countFlips = 1
 
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
@@ -568,20 +568,33 @@ class ResultsDoubleMoney(Page):
         cara_sello_name = ""
         combined_payoff = 0
         cara_sello_payof = 0
-        inversion = math.trunc(c(self.player.monto))
 
-        if(self.player.cara_sello_value <= 0.5):
-            cara_sello_name = "rojo"
-            self.player.monto = 5000-inversion + math.trunc(self.player.monto*2)
+        #Si ya se lanzo la moneda una vez
+        if Constants.countFlips == 1:
+            inversion = math.trunc(c(self.player.monto))
+            if(self.player.cara_sello_value <= 0.5):
+                cara_sello_name = "rojo"
+                self.player.monto = 5000-inversion + math.trunc(self.player.monto*2)
+            else:
+                cara_sello_name = "azul"
+                self.player.monto = 5000-inversion
+
+            return {
+                'inversion' : inversion,
+                'cara_sello_name' : cara_sello_name,
+                'cara_sello_payoff' : self.player.monto
+            }
         else:
-            cara_sello_name = "azul"
-            self.player.monto = 5000-inversion
-
-        return {
-            'inversion' : inversion,
-            'cara_sello_name' : cara_sello_name,
-            'cara_sello_payoff' : self.player.monto
-        }
+            inversion = math.trunc(c(self.player.monto))
+            if(self.player.cara_sello_value <= 0.5):
+                cara_sello_name = "rojo"
+            else:
+                cara_sello_name = "azul"
+            return {
+                'inversion': inversion,
+                'cara_sello_name': cara_sello_name,
+                'cara_sello_payoff': self.player.monto
+            }
 
 #=======================================================================================================================
 

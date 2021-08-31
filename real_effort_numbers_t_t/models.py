@@ -63,6 +63,9 @@ class Constants(BaseConstants):
     num1_random_stage_2 = 1000
     num2_random_stage_2 = 2000
 
+    #Stage 3
+    countFlips = 0
+
 
 class Subsession(BaseSubsession):
     def creating_session(self):
