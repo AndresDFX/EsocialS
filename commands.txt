@@ -1,10 +1,15 @@
+--Repositorio Git
 git add .
 git commit -m "Mensaje"
 git push origin main
 git push --all
 git push heroku main
 
---Cambios en modelos
+--Cambios en modelos y db
 heroku run otree resetdb --app esocial-base
-heroku run python manage.py makemigrations 
+heroku run python manage.py makemigrations
 heroku run python manage.py migrate
+
+--Descargar BD postgres
+heroku pg:backups:capture --app esocial-base
+heroku pg:backups:download --app esocial-base

@@ -439,7 +439,3 @@ class Player(BasePlayer):
     def other_player(self):
         # self.get_others_in_group() -> Vector[<Player  2>, <Player  3>, <Player  4>]
         return self.get_others_in_group()[0]
-
-    def live_test(self, data):
-        print('el dato es', data)
-

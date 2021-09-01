@@ -296,7 +296,6 @@ class AddNumbers2(Page):
             self.player.correct_answers_2 = 1
         else:
             self.player.wrong_sums_2 = 1
-        return
 
     def get_timeout_seconds(self):
         import time
@@ -731,8 +730,6 @@ class ReminderNequi(Page):
 # ******************************************************************************************************************** #
 stage_1_sequence = [Consent, GenInstructions, Stage1Instructions, Stage1Questions, Start, AddNumbers, PartialResults, ResultsWaitPage, CombinedResults]
 stage_2_sequence = [Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, SecondQuoteY, WaitPageX, SecondQuoteX, CombinedResults2]
-stage_3_sequence = [PlayCoin, DoubleMoney, HeadTails, ResultsDoubleMoney, CombinedResults3,CombinedResults4, ReminderNequi]
+stage_3_sequence = [PlayCoin, DoubleMoney, HeadTails, ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
 
-page_sequence = stage_3_sequence
-#SocioDemSurvey
-
+page_sequence = stage_1_sequence + stage_2_sequence + stage_3_sequence
