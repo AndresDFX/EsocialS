@@ -10,7 +10,7 @@
         }
 
         .escala_likert{
-            width: 100%; 
+            width: 100%;
             text-align: center;
         }
 
@@ -20,7 +20,7 @@
         }
 
         .tabla_likert{
-            width: 100%; 
+            width: 100%;
             text-align: center;
         }
 
@@ -57,7 +57,7 @@
         será utilizada con propósitos académicos y será protegida de acuerdo con la Ley Estatutaria 1581 de 2012 de protección
         a los datos personales.
     </p>
-    
+
     <p><strong>Ley 1581 de 2012:</strong> Por la cual se complementa la regulación vigente para la protección del derecho constitucional que
         tienen todas las personas a conocer, actualizar y rectificar las informaciones que se hayan recogido sobre ellas en bases
         de datos o archivos, y los demás derechos, libertades y garantías constitucionales.
@@ -70,7 +70,7 @@
     </p>
 
     <ol type="1">
-          
+
         <li> {% formfield player.edad %}</li>
         <li> {% formfield player.ciudad %}</li>
         <li> {% formfield player.rol_hogar %}</li>
@@ -148,7 +148,7 @@
         </table>
 
         <br>
- 
+
         <li>Por favor, califique en una escala de 1 a 10 su disposición a asumir riesgos en general,
             siendo 1 para nada dispuesto y 10 completamente dispuesto.</li>
 
@@ -159,7 +159,7 @@
                     <td>Para nada dispuesto</td>
                        {% for choice in form.offer_1 %}
                     <td>{{ choice }}</td>
-                       {% endfor %}  
+                       {% endfor %}
                     <td>Totalmente dispuesto</td>
                 </tr>
             </table>
@@ -345,10 +345,10 @@
                         <td>{{ choice }}</td>
                         {% endfor %}
                     </tr>
-                      
+
                 </tbody>
             </table>
-            
+
             <br>
 
             <li>¿Qué tan apropiado o inapropiado cree usted que es hacer estas acciones? Por favor, utilice la siguiente escala:</li>
@@ -373,13 +373,13 @@
             </table>
 
             <br>
-<!----> 
-            <table class="tabla_likert">   
-              <!-- <tr>
+<!---->
+            <table class="tabla_likert">
+                <tr>
                     <td>{{form.encuesta_tabla3_pregunta1.label}}</td>
                     <td>{{ form.encuesta_tabla3_pregunta1 }}</td>
                 </tr>
-              -->  <tr>
+                <tr>
                     <td>{{form.encuesta_tabla3_pregunta2.label}}</td>
                     <td>{{ form.encuesta_tabla3_pregunta2 }}</td>
                 </tr>
@@ -439,11 +439,11 @@
                     <td>{{form.encuesta_tabla3_pregunta16.label}}</td>
                     <td>{{ form.encuesta_tabla3_pregunta16 }}</td>
                 </tr>
-            <!-- <tr>
+                <tr>
                     <td>{{form.encuesta_tabla3_pregunta17.label}}</td>
                     <td>{{ form.encuesta_tabla3_pregunta17 }}</td>
                 </tr>
-               --> <tr>
+                <tr>
                     <td>{{form.encuesta_tabla3_pregunta18.label}}</td>
                     <td>{{ form.encuesta_tabla3_pregunta18 }}</td>
                 </tr>
@@ -466,6 +466,18 @@
                 <tr>
                     <td>{{form.encuesta_tabla3_pregunta23.label}}</td>
                     <td>{{ form.encuesta_tabla3_pregunta23 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta24.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta24 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta25.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta25 }}</td>
+                </tr>
+                <tr>
+                    <td>{{form.encuesta_tabla3_pregunta26.label}}</td>
+                    <td>{{ form.encuesta_tabla3_pregunta26 }}</td>
                 </tr>
         </table>
         <br>
