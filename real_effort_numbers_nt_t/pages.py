@@ -773,9 +773,9 @@ class ReminderNequi(Page):
 # ******************************************************************************************************************** #
 stage_1_sequence = [Consent, GenInstructions, Stage1Instructions, Stage1Questions,
                     Start, AddNumbers, PartialResults, ResultsWaitPage, CombinedResults]
-stage_2_sequence = [CombinedResults, Stage2Instructions, Stage2Questions, RoleAssignment, Decision, ResultsWaitPage3,
+stage_2_sequence = [Stage2Instructions, Stage2Questions, RoleAssignment, Decision, ResultsWaitPage3,
                     Decision2, Start2, AddNumbers2, ResultsWaitPage2, SecondQuoteY, WaitPageX, SecondQuoteX, CombinedResults2]
 stage_3_sequence = [PlayCoin, DoubleMoney, HeadTails, ResultsDoubleMoney,
                     CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
 
-page_sequence = stage_2_sequence + stage_3_sequence
+page_sequence = stage_1_sequence + stage_2_sequence + stage_3_sequence
