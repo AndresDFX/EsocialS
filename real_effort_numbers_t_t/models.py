@@ -1,4 +1,3 @@
-
 from otree.api import (
     models,
     widgets,
@@ -10,7 +9,6 @@ from otree.api import (
     currency_range,
 )
 
-
 import random
 from multiselectfield import MultiSelectField
 
@@ -20,6 +18,7 @@ author = 'Your name here'
 doc = """
 Your app description
 """
+
 # ******************************************************************************************************************** #
 # *** Funciones de Utileria
 # ******************************************************************************************************************** #
@@ -82,7 +81,6 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     team = models.StringField()
-
 # ******************************************************************************************************************** #
 # *** Variables Etapa 1
 # ******************************************************************************************************************** #

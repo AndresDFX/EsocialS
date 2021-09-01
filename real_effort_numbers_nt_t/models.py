@@ -10,6 +10,7 @@ from otree.api import (
 )
 
 import random
+from multiselectfield import MultiSelectField
 
 author = 'Your name here'
 
@@ -17,23 +18,49 @@ doc = """
 Your app description
 """
 
+# ******************************************************************************************************************** #
+# *** Funciones de Utileria
+# ******************************************************************************************************************** #
 
+def make_field(label):
+    return models.StringField(
+        choices=[
+            ['Fuertemente en desacuerdo', ""],
+            ['En desacuerdo', ""],
+            ['Ligeramente en desacuerdo', ""],
+            ['Ni de acuerdo, ni en desacuerdo', ""],
+            ['De acuerdo', ""],
+            ['Fuertemente de acuerdo', ""],
+        ],
+        label=label,
+        widget=widgets.RadioSelect,
+    )
+
+
+def make_field2(label):
+    return models.IntegerField(
+        choices=[-2, -1, 0, 1, 2],
+        label=label,
+    )
 class Constants(BaseConstants):
     name_in_url = 'real_effort_numbers_nt_t'
     players_per_group = 2
     num_rounds = 100
-    payment_per_correct_answer = 50
-    payment_per_correct_answer_2 = 50
     fixed_payment = 5000
-    sumas_obligatorias_contrato = 50
-    num_min_stage_1 = 10
-    num_min_stage_2 = 5
-    sub_rounds_stage_1 = 10
-    sub_rounds_stage_2 = 5
-    stage_1_initial_page = 1
-    stage_1_final_page = 5 + sub_rounds_stage_1*2  
-    
 
+    #Stage 1
+    payment_per_correct_answer = 50
+    num_seconds_stage_1 = 10
+    sub_rounds_stage_1 = 10
+    num1_random_stage_1 = 1000
+    num2_random_stage_1 = 2000
+
+    #Stage 2
+    payment_per_correct_answer_2 = 50
+    num_seconds_stage_2 = 10
+    restas_obligatorias_contrato = 50
+    num1_random_stage_2 = 1000
+    num2_random_stage_2 = 2000
 class Subsession(BaseSubsession):
     def creating_session(self):
         #print("Matriz del grupo: " + str(self.get_group_matrix()))
@@ -44,10 +71,10 @@ class Subsession(BaseSubsession):
 
         #Groups players randomly in the first half and in the second half assigns players with their teammates
 
-        team_label = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL'] 
+        team_label = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL']
         labels = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12']
         number_of_groups = self.session.num_participants // Constants.players_per_group
-        
+
         for i, player in enumerate(self.get_players()):
             player.cara_sello_value = random.random()
             player.participant.label = labels[i]
@@ -69,24 +96,22 @@ class Subsession(BaseSubsession):
                 for j in range(0,Constants.players_per_group):
                     self.get_group_matrix()[i][j].team = team_label[i]
        # print("Matriz del grupo N: " + str(self.get_group_matrix()))
-        #print("Grupos N: " + str(self.get_groups()))     
+        #print("Grupos N: " + str(self.get_groups()))
 
 class Group(BaseGroup):
     pass
 
 class Player(BasePlayer):
+    team = models.StringField()
 # ******************************************************************************************************************** #
 # *** Variables Etapa 1
-# ******************************************************************************************************************** #    
+# ******************************************************************************************************************** #
     number_entered = models.IntegerField(label="")
     sum_of_numbers = models.IntegerField()
     correct_answers = models.IntegerField(initial=0)
     wrong_sums = models.IntegerField(initial=0)
     total_sums = models.IntegerField(initial=0)
     payment_stage_1 = models.IntegerField(initial=0)
-    num_min_stage_1 = models.IntegerField(initial=5)
-    contador_numero_aux = models.IntegerField(initial=0)
-    team = models.StringField()
     cara_sello_value = models.FloatField(initial=0.0)
 # ******************************************************************************************************************** #
 # *** Variables Etapa 2
@@ -98,12 +123,17 @@ class Player(BasePlayer):
     total_sums_2 = models.IntegerField(initial=0)
     payment_stage_2 = models.IntegerField(initial=0)
     pago = models.IntegerField(initial=0)
+
+# ******************************************************************************************************************** #
+# *** Variables Etapa 3
+# ******************************************************************************************************************** #
+    countFlips = models.IntegerField(initial=0)
 # ******************************************************************************************************************** #
 # *** Variables Riesgo
 # ******************************************************************************************************************** #
-    monto = models.IntegerField(label = 
+    monto = models.IntegerField(label =
     "Por favor, indica el monto que invertirás en el activo de riesgo (sin puntos o comas)", min=0, max=5000)
-    pago_total = models.IntegerField()    
+    pago_total = models.IntegerField()
 # ******************************************************************************************************************** #
 # *** Preguntas de Control: 1
 # ******************************************************************************************************************** #
@@ -128,54 +158,55 @@ class Player(BasePlayer):
 # ******************************************************************************************************************** #
 # *** Preguntas de Control: 2
 # ******************************************************************************************************************** #
-    control_question_3 = models.IntegerField(
-        label="T-T y T-NT: En la Etapa 2 usted estará emparejado con:",
-        choices = [
-            [1, "Nadie, es un juego individual"],
-            [2, "Con la misma persona de la Etapa 1"],
-            [3, "Con una persona distinta a la de la Etapa 1"],
-        ],
-        widget = widgets.RadioSelect,
-    )
-
     control_question_4 = models.IntegerField(
-        label="¿De dónde salen los $2500 que se le entregan al jugador Y al inicio de la Etapa 1?",
-        choices = [
-            [1, "Se los entregan las personas que administran esta actividad"],
-            [2, "El jugador Y no recibe $2500, sino el jugador X. Ese dinero viene de las ganancias acumuladas del jugador Y"],
-            [3, "De las ganancias acumuladas del jugador X."],
-            [4, "Todos los jugadores reciben $2500 al iniciar la Etapa 2. No solamente el jugador Y."],
+        label="El Jugador X puede rechazar el contrato",
+        choices=[
+            [1, "Verdadero"],
+            [2, "Falso"],
         ],
-        widget = widgets.RadioSelect,
+        widget=widgets.RadioSelect,
     )
 
     control_question_5 = models.IntegerField(
-        label="¿Para qué sirve el contrato?",
-        choices = [
-            [1, "Para que el jugador X se asegure de que el jugador Y le transfiera los $2500 del salario"],
-            [2, "Para que el jugador Y se asegure de que el jugador X realizará un esfuerzo mínimo de 50 sumas en la Etapa 2."],
+        label="¿Cuánto gana el Jugador X cuando NO hay un contrato?",
+        choices=[
+            [1, "$15,000 siempre"],
+            [2, "$8,000 si el Jugador Y sólo le pagan una cuota y $15,000 si el Jugador Y le paga ambas cuotas"],
+            [3, "Máximo $8,000"],
+            [4, "Todos los jugadores reciben $8,000 al iniciar la Etapa 2."],
         ],
-        widget = widgets.RadioSelect,
+        widget=widgets.RadioSelect,
     )
 
     control_question_6 = models.IntegerField(
-        label="Si el jugador Y NO paga por el contrato y el jugador X realiza 100 sumas correctas y 0 incorrectas en todas las rondas, ¿cuánto ganarán los jugadores en la Etapa 2?",
-        choices = [
-            [1, "Jugador Y = -2500 + (100 sumas x $100) = -2500 + 10000 = 7500. Jugador X = 2500 – (100 sumas x $20) = 2500 – 2000 = 500"],
-            [2, "Jugador Y = -2500 + (100 sumas x $30) = -2500 + 3000 = 500. Jugador X = 2500 - (100 sumas x $100) = 2500 –10000 = -7500"],
-            [3, "Jugador Y = -2500 + 5000 = 2500. Jugador X = 2500 – 5000 = -2500"],
+        label="¿Cuánto gana el Jugador Y cuando SÍ hay un contrato?",
+        choices=[
+            [1, "$10,000 siempre"],
+            [2, "$10,000 si el Jugador X realiza la tarea completa, y $0 si no lo hace"],
+            [3, "$30,000"],
+            [4, "Todos los jugadores ganan $15,000 en la Etapa 2"],
         ],
-        widget = widgets.RadioSelect,
+        widget=widgets.RadioSelect,
     )
 
-    control_question_7 = models.IntegerField(
-        label="Si el jugador Y SÍ paga los $2500 del contrato y el jugador X realiza 10 sumas correctas y 0 incorrectas en todas las rondas, ¿cuánto ganarán los jugadores en la Etapa 2?",
-        choices = [
-            [1, "Jugador Y = -2500 + (10 sumas x $100) - 2500) = -2500 + 1000 – 2500  = -4000. Jugador X = 2500 – (10 sumas x $20) = 2500 – 200 = 2300"],
-            [2, "Jugador Y = -2500 + (10 sumas x $100) - 2500) = -2500 + 1000 – 2500  = -4000. Jugador X = 2500 – (10 sumas x $20) + 2500 = 2500 – 200 + 2500 = 4800"],
-            [3, "Jugador Y = -2500 + 5000 – 2500 = 0. Jugador X = 2500 – 5000 = -2500"],
-        ],
-        widget = widgets.RadioSelect,
+    control_question_7 = MultiSelectField(
+        choices=[
+            ["1", "Sólo le pagarían la primera cuota de $8,000"],
+            ["2", "Debe pagar el costo del contrato de $3,000"],
+            ["3", "Debe pagar el costo del contrato de $5,000"],
+            ["4", "Debe realizar la tarea completa o pagar $30,000 al Jugador Y"],
+            ["5", "Sólo le pagarán la primera cuota de $7,000"],
+        ]
+    )
+
+    control_question_8 = MultiSelectField(
+        choices=[
+            ["6", "Debe pagarle las dos cuotas al Jugador X: $15,000"],
+            ["7", "Debe pagar el costo del contrato de $3,000"],
+            ["8", "Debe pagar el costo del contrato de $5,000"],
+            ["9", "Debe realizar la tarea completa"],
+            ["10", "Sólo le pagarán si el Jugador X realiza la tarea completa"],
+        ]
     )
 # ******************************************************************************************************************** #
 # *** Validaciones
@@ -189,26 +220,26 @@ class Player(BasePlayer):
         if value != 1:
             return 'Recuerde que ganarán $50 por cada respuesta correcta que hayan dado juntos.'
 
-    def control_question_3_error_message(self, value):
-        print(value)
-        if value != 2:
-            return 'Recuerde que usted será emparejado con la misma persona de la Etapa 1.'
-
     def control_question_4_error_message(self, value):
         if value != 2:
-            return 'Por favor, lea nuevamente las instrucciones'         
+            return 'Por favor, lea nuevamente las instrucciones'
 
     def control_question_5_error_message(self, value):
         if value != 2:
-            return 'Por favor, lea nuevamente las instrucciones' 
+            return 'Por favor, lea nuevamente las instrucciones'
 
     def control_question_6_error_message(self, value):
         if value != 1:
-            return 'Por favor, lea nuevamente las instrucciones' 
+            return 'Por favor, lea nuevamente las instrucciones'
 
     def control_question_7_error_message(self, value):
-        if value != 3:
+        if value != ['2','4']:
             return 'Por favor, lea nuevamente las instrucciones'
+
+    def control_question_8_error_message(self, value):
+        if value != ['6', '8']:
+            return 'Por favor, lea nuevamente las instrucciones'
+
 
 # ******************************************************************************************************************** #
 # *** Variables Consentimiento
@@ -243,788 +274,220 @@ class Player(BasePlayer):
         widget = widgets.RadioSelect,
         blank = True
     )
-    suggested_sums = models.IntegerField(blank = True, label="")
+    pay_second_quote = models.BooleanField(
+        label="",
+        choices=[
+            [True, "Sí"],
+            [False, "No"],
+        ],
+        widget=widgets.RadioSelect,
+        default=True,
+        blank=True
+    )
 # ******************************************************************************************************************** #
 # *** Variables Encuesta sociodemográfica
 # ******************************************************************************************************************** #
-    genero = models.StringField(
-        label="¿Cuál es su género?",
-        choices=[["Masculino", "Masculino"], #[StoredValue, "Label"]
-                ["Femenino", "Femenino"]],
-        widget=widgets.RadioSelect,
+    edad = models.IntegerField(label='¿Cuántos años cumplidos tiene?')
+    ciudad = models.StringField(label='¿En qué ciudad vive actualmente?')
+
+    rol_hogar = models.StringField(
+        label='¿Cuál es su rol en su hogar? (Por favor, escoja una opción)',
+        choices=['Padre / Madre', 'Espos@', 'Hij@', 'Otro']
     )
-    edad = models.IntegerField(label="¿Cuántos años cumplidos tiene usted?")
-    ciudad = models.StringField(label="¿En qué ciudad vive actualmente?")
-    estrato = models.IntegerField(
-        label="¿Cuál es el estrato de la vivienda en la cual habita actualmente?",
-        choices = [
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-            [6, "6"]],
-        widget=widgets.RadioSelect)
-    estado_civil =  models.StringField(
-        label="¿Cuál es su estado civil? Escoja una opción",
-        choices = [
-            ["Soltero", "Soltero"],
-            ["Casado ", "Casado "],
-            ["Unión libre", "Unión libre"],
-            ["Divorciado", "Divorciado"],
-            ["Viudo", "Viudo"],
-            ["Prefiero no decir", "Prefiero no decir"],
-        ],
-        widget=widgets.RadioSelect
+
+    estado_civil = models.StringField(
+        label='¿Cuál es su estado civil? (Por favor, escoja una opción)',
+        choices=['Soltero', 'casado', 'Unión libre',
+                 'Divorciado', 'Viudo', 'Prefiero no decir']
     )
-    numero_hijos = models.IntegerField(label="¿Cuántos hijos tiene usted?")
-    identifica_cultura = models.StringField(
-        label="De acuerdo con su cultura o rasgos físicos, usted es o se reconoce como:",
-        choices = [
-            ["Afro-colombiano", "Afro-colombiano"],
-            ["Indígena ", "Indígena "],
-            ["Mestizo", "Mestizo"],
-            ["Mulato", "Mulato"],
-            ["Blanco", "Blanco"],
-            ["Raizal del archipielago", "Raizal del archipielago"],
-            ["Palenquero", "Palenquero"],
-            ["Otro", "Otro"],
-            ["Prefiero no decir", "Prefiero no decir"],
-        ],
-        widget=widgets.RadioSelect
+
+    hijos = models.IntegerField(label='¿Cuántos hijos tiene usted?')
+
+    etnia = models.StringField(
+        label='De acuerdo con su cultura o rasgos físicos, usted es o se reconoce como:(Por favor, escoja una opción)',
+        choices=['Afrocolombiano', 'Indigena', 'Mestizo', 'Mulato', 'Blanco',
+                 'Raizal del archipielago', 'Palenquero', 'Otro', 'Prefiero no decir']
     )
-    identifica_religion = models.StringField(
-        label="¿En cuál de los siguientes grupos se identifica usted? Escoja una opción",
-        choices = [
-            ["Católico", "Católico"],
-            ["Cristiano ", "Cristiano "],
-            ["Testigo de Jehová", "Testigo de Jehová"],
-            ["Ateo", "Ateo"],
-            ["Judío", "Judío"],
-            ["Musulmán", "Musulmán"],
-            ["Hinduista", "Hinduista"],
-            ["Otro", "Otro"],
-            ["Prefiero no decir", "Prefiero no decir"],
-        ],
-        widget=widgets.RadioSelect
+
+    religion = models.StringField(
+        label='¿En cuál de los siguientes grupos se identifica usted?(Por favor, escoja una opción)',
+        choices=['Católico', 'Cristiano', 'Testigo de Jehová', 'Ateo', 'Agnóstico',
+                 'Judío', 'Musulmán', 'Hinduista', 'Otro', 'Prefiero no decir']
     )
-    nivel_estudios = models.StringField(
-        label="¿Cuál es el máximo nivel de estudios alcanzado a la fecha? Escoja una opción",
-        choices = [
-            ["Primaria incompleta", "Primaria incompleta"],
-            ["Primaria completa ", "Primaria completa "],
-            ["Básica secundaria (9o grado completo)", "Básica secundaria (9o grado completo)"],
-            ["Media secundaria (11o grado completo)", "Media secundaria (11o grado completo)"],
-            ["Técnico incompleto", "Técnico incompleto"],
-            ["Técnico completo", "Técnico completo"],
-            ["Tecnológico incompleto", "Tecnológico incompleto"],
-            ["Tecnológico completo", "Tecnológico completo"],
-            ["Pregrado incompleto", "Pregrado incompleto"],
-            ["Pregrado completo", "Pregrado completo"],
-            ["Postgrado incompleto", "Postgrado incompleto"],
-            ["Posgrado completo", "Posgrado completo"],
-        ],
-        widget=widgets.RadioSelect
+
+    estudios = models.StringField(
+        label='¿Cuál es el máximo nivel de estudios alcanzado a la fecha? (Por favor, escoja una opción)',
+        choices=[
+            'Primaria incompleta',
+            'Primaria completa',
+            'Básica secundaria (9º grado completo)',
+            'Media secundaria (11º grado completo)',
+            'Técnico incompleto',
+            'Técnico completo',
+            'Tecnológico incompleto',
+            'Tecnológico completo',
+            'Pregrado incompleto',
+            'Pregrado completo',
+            'Postgrado incompleto',
+            'Posgrado completo'
+        ]
     )
-    tendencia_politica = models.IntegerField(
-        label="Hoy en día cuando se habla de tendencias políticas, mucha gente habla de aquellos que simpatizan más con la izquierda o con la derecha. Según el sentido que tengan para usted los términos 'izquierda' y 'derecha' cuando piensa sobre su punto de vista político, ¿dónde se encontraría usted en esta escala?",
-        choices = [
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-            [6, "6"],
-            [7, "7"],
-            [8, "8"],
-            [9, "9"],
-            [10, "10"],
-        ],
-        widget=widgets.RadioSelect,
+
+    actividad_actual = models.StringField(
+        label='Actualmente, ¿cuál es su actividad principal? (Por favor, escoja una opción)',
+        choices=['Estudiar', 'Trabajar', 'Oficios del hogar',
+                 'Buscar trabajo', 'Otra actividad']
     )
-    disposicion_riesgos = models.IntegerField(
-        label="Por favor, califique en un escala de 1 a 10 su disposición a asumir riesgos en general, siendo 1 para nada dispuesto y 10 completamente dispuesto",
-        choices = [
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-            [6, "6"],
-            [7, "7"],
-            [8, "8"],
-            [9, "9"],
-            [10, "10"],
-        ],
-        widget=widgets.RadioSelect,
+
+    esta_laborando = models.BooleanField(
+        label='¿Se encuentra usted laborando actualmente? (Por favor, escoja una opción)',
+        choices=[
+            [True, "Sí"],
+            [False, "No"],
+        ]
     )
-     # ******************************************************************************************************************** #
-# *** Pregunta 24: Primer conjunto de afirmaciones (10 preguntas)
-# ******************************************************************************************************************** #
-    conseguir_esfuerzo =  models.StringField(
-        label="Por lo general, cuando consigo lo que quiero es porque me he esforzado por lograrlo.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
+
+    ingreso_mensual = models.StringField(
+        label='¿Cuál es su nivel aproximado de ingresos mensuales (incluya mesadas, subsidios y remesas)?',
+        choices=[
+            'De 1 a $200.000',
+            'De $200.001 a $400.000',
+            'De $400.001 a $700.000',
+            'De $700.001 a $1.000.000',
+            'De $1.000.001 a $2.000.000',
+            'De $2.000.001 a $5.000.000',
+            'Más de 5.000.001',
+            'Prefiero no decir'
+        ]
     )
-    planes_termino =  models.StringField(
-        label="Cuando hago planes estoy casi seguro (a) que conseguiré que lleguen a buen término.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
+
+    gasto_mensual = models.StringField(
+        label='¿Cuál es su nivel aproximado de gastos mensuales?',
+        choices=[
+            'De 1 a $200.000',
+            'De $200.001 a $400.000',
+            'De $400.001 a $700.000',
+            'De $700.001 a $1.000.000',
+            'De $1.000.001 a $2.000.000',
+            'De $2.000.001 a $5.000.000',
+            'Más de 5.000.001',
+            'Prefiero no decir'
+        ]
     )
-    juego_suerte =  models.StringField(
-        label="Prefiero los juegos que entrañan algo de suerte que los que sólo requieren habilidad.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    propongo_aprender =  models.StringField(
-        label="Si me lo propongo, puedo aprender casi cualquier cosa.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    mayores_logros =  models.StringField(
-        label="Mis mayores logros se deben más que nada a mi trabajo arduo y a mi capacidad",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    establecer_metas =  models.StringField(
-        label="Por lo general no establezco metas porque se me dificulta mucho hacer lo necesario para alcanzarlas.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    competencia_excelencia =  models.StringField(
-        label="La competencia desalienta la excelencia",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    salir_adelante =  models.StringField(
-        label="Las personas a menudo salen adelante por pura suerte.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    comparar_calificaciones =  models.StringField(
-        label="En cualquier tipo de examen o competencia me gusta comparar mis calificaciones con las de los demás.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    empeno_trabajo = models.StringField(
-        label="Pienso que no tiene sentido empeñarme en trabajar en algo que es demasiado difícil para mí.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    # ******************************************************************************************************************** #
-# *** Pregunta 25: Segundo conjunto de afirmaciones (10 preguntas)
-# ******************************************************************************************************************** #
-    alcanzar_objetivos = models.StringField(
-        label="Podré alcanzar la mayoría de los objetivos que me he propuesto.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    cumplir_tareas = models.StringField(
-        label="Cuando me enfrento a tareas difíciles, estoy seguro de que las cumpliré.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    obtener_resultados = models.StringField(
-        label="En general, creo que puedo obtener resultados que son importantes para mí.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    exito_esfuerzo = models.StringField(
-        label="Creo que puedo tener éxito en cualquier esfuerzo que me proponga.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    superar_desafios = models.StringField(
-        label="Seré capaz de superar con éxito muchos desafíos.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    confianza_tareas = models.StringField(
-        label="Confío en que puedo realizar eficazmente muchas tareas diferentes.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    tareas_excelencia = models.StringField(
-        label="Comparado con otras personas, puedo hacer la mayoría de las tareas muy bien.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-    tareas_dificiles = models.StringField(
-        label="Incluso cuando las cosas son difíciles, puedo realizarlas bastante bien.",
-        choices = [
-            ["Fuertemente en desacuerdo", "Fuertemente en desacuerdo"],
-            ["En desacuerdo", "En desacuerdo"],
-            ["Ligeramente en desacuerdo", "Ligeramente en desacuerdo"],
-            ["Ni de acuerdo, ni en desacuerdo", "Ni de acuerdo, ni en desacuerdo"],
-            ["De acuerdo", "De acuerdo"],
-            ["Fuertemente de acuerdo", "Fuertemente de acuerdo"],
-        ],
-        widget=widgets.RadioSelect,
-    )
-     # ******************************************************************************************************************** #
-# *** Pregunta 26: Segundo conjunto de afirmaciones (10 preguntas)
-# ******************************************************************************************************************** #
-    tarde_cita = models.IntegerField(
-        label="Llegar tarde a una cita",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    comprar_vendedores_ambulantes = models.IntegerField(
-        label="Comprar a vendedores ambulantes",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    trabajar_sin_contrato = models.IntegerField(
-        label="Trabajar y recibir un pago sin que haya firmado un contrato formal (pintar una casa, realizar un reporte, etc.)",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    emplear_sin_contrato = models.IntegerField(
-        label="Darle trabajo a alguien y pagarle sin pedirle que firme un contrato formal (pintar una casa, realizar un reporte, etc.)",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    no_cotizar_pension = models.IntegerField(
-        label="No cotizar al sistema de pensiones",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    no_cotizar_salud = models.IntegerField(
-        label="No aportar al sistema de salud",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    no_cuenta_bancaria = models.IntegerField(
-        label="No tener cuenta bancaria",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    pedir_prestado = models.IntegerField(
-        label="Pedir dinero prestado a prestamistas informales (ejemplo: gota a gota)",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    transporte_alternativo = models.IntegerField(
-        label="Usar transportes alternativos como piratas o mototaxis",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    vender_informal = models.IntegerField(
-        label="Vender cosas o hacer negocios de manera informal",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    no_votar = models.IntegerField(
-        label="No votar",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    comprar_sin_factura = models.IntegerField(
-        label="Comprar productos sin factura",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    # ******************************************************************************************************************** #
-# *** Pregunta 27: Segundo conjunto de afirmaciones (10 preguntas)
-# ******************************************************************************************************************** #
-    tarde_cita_otros = models.IntegerField(
-        label="Llegar tarde a una cita",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    comprar_vendedores_ambulantes_otros = models.IntegerField(
-        label="Comprar a vendedores ambulantes",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    trabajar_sin_contrato_otros = models.IntegerField(
-        label="Trabajar y recibir un pago sin que haya firmado un contrato formal (pintar una casa, realizar un reporte, etc.)",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    emplear_sin_contrato_otros = models.IntegerField(
-        label="Darle trabajo a alguien y pagarle sin pedirle que firme un contrato formal (pintar una casa, realizar un reporte, etc.)",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    no_cotizar_pension_otros = models.IntegerField(
-        label="No cotizar al sistema de pensiones",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    no_cotizar_salud_otros = models.IntegerField(
-        label="No aportar al sistema de salud",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    no_cuenta_bancaria_otros = models.IntegerField(
-        label="No tener cuenta bancaria",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    pedir_prestado_otros = models.IntegerField(
-        label="Pedir dinero prestado a prestamistas informales (ejemplo: gota a gota)",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    transporte_alternativo_otros = models.IntegerField(
-        label="Usar transportes alternativos como piratas o mototaxis",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    vender_informal_otros = models.IntegerField(
-        label="Vender cosas o hacer negocios de manera informal",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    no_votar_otros = models.IntegerField(
-        label="No votar",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    comprar_sin_factura_otros = models.IntegerField(
-        label="Comprar productos sin factura",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect   
-    )
-     # ******************************************************************************************************************** #
-# *** Pregunta 28: Apropiado (10 preguntas)
-# ******************************************************************************************************************** #
-    tarde_cita_apropiado = models.IntegerField(
-        label="Llegar tarde a una cita",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    comprar_vendedores_ambulantes_apropiado = models.IntegerField(
-        label="Comprar a vendedores ambulantes",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    trabajar_sin_contrato_apropiado = models.IntegerField(
-        label="Trabajar y recibir un pago sin que haya firmado un contrato formal (pintar una casa, realizar un reporte, etc.)",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    emplear_sin_contrato_apropiado = models.IntegerField(
-        label="Darle trabajo a alguien y pagarle sin pedirle que firme un contrato formal (pintar una casa, realizar un reporte, etc.)",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    no_cotizar_pension_apropiado = models.IntegerField(
-        label="No cotizar al sistema de pensiones",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    no_cotizar_salud_apropiado = models.IntegerField(
-        label="No aportar al sistema de salud",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    no_cuenta_bancaria_apropiado = models.IntegerField(
-        label="No tener cuenta bancaria",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    pedir_prestado_apropiado = models.IntegerField(
-        label="Pedir dinero prestado a prestamistas informales (ejemplo: gota a gota)",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    transporte_alternativo_apropiado = models.IntegerField(
-        label="Usar transportes alternativos como piratas o mototaxis",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    vender_informal_apropiado = models.IntegerField(
-        label="Vender cosas o hacer negocios de manera informal",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    no_votar_apropiado = models.IntegerField(
-        label="No votar",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect
-    )
-    comprar_sin_factura_apropiado = models.IntegerField(
-        label="Comprar productos sin factura",
-        choices = [
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            [3, "3"],
-            [4, "4"],
-            [5, "5"],
-        ],
-        widget=widgets.RadioSelect  
-    )
+
+    #
+    alimentos = models.IntegerField(label="Alimentos")
+    aseo = models.IntegerField(label="Productos de aseo")
+    electronicos = models.IntegerField(label="Artículos electrónicos")
+    transporte = models.IntegerField(label="Transporte")
+    servicios = models.IntegerField(label="Pago de servicios")
+    diversion = models.IntegerField(label="Diversión y ocio")
+    ahorro = models.IntegerField(label="Ahorro")
+    deudas = models.IntegerField(label="Pago de deudas")
+
+    #Esacala Likert
+    offer_1 = models.IntegerField(widget=widgets.RadioSelect, choices=[
+                                  1, 2, 3, 4, 5, 6, 7, 8, 9, 10], label="")
+
+    Estabilidad = models.IntegerField(choices=[
+                                      1, 2, 3, 4, 5], label='Mantenerse invariable o inalterable en el mismo lugar, estado o situación.')
+    Independencia = models.IntegerField(
+        choices=[1, 2, 3, 4, 5], label='Autonomía de tomar las decisiones propias.')
+    Descanso = models.IntegerField(
+        choices=[1, 2, 3, 4, 5], label='Reposar fuerzas a través de un estado inactivo')
+    Lucro = models.IntegerField(
+        choices=[1, 2, 3, 4, 5], label='Ganancia o provecho de algún actividad u objeto.')
+    Protección = models.IntegerField(
+        choices=[1, 2, 3, 4, 5], label='Seguridad o respaldo frente a un acontecimiento.')
+
+    encuesta_tabla1_pregunta1 = make_field(
+        'Por lo general, cuando consigo lo que quiero es porque me he esforzado por lograrlo.')
+    encuesta_tabla1_pregunta2 = make_field(
+        'Cuando hago planes estoy casi seguro (a) que conseguiré que lleguen a buen término.')
+    encuesta_tabla1_pregunta3 = make_field(
+        'Prefiero los juegos que entrañan algo de suerte que los que sólo requieren habilidad.')
+    encuesta_tabla1_pregunta4 = make_field(
+        'Si me lo propongo, puedo aprender casi cualquier cosa.')
+    encuesta_tabla1_pregunta5 = make_field(
+        'Mis mayores logros se deben más que nada a mi trabajo arduo y a mi capacidad.')
+    encuesta_tabla1_pregunta6 = make_field(
+        'Por lo general no establezco metas porque se me dificulta mucho hacer lo necesario para alcanzarlas.')
+    encuesta_tabla1_pregunta7 = make_field(
+        'La competencia desalienta la excelencia.')
+    encuesta_tabla1_pregunta8 = make_field(
+        'Las personas a menudo salen adelante por pura suerte.')
+    encuesta_tabla1_pregunta9 = make_field(
+        'En cualquier tipo de examen o competencia me gusta comparar mis calificaciones con las de los demás.')
+    encuesta_tabla1_pregunta10 = make_field(
+        'Pienso que no tiene sentido empeñarme en trabajar en algo que es demasiado difícil para mí.')
+
+    encuesta_tabla2_pregunta1 = make_field(
+        'Podré alcanzar la mayoría de los objetivos que me he propuesto.')
+    encuesta_tabla2_pregunta2 = make_field(
+        'Cuando me enfrento a tareas difíciles, estoy seguro de que las cumpliré.')
+    encuesta_tabla2_pregunta3 = make_field(
+        'En general, creo que puedo obtener resultados que son importantes para mí.')
+    encuesta_tabla2_pregunta4 = make_field(
+        'Creo que puedo tener éxito en cualquier esfuerzo que me proponga.')
+    encuesta_tabla2_pregunta5 = make_field(
+        'Seré capaz de superar con éxito muchos desafíos.')
+    encuesta_tabla2_pregunta6 = make_field(
+        'Confío en que puedo realizar eficazmente muchas tareas diferentes.')
+    encuesta_tabla2_pregunta7 = make_field(
+        'Comparado con otras personas, puedo hacer la mayoría de las tareas muy bien.')
+    encuesta_tabla2_pregunta8 = make_field(
+        'Incluso cuando las cosas son difíciles, puedo realizarlas bastante bien.')
+    encuesta_tabla2_pregunta9 = make_field(
+        'Podré alcanzar la mayoría de los objetivos que me he propuesto.')
+
+    encuesta_tabla3_pregunta1 = make_field2('Llegar tarde a una cita')
+    encuesta_tabla3_pregunta2 = make_field2('Comprar a vendedores ambulantes')
+    encuesta_tabla3_pregunta3 = make_field2('Tirar basura en la calle')
+    encuesta_tabla3_pregunta4 = make_field2(
+        'Trabajar y recibir un pago sin que haya firmado un contrato formal (pintar una casa, realizar un reporte, etc.)')
+    encuesta_tabla3_pregunta5 = make_field2(
+        'Silbar o decirle un piropo a un (a) desconocido (a) en la calle')
+    encuesta_tabla3_pregunta6 = make_field2(
+        'Darle trabajo a alguien y pagarle sin pedirle que firme un contrato formal (pintar una casa, realizar un reporte, etc.)')
+    encuesta_tabla3_pregunta7 = make_field2(
+        'Consumir cerveza, aguardiente, ron u otras bebidas alcohólicas en un andén o parque')
+    encuesta_tabla3_pregunta8 = make_field2(
+        'No cotizar al sistema de pensiones')
+    encuesta_tabla3_pregunta9 = make_field2('No aportar al sistema de salud')
+    encuesta_tabla3_pregunta10 = make_field2(
+        'No ceder un asiento preferente a una embarazada o un(a) anciano(a) se sube al bus')
+    encuesta_tabla3_pregunta11 = make_field2('Colarse en las filas')
+    encuesta_tabla3_pregunta12 = make_field2('No tener cuenta bancaria')
+    encuesta_tabla3_pregunta13 = make_field2(
+        'Pedir dinero prestado a prestamistas informales (ejemplo: gota a gota)')
+    encuesta_tabla3_pregunta14 = make_field2(
+        'No recoger los desechos de las mascotas')
+    encuesta_tabla3_pregunta15 = make_field2(
+        'Usar transportes alternativos como piratas o mototaxis')
+    encuesta_tabla3_pregunta16 = make_field2(
+        'Vender cosas o hacer negocios de manera informal')
+    encuesta_tabla3_pregunta17 = make_field2(
+        'Usar plataformas de transporte como Uber, Didi, etc.')
+    encuesta_tabla3_pregunta18 = make_field2('No votar')
+    encuesta_tabla3_pregunta19 = make_field2(
+        'Ir a eventos políticos para conseguir empleo/beneficios personales')
+    encuesta_tabla3_pregunta20 = make_field2(
+        'Comprar réplicas de productos originales (lociones, bolsos, zapatos, camisas)')
+    encuesta_tabla3_pregunta21 = make_field2('Comprar productos sin factura')
+    encuesta_tabla3_pregunta22 = make_field2('Subarrendar una habitación')
+    encuesta_tabla3_pregunta23 = make_field2(
+        'Vivir en una habitación subarrendada')
+    encuesta_tabla3_pregunta24 = make_field2(
+        'No usar el paso cebra o los puentes peatonales para cruzar una calle')
+    encuesta_tabla3_pregunta25 = make_field2(
+        'Cruzar caminando una calle cuando el semáforo peatonal está en rojo')
+    encuesta_tabla3_pregunta26 = make_field2(
+        'Circular en bicicleta por el andén (no usar la cicloruta)')
+
 # ******************************************************************************************************************** #
 # *** Acceder al otro jugador
 # ******************************************************************************************************************** #
+
     def other_player(self):
-        #self.get_others_in_group() -> Vector[<Player  2>, <Player  3>, <Player  4>]
+        # self.get_others_in_group() -> Vector[<Player  2>, <Player  3>, <Player  4>]
         return self.get_others_in_group()[0]
-  
