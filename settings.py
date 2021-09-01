@@ -59,7 +59,7 @@ SESSION_CONFIGS = [
     dict(
         name='real_effort_numbers_nt_t',
         display_name="Gift-exchange Game NT-T",
-        num_demo_participants=4,
+        num_demo_participants=12,
         app_sequence=['real_effort_numbers_nt_t']
     ),
     dict(
