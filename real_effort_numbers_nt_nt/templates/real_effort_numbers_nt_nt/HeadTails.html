@@ -26,7 +26,7 @@
 {% block content %}
 
     <div class="wrapper instructions">
-        <p align = "justify">
+        <p align="justify">
             Usted ha decidido invertir <b>${{inversion}}</b>.<br><br>
 
             <b>Por favor, haga clic sobre la moneda para hacerla girar. Esta vez, el resultado sí determinará tu pago</b>
@@ -36,12 +36,47 @@
         <div class="side-a"></div>
         <div class="side-b"></div>
     </div>
-    {% block scripts %}
-        <script> var flipResult = '{{player.cara_sello_value }}';</script>
-        <script src="{% static 'mpl/js/headtails.js' %}"></script>
-    {% endblock %}
 
-    
-{% next_button %}
+    <input type="number" name="cara_sello_value" value="0.0" step="any" required="" id="id_cara_sello_value"
+        class="form-control" hidden>
+    <p>
+        <button class="otree-btn-next btn btn-primary" id="btn" style="display: none;">Siguiente</button>
+    </p>
+
+{% block scripts %}
+    <script>
+        var doneTheStuff, flipResult;
+
+
+        jQuery(document).ready(function ($) {
+            flipResult = Math.random();
+            $('#btn').hide();
+
+            $('#coin').on('click', function () {
+                if (!doneTheStuff) {
+                    doneTheStuff = true;
+                    $('#id_cara_sello_value').val(flipResult);
+
+                    setTimeout(function () {
+                        console.log(flipResult);
+                        if (flipResult <= 0.5) {
+                            $('#coin').addClass('heads');
+                            console.log('it is head');
+                        }
+                        else {
+                            $('#coin').addClass('tails');
+                            console.log('it is tails');
+                        }
+                    }, 100);
+                    $('#btn').show();
+                }
+            }
+            );
+        });
+
+    </script>
+{% endblock %}
+
+
 {% endblock %}
 

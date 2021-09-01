@@ -1,0 +1,47 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers_nt_t/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+
+{% block title %}
+    Pago de la segunda cuota
+{% endblock %}
+
+{% block content %}
+    <!--Sin contrato X-->
+    {% if player.id_in_group == 1 and  opponent_contract_decision == False %}
+    <div class="wrapper instructions">
+        <p align = "justify">
+            {% if opponent_pay_second_quote == True %}
+                El Jugador Y ha tomado la decisión de pagarle la segunda cuota de $7,000.
+            {% else %}
+                El Jugador Y ha tomado la decisión de NO pagarle la segunda cuota de $7,000.
+            {% endif %}
+        </p>
+    </div>
+    {% endif %}
+
+    <!--Con contrato X-->
+    {% if player.id_in_group == 1 and  opponent_contract_decision == True %}
+    <div class="wrapper instructions">
+        <p align = "justify">
+            Usted realizó {{correct_answers_2}} restas correctas.
+
+            Le hemos transferido los $7,000 de la segunda cuota, provenientes de las ganancias acumuladas del Jugador Y.
+        </p>
+    </div>
+    {% endif %}
+{% next_button %}
+{% endblock %}

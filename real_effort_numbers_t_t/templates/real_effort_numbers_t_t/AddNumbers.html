@@ -16,7 +16,6 @@
 {% endblock %}
 
 {% block content %}
-
     <div class="wrapper instructions">
         <p align = "justify">
                 Por favor, reste los siguientes números que aparecerán en pantalla. Luego presione el botón <b>Siguiente</b>
@@ -31,7 +30,7 @@
                 <b>Restas incorrectas:</b> <font color='red'>{{wrong_sums}}</font><br>
                 <b>Restas totales:</b> {{total_sums}}<br>
                 <b>Pago por restas:</b> ${{combined_payoff}}<br>
-                <b>Ronda {{player.round_number}} de {{Constants.sub_rounds_stage_1}}</b>    
+                <b>Ronda {{player.round_number}} de {{Constants.sub_rounds_stage_1}}</b>
         </p>
     </div>
 {% next_button %}

@@ -1,0 +1,51 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'real_effort_numbers_nt_nt/css/custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+
+{% block title %}
+    Pago de la segunda cuota
+{% endblock %}
+
+{% block content %}
+    <!--Sin contrato Y-->
+    {% if player.id_in_group == 2 and  contract_decision == False %}
+    <div class="wrapper instructions">
+        <p align = "justify">
+            El Jugador X realizó {{correct_answers_2_opponent}} restas correctas y, por lo tanto,
+            {% if correct_answers_2_opponent >= Constants.restas_obligatorias_contrato %}
+	            usted ha ganado $30,000 de esta etapa.<br><br>
+            {% else %}
+	            usted no ha ganado los $30,000 de esta etapa.<br><br>
+            {% endif %}
+
+            ¿Desea pagarle al Jugador X la segunda cuota de $7,000?.<br><br>
+            {% formfield player.pay_second_quote %}
+        </p>
+    </div>
+    {% endif %}
+
+    <!--Con contrato Y-->
+    {% if player.id_in_group == 2 and  contract_decision == True %}
+    <div class="wrapper instructions">
+        <p align = "justify">
+            El Jugador X realizó {{correct_answers_2_opponent}} restas correctas.<br><br>
+
+            A continuación, vamos a transferirle al Jugador X los $7,000 de la segunda cuota. Ese dinero saldrá de sus ganancias acumuladas.
+        </p>
+    </div>
+    {% endif %}
+{% next_button %}
+{% endblock %}

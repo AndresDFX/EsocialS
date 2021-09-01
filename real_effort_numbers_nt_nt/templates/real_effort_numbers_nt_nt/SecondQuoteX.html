@@ -14,28 +14,34 @@
 {# ****************************************************************************************************************** #}
 {# *** TITLE *** #}
 {# ****************************************************************************************************************** #}
+
 {% block title %}
-    {{titulo}}
+    Pago de la segunda cuota
 {% endblock %}
 
 {% block content %}
-    {% if player.id_in_group == 1 %}
-    <!--Jugador X-->
+    <!--Sin contrato X-->
+    {% if player.id_in_group == 1 and  opponent_contract_decision == False %}
     <div class="wrapper instructions">
-        <p align="justify">
-            ¿Cree usted que el Jugador Y decidirá establecer un contrato por el cual deberá pagar $5,000 y usted deberá
-            pagar $3,000?
-            {% formfield player.believe_pay_contract %}
+        <p align = "justify">
+            {% if opponent_pay_second_quote == True %}
+                El Jugador Y ha tomado la decisión de pagarle la segunda cuota de $7,000.
+            {% else %}
+                El Jugador Y ha tomado la decisión de NO pagarle la segunda cuota de $7,000.
+            {% endif %}
         </p>
     </div>
-    {% else %}
-    <!--Jugador Y-->
+    {% endif %}
+
+    <!--Con contrato X-->
+    {% if player.id_in_group == 1 and  opponent_contract_decision == True %}
     <div class="wrapper instructions">
-        <p align="justify">
-            ¿Desea establecer un contrato, por el que usted deberá pagar $5,000 y el Jugador X deberá pagar $3,000?
-            {% formfield player.pay_contract %}
+        <p align = "justify">
+            Usted realizó {{correct_answers_2}} restas correctas.
+
+            Le hemos transferido los $7,000 de la segunda cuota, provenientes de las ganancias acumuladas del Jugador Y.
         </p>
     </div>
-{% endif %}
+    {% endif %}
 {% next_button %}
 {% endblock %}
