@@ -50,14 +50,14 @@ class Constants(BaseConstants):
 
     #Stage 1
     payment_per_correct_answer = 50
-    num_seconds_stage_1 = 10
+    num_seconds_stage_1 = 60
     sub_rounds_stage_1 = 10
     num1_random_stage_1 = 1000
     num2_random_stage_1 = 2000
 
     #Stage 2
     payment_per_correct_answer_2 = 50
-    num_seconds_stage_2 = 10
+    num_seconds_stage_2 = 10*60
     restas_obligatorias_contrato = 50
     num1_random_stage_2 = 1000
     num2_random_stage_2 = 2000
@@ -74,6 +74,7 @@ class Subsession(BaseSubsession):
             player.cara_sello_value = random.random()
             player.participant.label = labels[i]
 
+        
         if self.round_number >= 1 and self.round_number <= (Constants.num_rounds/2):
             for i in range(0,number_of_groups):
                 for j in range(0,Constants.players_per_group):

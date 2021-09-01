@@ -50,14 +50,14 @@ class Constants(BaseConstants):
 
     #Stage 1
     payment_per_correct_answer = 50
-    num_seconds_stage_1 = 10
+    num_seconds_stage_1 = 60
     sub_rounds_stage_1 = 10
     num1_random_stage_1 = 1000
     num2_random_stage_1 = 2000
 
     #Stage 2
     payment_per_correct_answer_2 = 50
-    num_seconds_stage_2 = 10
+    num_seconds_stage_2 = 10*60
     restas_obligatorias_contrato = 50
     num1_random_stage_2 = 1000
     num2_random_stage_2 = 2000
@@ -81,6 +81,7 @@ class Subsession(BaseSubsession):
         if self.round_number == 1:
             self.group_randomly(fixed_id_in_group=True)
 
+        #ToDo: Reasignar los grupos de 1 a 10 rondas en la etapa 1, hasta la ronda 10
         if self.round_number >= 1 and self.round_number <= (Constants.num_rounds/2):
             self.group_like_round(1)
 

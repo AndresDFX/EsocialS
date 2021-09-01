@@ -50,14 +50,14 @@ class Constants(BaseConstants):
 
     #Stage 1
     payment_per_correct_answer = 50
-    num_seconds_stage_1 = 10
+    num_seconds_stage_1 = 60
     sub_rounds_stage_1 = 10
     num1_random_stage_1 = 1000
     num2_random_stage_1 = 2000
 
     #Stage 2
     payment_per_correct_answer_2 = 50
-    num_seconds_stage_2 = 10
+    num_seconds_stage_2 = 10*60
     restas_obligatorias_contrato = 50
     num1_random_stage_2 = 1000
     num2_random_stage_2 = 2000
