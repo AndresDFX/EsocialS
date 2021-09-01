@@ -83,6 +83,9 @@ class Subsession(BaseSubsession):
 
         if self.round_number >= 1 and self.round_number <= (Constants.num_rounds/2):
             self.group_like_round(1)
+            for i in range(0,number_of_groups):
+                for j in range(0,Constants.players_per_group):
+                    self.get_group_matrix()[i][j].team = team_label[i]
 
         # Randomizes teams and then groups them together
 
