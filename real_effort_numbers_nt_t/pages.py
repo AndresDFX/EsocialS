@@ -171,7 +171,7 @@ class ResultsWaitPage(WaitPage):
 
 class CombinedResults(Page):
     def is_displayed(self):
-        return self.round_number == Constants.num_rounds/2
+        return self.round_number == (Constants.num_rounds/2)+1
 
     def vars_for_template(self):
         all_players = self.player.in_all_rounds()
@@ -228,7 +228,7 @@ class Stage2Questions(Page):
                    'control_question_6', 'control_question_7', 'control_question_8']
 
     def is_displayed(self):
-        return self.round_number == Constants.num_rounds/2
+        return self.round_number == (Constants.num_rounds/2)+1
 
 #=======================================================================================================================
 
@@ -773,7 +773,7 @@ class ReminderNequi(Page):
 # ******************************************************************************************************************** #
 stage_1_sequence = [Consent, GenInstructions, Stage1Instructions, Stage1Questions,
                     Start, AddNumbers, PartialResults, ResultsWaitPage, CombinedResults]
-stage_2_sequence = [Stage2Instructions, Stage2Questions, RoleAssignment, Decision, ResultsWaitPage3,
+stage_2_sequence = [CombinedResults, Stage2Instructions, Stage2Questions, RoleAssignment, Decision, ResultsWaitPage3,
                     Decision2, Start2, AddNumbers2, ResultsWaitPage2, SecondQuoteY, WaitPageX, SecondQuoteX, CombinedResults2]
 stage_3_sequence = [PlayCoin, DoubleMoney, HeadTails, ResultsDoubleMoney,
                     CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
