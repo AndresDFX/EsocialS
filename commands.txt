@@ -13,3 +13,12 @@ heroku run python manage.py migrate
 --Descargar BD postgres
 heroku pg:backups:capture --app esocial-base
 heroku pg:backups:download --app esocial-base
+
+--Importar BD postgres en local
+pg_restore --verbose --clean --no-acl --no-owner -h localhost -U postgres -d testDB latest.dump
+
+--Reporte de una determinada session en una app
+SELECT label,_session_code, *
+FROM otree_participant
+NATURAL JOIN real_effort_numbers_t_t_player
+WHERE _session_code = '7atzke84'
