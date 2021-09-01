@@ -56,7 +56,6 @@ class AddNumbers(Page):
             self.player.correct_answers = 1
         else:
             self.player.wrong_sums = 1
-        return
 
     def is_displayed(self):
         if self.round_number > Constants.sub_rounds_stage_1:
@@ -314,10 +313,6 @@ class AddNumbers2(Page):
         total_sums = 0
         self.player.sum_of_numbers_2 = number_2 - number_1
         all_players = self.player.in_all_rounds()
-        me = self.player.id_in_group
-        me_in_session = self.player.participant.id_in_session
-        others = self.player.get_others_in_group()[0]
-        opponent = self.player.other_player()
         opponent_id = self.player.other_player().id_in_group
         opponent_id_in_session = self.player.other_player().participant.id_in_session
 
@@ -327,7 +322,6 @@ class AddNumbers2(Page):
             wrong_sums += player.wrong_sums_2
             total_sums += player.total_sums_2
 
-        pay_contract = self.player.in_round((Constants.num_rounds/2)+1).pay_contract
         opponent_contract_decision = self.player.other_player().in_round((Constants.num_rounds/2)+1).pay_contract
 
         return {
