@@ -171,7 +171,7 @@ class ResultsWaitPage(WaitPage):
 
 class CombinedResults(Page):
     def is_displayed(self):
-        return self.round_number == Constants.num_rounds/2
+        return self.round_number == (Constants.num_rounds/2)+1
 
     def vars_for_template(self):
         all_players = self.player.in_all_rounds()
