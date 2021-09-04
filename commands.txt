@@ -20,5 +20,5 @@ pg_restore --verbose --clean --no-acl --no-owner -h localhost -U postgres -d tes
 --Reporte de una determinada session en una app
 SELECT label,_session_code, *
 FROM otree_participant
-NATURAL JOIN real_effort_numbers_t_t_player
+NATURAL JOIN real_effort_numbers_t_t_player --El nombre de la app
 WHERE _session_code = '7atzke84'

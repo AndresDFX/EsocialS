@@ -1,0 +1,29 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Ejercicios
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        {% if player.decision%}
+        Debido a que usted seleccionó la <b> Urna Y</b>, su pago para esta ronda es de {{player.var_aleY1}} <br>
+        
+
+        {% else %}
+        Debido a que usted seleccionó la <b> Urna Z</b>, su pago para esta ronda es de {{player.var_aleZ1}} <br>
+        
+        {%endif%}
+    </p>
+     
+    <p>
+        Por favor realice los siguientes ejercicios.
+    </p>
+
+   <p> {%formfields%} </p>
+
+    {% next_button %}
+
+{% endblock %}
