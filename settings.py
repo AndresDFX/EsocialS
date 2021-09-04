@@ -3,6 +3,12 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
+        name='Cuestionario',
+        display_name='Cuestionario',
+        num_demo_participants=1,
+        app_sequence=['Cuestionario', 'payment_info'],
+    ),   
+    dict(
         name='mpl',
         display_name="Contratos y consumo: una aproximación cuasi-experimental",
         num_demo_participants=1,
