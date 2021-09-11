@@ -6,7 +6,7 @@ SESSION_CONFIGS = [
         name='Cuestionario',
         display_name='Cuestionario',
         num_demo_participants=1,
-        app_sequence=['Cuestionario', 'payment_info'],
+        app_sequence=['Cuestionario'],
     ),   
     dict(
         name='mpl',

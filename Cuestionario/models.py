@@ -9,84 +9,10 @@ from otree.api import (
     currency_range,    
 )
 
-# ******************************************************************************************************************** #
-# ***                                                           UTILITY
-# ******************************************************************************************************************** #
-
-def make_radio_button(label, choices, fieldtype):
-    return models.fieldtype(
-        choices=choices,
-        label=label,
-        widget=widgets.RadioSelect,
-    )
-
-def makefield_urn_decision(choices):
-    return models.StringField(
-        choices=choices
-    )
-
-def makefield_string(label, choices):
-    return models.StringField(
-        label=label,
-        choices=choices,
-        widget=widgets.RadioSelect
-    )
-
-def makefield_integer():
-    return models.IntegerField(initial=0)
-
-# ******************************************************************************************************************** #
-# ***                                                           CHOICES
-# ******************************************************************************************************************** #
-
-#################### STAGE 1 #######################
-choices_urn = [
-    ['Y', 'Urna Y'], 
-    ['Z', 'Urna Z']
-]
-
-choices_gen_instructions1 = [
-    [1, '(2+2)*5/2'], 
-    [0, '((1+2+3+4+5+6)/7)+7'],
-    [0, '((50*10)/2)-200'],
-    [0, 'Ninguna de las anteriores']
-]
-
-choices_gen_instructions2 = [
-    [1,'2 UM'], 
-    [2,'0 UM'],
-    [3,'8 UM'],
-    [4,'Ninguna de las anteriores']
-]
-
-choices_gen_instructions3 = [
-    [1,'8 UM'], 
-    [2,'10 UM'],
-    [3,'6 UM'],
-    [4,'Ninguna de las anteriores']
-]
-
-choices_gen_instructions4 = [
-    [1,'144 UM'], 
-    [2,'112 UM'],
-    [3,'126 UM'],
-    [4,'Ninguna de las anteriores']
-]
-
-choices_gen_instructions5 = [
-    [1,'$2,500'], 
-    [2,'$1,680'],
-    [3,'$2,800'],
-    [4,'Ninguna de las anteriores']
-]
-
-# ******************************************************************************************************************** #
-# ***                                                       CLASS APPLICATION
-# ******************************************************************************************************************** #
 class Constants(BaseConstants):
     name_in_url = 'Cuestionario'
     players_per_group = None
-    num_rounds = 100
+    num_rounds = 1
     endowment = c(1)
     minY1 = 0
     minZ1 = 2
@@ -96,56 +22,111 @@ class Constants(BaseConstants):
 class Subsession(BaseSubsession):
     pass
     
-#ToDo: agregar funcion para que las variables de pagos del player vayan actualizando la variable de pagos propia de otree
+    
+class Group(BaseGroup):
+    pass
+
+class Participant(BasePlayer):
+
+    pass
+
 class Player(BasePlayer):
+    import random
+    var_aleY1 = models.IntegerField(initial=random.randint(0,10))
+    var_aleZ1 = models.IntegerField(initial=random.randint(2,8))
 
-    payment_total = makefield_integer()
+    respuestasOK = models.IntegerField(initial = 0)
+    Total = models.models.IntegerField(null = True, blank = True)
+    
+    age = models.IntegerField(label='¿Cuál es su edad?', min=13, max=125)
 
-# ******************************************************************************************************************** #
-# *** STAGE 1
-# ******************************************************************************************************************** #
-    payment_phase_1 = makefield_integer()
-    payment_phase_2 = makefield_integer()
-    payment_phase_3 = makefield_integer()
-    payment_phase_4 = makefield_integer()
-    payment_stage_1 = makefield_integer()
-    decision_phase_1 = makefield_urn_decision()
-    decision_phase_2 = makefield_urn_decision()
-    decision_phase_3 = makefield_urn_decision()
-    decision_phase_4 = makefield_urn_decision()
-    answer_correct_stage1 = makefield_integer()
-
-    ########## Phase 1 #############
-    question_1_gen_instructions = makefield_string(
-        '1. ¿Cuál es el valor mínimo de UM que puede salir de la Urna Z?',
-        choices_gen_instructions2
+    gender = models.StringField(
+        choices = [['H', 'Hombre'], ['M', 'Mujer']],
+        label = '¿Cuál es su sexo?',
+        widget = widgets.RadioSelectHorizontal,
+    )
+    
+    decision = models.BooleanField(
+        choices = [[True,'Urna Y'],[False,'Urna Z']],
+        label = 'Por favor a continuación seleccione una de las urnas',
+        widget = widgets.RadioSelectHorizontal,        
     )
 
-    question_2_gen_instructions = makefield_string(
-        '2. ¿Cuál es el valor mínimo de UM que puede salir de la Urna Y?',
-        choices_gen_instructions2
+    E1 = models.IntegerField(
+        choices=[[1,'(2+2)*5/2'], [0,'((1+2+3+4+5+6)/7)+7'],[0,'((50*10)/2)-200'],[0,'Ninguna de las anteriores']],
+        label='1. ¿Cuál es la ecuación equivalente a esta: ((100/2)-10)/2?',
+        widget=widgets.RadioSelect,
     )
 
-    question_3_gen_instructions = makefield_string(
-        '3. ¿Cuál es el valor máximo de UM que puede salir de la Urna Y?',
-        choices_gen_instructions3
+    E2 = models.IntegerField(
+        choices=[[0,'(2+2)*5/2'], [1,'((1+2+3+4+5+6)/7)+7'],[0,'((50*10)/2)-200'],[0,'Ninguna de las anteriores']],
+        label='2. ¿Cuál es la ecuación equivalente a esta: ((100/2)-10)/2?',
+        widget=widgets.RadioSelect,
     )
 
-    question_4_gen_instructions = makefield_string(
-        '4. Si para las rondas 6-10 usted escoge la urna Z y sale al azar una moneda de valor 7 UM, ¿cuántas UM ganará en la ronda 8 si logra 18 respuestas correctas?',
-        choices_gen_instructions4
+    E3 = models.IntegerField(
+        choices=[[1,'(2+2)*5/2'], [0,'((1+2+3+4+5+6)/7)+7'],[0,'((50*10)/2)-200'],[0,'Ninguna de las anteriores']],
+        label='3. ¿Cuál es la ecuación equivalente a esta: ((100/2)-10)/2?',
+        widget=widgets.RadioSelect,
     )
 
-    question_5_gen_instructions = makefield_string(
-        '5. Suponga que para las rondas 11-15 usted escoge la urna Y y sale al azar una moneda de valor 3 UM. ¿cuánto dinero ganaría si obtuvo 21 respuestas correctas? ',
-        choices_gen_instructions5
+    E4 = models.IntegerField(
+        choices=[[1,'(2+2)*5/2'], [2,'((1+2+3+4+5+6)/7)+7'],[3,'((50*10)/2)-200'],[4,'Ninguna de las anteriores']],
+        label='4. ¿Cuál es la ecuación equivalente a esta: ((100/2)-10)/2?',
+        widget=widgets.RadioSelect,
     )
 
-# ******************************************************************************************************************** #
-# *** STAGE 2
-# ******************************************************************************************************************** #
-    payment_stage_2 = makefield_integer()
-    answer_correct_stage2 = makefield_integer()
+    E5 = models.IntegerField(
+        choices=[[1,'(2+2)*5/2'], [2,'((1+2+3+4+5+6)/7)+7'],[3,'((50*10)/2)-200'],[4,'Ninguna de las anteriores']],
+        label='5. ¿Cuál es la ecuación equivalente a esta: ((100/2)-10)/2?',
+        widget=widgets.RadioSelect,
+    )
 
+    primera = models.IntegerField(
+        choices=[[1,'2 UM'], [2,'0 UM'],[3,'8 UM'],[4,'Ninguna de las anteriores']],
+        label='1. ¿Cuál es el valor mínimo de UM que puede salir de la Urna Z?',
+        widget=widgets.RadioSelect,
+    )
 
+    segunda = models.IntegerField(
+        choices=[[1,'2 UM'], [2,'0 UM'],[3,'8 UM'],[4,'Ninguna de las anteriores']],
+        label='2. ¿Cuál es el valor mínimo de UM que puede salir de la Urna Y?',
+        widget=widgets.RadioSelect,
+    )
 
+    tercera = models.IntegerField(
+        choices=[[1,'8 UM'], [2,'10 UM'],[3,'6 UM'],[4,'Ninguna de las anteriores']],
+        label='3. ¿Cuál es el valor máximo de UM que puede salir de la Urna Y?',
+        widget=widgets.RadioSelect,
+    )
+
+    cuarta = models.IntegerField(
+        choices=[[1,'144 UM'], [2,'112 UM'],[3,'126 UM'],[4,'Ninguna de las anteriores']],
+        label='4. Si para las rondas 6-10 usted escoge la urna Z y sale al azar una moneda de valor 7 UM, ¿cuántas UM ganará en la ronda 8 si logra 18 respuestas correctas?',
+        widget=widgets.RadioSelect,
+    )
+
+    quinta = models.IntegerField(
+        choices=[[1,'$2,500'], [2,'$1,680'],[3,'$2,800'],[4,'Ninguna de las anteriores']],
+        label='5. Suponga que para las rondas 11-15 usted escoge la urna Y y sale al azar una moneda de valor 3 UM. ¿cuánto dinero ganaría si obtuvo 21 respuestas correctas? ',
+        widget=widgets.RadioSelect,
+    )
+  
+    
+
+    def primera_error_message(self,value):
+        if value != 1:
+            return "Respuesta incorrecta, por favor lea de nuevo las instrucciones."
+    def segunda_error_message(self,value):
+        if value != 2:
+            return "Respuesta incorrecta, por favor lea de nuevo las instrucciones."     
+    def tercera_error_message(self,value):
+        if value != 2:
+            return "Respuesta incorrecta, por favor lea de nuevo las instrucciones."
+    def cuarta_error_message(self,value):
+        if value != 3:
+            return "Respuesta incorrecta, por favor lea de nuevo las instrucciones."
+    def quinta_error_message(self,value):
+        if value != 4:
+            return "Respuesta incorrecta, por favor lea de nuevo las instrucciones."
+    
