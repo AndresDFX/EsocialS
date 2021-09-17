@@ -5,20 +5,34 @@ git push origin main
 git push --all
 git push heroku main
 
---Cambios en modelos y db
-heroku run otree resetdb --app esocial-base
+--Cambios en modelos y BD
+heroku run otree resetdb --app esocials
 heroku run python manage.py makemigrations
 heroku run python manage.py migrate
 
 --Descargar BD postgres
-heroku pg:backups:capture --app esocial-base
-heroku pg:backups:download --app esocial-base
+heroku pg:backups:capture --app esocials
+heroku pg:backups:download --app esocials
 
 --Importar BD postgres en local
-pg_restore --verbose --clean --no-acl --no-owner -h localhost -U postgres -d testDB latest.dump
+pg_restore --verbose --clean --no-acl --no-owner -h localhost -U postgres -d esocials2 latest.dump
 
 --Reporte de una determinada session en una app
-SELECT label,_session_code, *
-FROM otree_participant
-NATURAL JOIN real_effort_numbers_t_t_player --El nombre de la app
-WHERE _session_code = '7atzke84'
+SELECT B.label, A.session_id, *
+FROM real_effort_numbers_t_t_player A
+INNER JOIN otree_participant B
+ON A.session_id = B.session_id
+WHERE _session_code = 'qqu5k92h';
+
+--Obtener ID de una sesion
+SELECT id FROM otree_session WHERE code ='9efzwyo9'
+
+--Con el ID de la sesion obtengo el nombre de la app
+SELECT _current_app_name FROM otree_participant 
+WHERE session_id = 11
+
+--Obtiene los datos de los player en determinada sesion y en la ronda 1
+SELECT * 
+FROM real_effort_numbers_t_nt_player 
+WHERE session_id = 11 AND round_number = 1
+ORDER BY participant_id ASC

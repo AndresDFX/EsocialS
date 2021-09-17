@@ -3,6 +3,24 @@ from ._builtin import Page, WaitPage
 from .models import *
 import random, math
 
+# ******************************************************************************************************************** #
+# *** UTILS
+# ******************************************************************************************************************** #
+
+def get_data(player, list_atrr):
+    values = []
+    for attr in list_atrr:
+        values.append(getattr(player, attr))
+    return values
+
+def set_data(player, list_atrr, values):
+    for i,atrr in enumerate(list_atrr):
+        setattr(player, atrr, values[i])
+
+#TODO: Not work if method get_forms_fields is present in Class Page.
+def get_and_set_data(self_player, player, list_atrr):
+    values = get_data(self_player, list_atrr)
+    set_data(player, list_atrr, values)
 
 # ******************************************************************************************************************** #
 # *** STAGE 1
@@ -73,11 +91,6 @@ class AddNumbers(Page):
         #Realizar la operacion (Suma o Resta)
         self.player.sum_of_numbers = number_2 - number_1
         all_players = self.player.in_all_rounds()
-        me = self.player.id_in_group
-        me_in_session = self.player.participant.id_in_session
-        others = self.player.get_others_in_group()[0]
-        opponent = self.player.other_player()
-        correct_answers_opponent = 0
         opponent_id = self.player.other_player().id_in_group
         opponent_id_in_session = self.player.other_player().participant.id_in_session
 
@@ -161,8 +174,6 @@ class CombinedResults(Page):
 
     def vars_for_template(self):
         all_players = self.player.in_all_rounds()
-        all_others = self.player.get_others_in_group()[0].in_all_rounds()
-        others = self.player.get_others_in_group()[0]
         combined_payoff = 0
         correct_answers = 0
         correct_answers_opponent = 0
@@ -170,7 +181,6 @@ class CombinedResults(Page):
         combined_payoff_opponent = 0
         combined_payoff_team = 0
         combined_payoff_total = 0
-        opponent = self.player.other_player()
         opponent_id = self.player.other_player().id_in_group
         opponent_id_in_subsession = self.player.other_player().id_in_subsession
 
@@ -354,7 +364,6 @@ class SecondQuoteY(Page):
             return self.round_number == Constants.num_rounds
 
     def vars_for_template(self):
-        opponent = self.player.other_player()
         contract_decision = self.player.in_round((Constants.num_rounds/2)+1).pay_contract
         correct_answers_2_opponent = 0
         all_players = self.player.in_all_rounds()
@@ -405,19 +414,13 @@ class CombinedResults2(Page):
         return self.round_number == Constants.num_rounds
 
     def vars_for_template(self):
-        # self.player.get_others_in_group()[0] == self.player.other_player() -> Player Object
         all_players = self.player.in_all_rounds()
-        all_others = self.player.get_others_in_group()[0].in_all_rounds()
-        others = self.player.get_others_in_group()[0]
         combined_payoff = 0
         correct_answers = 0
         correct_answers_opponent = 0
-        correct_answers_team = 0
         combined_payoff_opponent = 0
-        combined_payoff_team = 0
         combined_payoff_total = 0
         opponent = self.player.other_player()
-        opponent_id = self.player.other_player().id_in_group
         correct_answers = 0
         combined_payoff = 0
         wrong_sums_2 = 0
@@ -556,8 +559,6 @@ class ResultsDoubleMoney(Page):
 
     def vars_for_template(self):
         cara_sello_name = ""
-        combined_payoff = 0
-        cara_sello_payof = 0
 
         #Si ya se lanzo la moneda una vez
         if self.player.countFlips == 1:
