@@ -158,7 +158,7 @@ class Player(BasePlayer):
         label="¿Cuánto gana el Jugador X cuando NO hay un contrato?",
         choices=[
             [1, "$15,000 siempre"],
-            [2, "$8,000 si el Jugador Y sólo le pagan una cuota y $15,000 si el Jugador Y le paga ambas cuotas"],
+            [2, "$8,000 si el Jugador Y sólo le paga una cuota y $15,000 si el Jugador Y le paga ambas cuotas"],
             [3, "Máximo $8,000"],
             [4, "Todos los jugadores reciben $8,000 al iniciar la Etapa 2."],
         ],

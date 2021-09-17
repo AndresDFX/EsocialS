@@ -25,19 +25,26 @@
 {% block content %}
 
     <div class="wrapper instructions">
-        <p align = "justify">
+        <align align = "justify">
             {% comment %} Todos:{% endcomment %} Esta etapa tiene 10 rondas. En cada ronda usted y otra persona con la que le será emparejado (a),
             deberán realizar restas de números de dos dígitos a lo largo de un minuto.
             Por cada resta correcta, cada miembro de la pareja recibirá $50.<br><br>
 
+            <b>Ejemplo:</b><br>
+            Imaginemos que hay dos jugadores, María y Juan y que ambos completan, al finalizar la Etapa 1, 50 restas correctas cada uno. 
+            Esto quiere decir que tendrán en total 100 restas correctas, equivalentes a 5000 pesos en total, tal como lo muestra la tabla:<br><br>
+            <div style="text-align: center;">
+                <img src="{% static 'real_effort_numbers_t_t/images/table_explain_paymentstage1.png' %}" style= "object-fit: cover">
+            </div>
+            <br>
             Dado que sus decisiones son anónimas, ni usted ni la otra persona conocerán la identidad de la persona con quien han
             sido emparejados (as).<br><br>
 
             Le hemos asignado al azar la etiqueta <b>{{player.team}}</b>, con la cual usted se identificará a lo largo de la Etapa 1. 
             Usted será emparejado(a) con otro(a) participante al azar, quien también ha recibido la etiqueta <b>{{player.team}}</b>, y juntos realizarán las actividades de las Etapas 1 y 2.<br><br>
                     
-            <b>A continuación le haremos unas preguntas de control, solo para estar seguros de que las instrucciones han sido claras</b>
-            <b>Por favor, responda las siguientes preguntas:</b>
+            <b>A continuación le haremos unas preguntas de control, solo para estar seguros de que las instrucciones han sido claras.</b>
+            Por favor, responda las siguientes preguntas:</b> 
         {%formfield player.control_question_1%}
         {%formfield player.control_question_2%}
         </p>
