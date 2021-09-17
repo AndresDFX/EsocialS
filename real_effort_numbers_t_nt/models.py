@@ -195,24 +195,22 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
     )
 
-    control_question_7 = MultiSelectField(
-        choices=[
-            ["1", "Sólo le pagarían la primera cuota de $8,000"],
-            ["2", "Debe pagar el costo del contrato de $3,000"],
-            ["3", "Debe pagar el costo del contrato de $5,000"],
-            ["4", "Debe realizar la tarea completa o pagar $30,000 al Jugador Y"],
-            ["5", "Sólo le pagarán la primera cuota de $7,000"],
-        ]
+    control_question_7 = models.IntegerField(
+        label="En total, ¿Cuánto le pagará a Juan si decide contratarlo? (por favor, registre su respuesta sin puntos ni comas)", 
+        min=0, 
+        max=50000
     )
 
-    control_question_8 = MultiSelectField(
-        choices=[
-            ["6", "Debe pagarle las dos cuotas al Jugador X: $15,000"],
-            ["7", "Debe pagar el costo del contrato de $3,000"],
-            ["8", "Debe pagar el costo del contrato de $5,000"],
-            ["9", "Debe realizar la tarea completa"],
-            ["10", "Sólo le pagarán si el Jugador X realiza la tarea completa"],
-        ]
+    control_question_8 = models.IntegerField(
+        label="¿Cuánto pagará Juan por el contrato si María decide contratarlo? (por favor, registre su respuesta sin puntos ni comas)", 
+        min=0, 
+        max=50000
+    )
+
+    control_question_9 = models.IntegerField(
+        label="Si María contratara a Juan ¿Cuánto se le descontaría a Juan si no alcanzara a completar las 50 restas? (por favor, registre su respuesta sin puntos ni comas)", 
+        min=0, 
+        max=50000
     )
 # ******************************************************************************************************************** #
 # *** Validaciones
@@ -238,12 +236,20 @@ class Player(BasePlayer):
         if value != 2:
             return 'Por favor, lea nuevamente las instrucciones'
 
+    def control_question_6_error_message(self, value):
+        if value != 1:
+            return 'Por favor, lea nuevamente las instrucciones'
+
     def control_question_7_error_message(self, value):
-        if value != ['2','4']:
+        if value != 15000:
             return 'Por favor, lea nuevamente las instrucciones'
 
     def control_question_8_error_message(self, value):
-        if value != ['6', '8']:
+        if value != 3000:
+            return 'Por favor, lea nuevamente las instrucciones'
+    
+    def control_question_9_error_message(self, value):
+        if value != 30000:
             return 'Por favor, lea nuevamente las instrucciones'
 
 

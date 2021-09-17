@@ -228,7 +228,7 @@ class Stage2Instructions(Page):
 class Stage2Questions(Page):
     form_model = 'player'
     form_fields = ['control_question_4', 'control_question_5',
-                   'control_question_6', 'control_question_7', 'control_question_8']
+                   'control_question_6', 'control_question_7', 'control_question_8', 'control_question_9']
 
     def is_displayed(self):
         return self.round_number == Constants.num_rounds/2
