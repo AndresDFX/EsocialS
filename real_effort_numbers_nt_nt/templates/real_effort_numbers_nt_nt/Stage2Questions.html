@@ -1,15 +1,4 @@
-{% extends "global/Page.html" %}
-{% load staticfiles otree %}
-{% load i18n %}
-
-
-{# ****************************************************************************************************************** #}
-{# *** STYLES *** #}
-{# ****************************************************************************************************************** #}
-{% block styles %}
-    <link href="{% static 'real_effort_numbers_nt_nt/css/custom.css' %}" rel="stylesheet"/>
-{% endblock %}
-
+{% extends "real_effort_numbers_nt_nt/base/global.html" %}
 
 {# ****************************************************************************************************************** #}
 {# *** TITLE *** #}
@@ -86,12 +75,12 @@
         de sus ganancias acumuladas en la Etapa 1.<br><br>
 
         <b>Ventajas y desventajas de la ausencia del contrato:</b><br><br>
-        <p align="center"><img src="{% static 'real_effort_numbers_t_t/images/ventajas_desventajas_etapa2.png' %}"
+        <p align="center"><img src="{% static 'images/ventajas_desventajas_etapa2.png' %}"
                 alt="Ventajas y desventajas de la ausencia del contrato" style="height: 90%; width: 90%; object-fit: cover">
         </p>
 
         <b>La tabla presentada a continuación resume de las ganancias de la Etapa 2 para ambos jugadores.</b><br><br>
-        <p align="center"><img src="{% static 'real_effort_numbers_t_t/images/ganancias_etapa2.png' %}"
+        <p align="center"><img src="{% static 'images/ganancias_etapa2.png' %}"
                 alt="las ganancias de la Etapa 2 para ambos jugadores" style="height: 90%; width: 90%; object-fit: cover">
         </p>
 

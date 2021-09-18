@@ -10,7 +10,7 @@ from otree.api import (
 )
 
 import random
-from multiselectfield import MultiSelectField
+
 
 
 author = 'Your name here'
@@ -70,7 +70,7 @@ class Subsession(BaseSubsession):
 
         for i in range(0, number_of_groups):
             for j in range(0, Constants.players_per_group):
-                self.get_group_matrix()[i][j].team = team_label[i]
+                self.get_group_matrix(objects=True)[i][j].team = team_label[i]
 
         for i, player in enumerate(self.get_players()):
             player.participant.label = labels[i]
@@ -81,6 +81,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     team = models.StringField()
+    round_counter = models.IntegerField(initial=1)
 # ******************************************************************************************************************** #
 # *** Variables Etapa 1
 # ******************************************************************************************************************** #

@@ -74,14 +74,19 @@ class AddNumbers(Page):
             self.player.correct_answers = 1
         else:
             self.player.wrong_sums = 1
+        
+    def get_timeout_seconds(self):
+        import time
+        #Timeout variable used to show the timer
+        return self.participant.vars['expiry'] - time.time()
 
     def is_displayed(self):
-        if self.round_number > Constants.sub_rounds_stage_1:
-            return False
-        elif self.round_number <= Constants.num_rounds/2:
-            return True
+        
+        if self.round_number <= 50:
+            return self.get_timeout_seconds() > 3
 
     def vars_for_template(self):
+        player = self.player.in_round(1)
         number_1 = random.randint(1, Constants.num1_random_stage_1 )
         number_2 = random.randint(number_1+1, Constants.num2_random_stage_1)
         correct_answers = 0
@@ -101,6 +106,7 @@ class AddNumbers(Page):
             total_sums += player.total_sums
 
         return {
+            'round_counter': player.round_counter,
             'number_1': number_1,
             'number_2': number_2,
             'combined_payoff' : math.trunc(combined_payoff),
@@ -111,18 +117,25 @@ class AddNumbers(Page):
             'total_sums': total_sums,
             'opponent_id_in_session': opponent_id_in_session
         }
+
+
+    def live_method(self, data):
+        player = self.in_round(1)
+        print(type(data))
+
 #=======================================================================================================================
 
 class PartialResults(Page):
 
+
     def is_displayed(self):
-        if self.round_number > Constants.sub_rounds_stage_1:
-            return False
-        elif self.round_number <= Constants.num_rounds/2:
-            return True
+        player = self.player
+        if (player.round_counter <= 10 and self.round_number != 1):
+            player.round_counter = player.round_counter + 1
+            return self.round_number == self.round_number
 
     def vars_for_template(self):
-
+        players = self.player.in_round(1)
         all_players = self.player.in_all_rounds()
         opponent_id = self.player.other_player().id_in_group
         opponent_id_in_subsession = self.player.other_player().id_in_subsession
@@ -149,6 +162,7 @@ class PartialResults(Page):
         self.player.payment_stage_1 = math.trunc(combined_payoff_total)
 
         return {
+            'round_counter': players.round_counter,
             'combined_payoff' : math.trunc(combined_payoff),
             'combined_payoff_opponent': math.trunc(combined_payoff_opponent),
             'correct_answers': correct_answers,
@@ -163,8 +177,9 @@ class PartialResults(Page):
 
 class ResultsWaitPage(WaitPage):
     def is_displayed(self):
-        if self.round_number == Constants.sub_rounds_stage_1 + 1:
-            return True
+        player = self.player.in_round(1)
+        return self.round_number ==  player.round_counter
+        
 
 #=======================================================================================================================
 
@@ -723,8 +738,8 @@ class ReminderNequi(Page):
 # ******************************************************************************************************************** #
 # *** MANAGEMENT STAGE
 # ******************************************************************************************************************** #
-stage_1_sequence = [Consent, GenInstructions, Stage1Instructions, Stage1Questions, Start, AddNumbers, PartialResults, ResultsWaitPage, CombinedResults]
+stage_1_sequence = [Consent, GenInstructions, Stage1Instructions, Stage1Questions, Start, AddNumbers, PartialResults]
 stage_2_sequence = [Stage2Instructions, Stage2Questions, RoleAssignment, Decision,ResultsWaitPage3, Decision2, Start2, AddNumbers2, ResultsWaitPage2, SecondQuoteY, WaitPageX, SecondQuoteX, CombinedResults2]
 stage_3_sequence = [PlayCoin, DoubleMoney, HeadTails, ResultsDoubleMoney, CombinedResults3, SocioDemSurvey, CombinedResults4, ReminderNequi]
 
-page_sequence = [CombinedResults]
+page_sequence = stage_1_sequence

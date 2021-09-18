@@ -10,7 +10,7 @@ from otree.api import (
 )
 
 import random
-from multiselectfield import MultiSelectField
+
 
 author = 'Your name here'
 
@@ -94,7 +94,7 @@ class Subsession(BaseSubsession):
             self.group_like_round((Constants.num_rounds/2+1))
             for i in range(0,number_of_groups):
                 for j in range(0,Constants.players_per_group):
-                    self.get_group_matrix()[i][j].team = team_label[i]
+                    self.get_group_matrix(objects=True)[i][j].team = team_label[i]
        # print("Matriz del grupo N: " + str(self.get_group_matrix()))
         #print("Grupos N: " + str(self.get_groups()))
 

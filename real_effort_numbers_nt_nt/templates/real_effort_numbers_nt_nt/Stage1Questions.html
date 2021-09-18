@@ -1,15 +1,4 @@
-{% extends "global/Page.html" %}
-{% load staticfiles otree %}
-{% load i18n %}
-
-
-{# ****************************************************************************************************************** #}
-{# *** STYLES *** #}
-{# ****************************************************************************************************************** #}
-{% block styles %}
-    <link href="{% static 'real_effort_numbers_nt_nt/css/custom.css' %}" rel="stylesheet"/>
-{% endblock %}
-
+{% extends "real_effort_numbers_nt_nt/base/global.html" %}
 
 {# ****************************************************************************************************************** #}
 {# *** TITLE *** #}
@@ -34,7 +23,7 @@
             Imaginemos que hay dos jugadores, María y Juan y que ambos completan, al finalizar la Etapa 1, 50 restas correctas cada uno. 
             Esto quiere decir que tendrán en total 100 restas correctas, equivalentes a 5000 pesos en total, tal como lo muestra la tabla:<br><br>
             <div style="text-align: center;">
-                <img src="{% static 'real_effort_numbers_nt_nt/images/table_explain_paymentstage1.png' %}" style= "object-fit: cover">
+                <img src="{% static 'images/table_explain_paymentstage1.png' %}" style= "object-fit: cover">
             </div>
             <br>
 
