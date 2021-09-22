@@ -1,12 +1,9 @@
-{% extends "real_effort_numbers_nt_nt/base/global.html" %}
-
 {# ****************************************************************************************************************** #}
 {# *** TITLE *** #}
 {# ****************************************************************************************************************** #}
 {% block title %}
-    {% trans "Recordatorio Nequi" %}
+    Recordatorio Nequi
 {% endblock %}
-
 
 {# ****************************************************************************************************************** #}
 {# *** CONTENT *** #}
@@ -18,7 +15,7 @@
             <p align= center>Le recomendamos descargar o imprimir esta información. Para hacerlo, haga clic en este botón<br>
                 <button class="btn btn-primary mb1 bg-blue" type="button" onclick="window.print()">Imprimir</button>
             </p>
-            <p align= center style="font-size:20px"><b>Ganancias Totales:</b> {{ganancias_acumuladas}}.</p><br>
+            <p align= center style="font-size:20px"><b>Ganancias Totales:</b> {{payment_total}}.</p><br>
 
             Recuerde que Podemos depositar el dinero <b>SÓLO</b> a cuentas Nequi.<br><br>
 

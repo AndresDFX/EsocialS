@@ -4,59 +4,61 @@
 {# *** TITLE *** #}
 {# ****************************************************************************************************************** #}
 {% block title %}
-    {% trans "Etapa 3 - Tira la Moneda" %}
+    Etapa 3 - Tira la Moneda
 {% endblock %}
-
 
 {# ****************************************************************************************************************** #}
 {# *** CONTENT *** #}
 {# ****************************************************************************************************************** #}
 {% block content %}
-
     <div class="wrapper instructions">
         <p align = "justify">
-            Para esta actividad has recibido $5,000, ya son tuyos y te los agregaremos a tu pago final. 
-            Sin embargo, puedes usar todo o parte de este dinero para realizar una inversión que puede salir bien o no.<br><br>
+            Para la Etapa 3 ha recibido otros $5,000. Ya son suyos y se los agregaremos a su pago final si usted llega hasta el final. 
+            Sin embargo, usted puede usar todo o parte de esos $5,000 para realizar una inversión que puede salir bien o no. <br><br>
 
-            En la pantalla puedes ver una moneda virtual. Ésta determinará el éxito de tu inversión. 
-            Si la moneda cae <b>cara</b> (color rojo) te entregaremos el doble de la cantidad invertida y si cae <b>sello</b> (color azul) perderás el monto invertido. 
-            Lo que no hayas invertido, se quedará en tu cuenta y te lo pagaremos al final de esta sesión.<br><br>
+            En la pantalla puede ver una moneda virtual. Ésta determinará el éxito de la inversión. 
+            Si la moneda cae en color <b>rojo</b> le entregaremos el doble de la cantidad invertida, y si cae color <b>azul</b>, perderá todo el monto invertido. 
+            Lo que usted no invierta se quedará en su cuenta y se lo pagaremos al final de esta sesión. <br><br>
             
-            Ejemplo: si inviertes $1,000 y la moneda cae cara (color rojo), tus pagos serán: <br><br>
-            <b>$6,000 =</b> $4,000 (que guardaste) + $2,000 (que ganaste).<br><br>
+            <b>Ejemplo:</b> si invierte $1,000 y la moneda cae en color rojo, sus pagos serán:<br>
+            <b>$6,000 = $4,000 (que usted guardó) + $2,000 (que usted ganó).</b><br><br>
 
-            <b>Haga clic para hacer girar la moneda. 
-            Usted podrá comprobar que la moneda gira y puede entregar distintos resultados. 
+            <b>Haga clic para hacer girar la moneda. Usted podrá comprobar que la moneda gira y puede entregar distintos resultados. 
             Esta es una ronda de práctica y no determinará los pagos de esta Etapa.</b>
         </p>
     </div>
+
     <div id="coin">
         <div class="side-a"></div>
         <div class="side-b"></div>
     </div>
-    {% block local_scripts %}
-    <script type="text/javascript">
-        $(document).ready(function ($) {
-            $('#coin').on('click', function () {
-                var flipResult = Math.random();
-                $('#coin').removeClass();
-                setTimeout(function () {
-                    if (flipResult <= 0.5) {
-                        $('#coin').addClass('heads');
-                        console.log('it is head');
-                        console.log(flipResult);
-                    } else {
-                        $('#coin').addClass('tails');
-                        console.log('it is tails');
-                        console.log(flipResult);
-                    }
-                }, 100);
-            });
-        });
-
-    </script>
-    {% endblock %}
-
 {% next_button %}
 {% endblock %}
+
+{# ****************************************************************************************************************** #}
+{# *** SCRIPTS *** #}
+{# ****************************************************************************************************************** #}
+{% block scripts %}
+<script>
+
+    $(document).ready(function ($) {
+        $('#coin').on('click', function () {
+            var flipResult = Math.random();
+            $('#coin').removeClass();
+            setTimeout(function () {
+                if (flipResult <= 0.5) {
+                    $('#coin').addClass('heads');
+                    console.log('it is head');
+                    console.log(flipResult);
+                } else {
+                    $('#coin').addClass('tails');
+                    console.log('it is tails');
+                    console.log(flipResult);
+                }
+            }, 100);
+        });
+    });
+</script>
+{% endblock %}
+
 

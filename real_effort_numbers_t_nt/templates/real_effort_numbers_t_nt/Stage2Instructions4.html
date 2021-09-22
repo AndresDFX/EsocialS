@@ -1,0 +1,30 @@
+{% extends "real_effort_numbers_t_nt/base/global.html" %} 
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    Instrucciones Etapa 2
+{% endblock %}
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify">
+            {% comment %} Todos: {% endcomment %}Para el Desarrollo de la Etapa 2 asignaremos etiquetas al azar a todos los participantes.
+            A la mitad les llamaremos <b>Jugador X</b> y a la otra mitad <b>Jugador Y</b>. <b>Luego los emparejaremos</b>.<br><br>
+
+            Las ganancias en esta etapa dependerán del esfuerzo del Jugador X y de las decisiones que tome el Jugador Y.<br><br>
+
+            <font color="blue">
+                {% comment %} T-NT: {% endcomment %}
+                <b>En esta etapa usted NO estará emparejado (a) de nuevo con el participante {{team_old}},
+                sino con el participante {{team_new}}.</b>
+            </font>
+        </p>
+    </div>
+{% next_button %}
+{% endblock %}

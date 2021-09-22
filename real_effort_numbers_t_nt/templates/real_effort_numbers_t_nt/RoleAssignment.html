@@ -16,11 +16,11 @@
     <div class="wrapper instructions">
         <p align = "justify">
             {% if player.id_in_group == 1 %}
-                <b>Equipo {{player.team}}. Jugador X</b><br><br>
+                <b>Jugador X</b><br><br>
                 {% comment %} Jugador X, T-NT:{% endcomment %}A usted se le ha asignado el rol del jugador X. Le hemos transferido a usted una primera cuota de $8,000, que vienen de
                 las ganancias del jugador Y.<br><br>
             {% else %}
-                <b>Equipo {{player.team}}. Jugador Y</b><br><br>
+                <b>Jugador Y</b><br><br>
                 {% comment %} Jugador Y, T-NT:{% endcomment %} A usted se le ha asignado el rol del jugador Y, y estará emparejado con un jugador X quien es una persona que viene del equipo {{team_old}}.
                 A esa persona le hemos transferido los $8,000 de la primera cuota, con parte de sus ganancias. <br><br>
             {% endif %}

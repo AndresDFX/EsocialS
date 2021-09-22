@@ -14,7 +14,7 @@
     <div class="wrapper instructions">
         <p align = "justify">
             El Jugador X realizó {{correct_answers_2_opponent}} restas correctas y, por lo tanto,
-            {% if correct_answers_2_opponent >= Constants.restas_obligatorias_contrato %}
+            {% if correct_answers_2_opponent >= Constants.mandatory_subtraction %}
 	            usted ha ganado $30,000 de esta etapa.<br><br>
             {% else %}
 	            usted no ha ganado los $30,000 de esta etapa.<br><br>

@@ -9,13 +9,12 @@ from otree.api import (
     currency_range,
 )
 
-import random
-
 author = 'Your name here'
 
 doc = """
 Your app description
 """
+
 # ******************************************************************************************************************** #
 # *** Funciones de Utileria
 # ******************************************************************************************************************** #
@@ -34,32 +33,42 @@ def make_field(label):
         widget=widgets.RadioSelect,
     )
 
-
-
 def make_field2(label):
     return models.IntegerField(
-        choices=[-2, -1, 0, 1, 2],
+        choices=[-2,-1,0,1,2],
         label=label,
     )
 class Constants(BaseConstants):
     name_in_url = 'real_effort_numbers_nt_nt'
     players_per_group = 2
-    num_rounds = 100
+    num_rounds = 11
     fixed_payment = 5000
-
-    #Stage 1
     payment_per_correct_answer = 50
-    num_seconds_stage_1 = 60
-    sub_rounds_stage_1 = 10
-    num1_random_stage_1 = 1000
-    num2_random_stage_1 = 2000
 
-    #Stage 2
-    payment_per_correct_answer_2 = 50
-    num_seconds_stage_2 = 10*60
-    restas_obligatorias_contrato = 50
-    num1_random_stage_2 = 1000
-    num2_random_stage_2 = 2000
+    #STAGE 1
+    num_seconds_stage_1 = 5 # default: 60
+    sub_rounds_stage_1 = 10 # final: 10
+    num1_random_stage_1 = 1 # default: 50
+    num2_random_stage_1 = 2 # default: 99
+    timeout_result_round = 5 # default: 10
+    list_atrr_round = [
+        'correct_answers_round1',
+        'correct_answers_round2',
+        'correct_answers_round3',
+        'correct_answers_round4',
+        'correct_answers_round5',
+        'correct_answers_round6',
+        'correct_answers_round7',
+        'correct_answers_round8',
+        'correct_answers_round9',
+        'correct_answers_round10'
+    ]
+
+    #STAGE 2
+    num_seconds_stage_2 = 20 # default: 60*10
+    mandatory_subtraction = 50 # default: 50
+    num1_random_stage_2 = 1 # default: 50
+    num2_random_stage_2 = 2 # default: 99
 
 class Subsession(BaseSubsession):
     def creating_session(self):
@@ -68,68 +77,51 @@ class Subsession(BaseSubsession):
         labels = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12']
         number_of_groups = self.session.num_participants // Constants.players_per_group
 
-        if self.round_number == 1:
-            self.group_randomly(fixed_id_in_group=True)
-
         for i, player in enumerate(self.get_players()):
-            player.cara_sello_value = random.random()
             player.participant.label = labels[i]
 
-        # Teams assignation
-        if self.round_number >= 1 and self.round_number <= (Constants.num_rounds/2):
-            # Groups teams like round 1
-            self.group_like_round(1)
-            for i in range(0,number_of_groups):
-                for j in range(0,Constants.players_per_group):
-                    self.get_group_matrix(objects=True)[i][j].team = team_label[i]
-
-        if self.round_number == (Constants.num_rounds/2)+1:
+        #STAGE 1
+        if self.round_number >= 1 and self.round_number <= Constants.sub_rounds_stage_1:
             self.group_randomly(fixed_id_in_group=True)
 
-        if self.round_number >= (Constants.num_rounds/2)+1:
-            self.group_like_round((Constants.num_rounds/2+1))
+        # STAGE 2 AND 3
+        if self.round_number == Constants.num_rounds:
+            self.group_randomly(fixed_id_in_group=True)
             for i in range(0,number_of_groups):
                 for j in range(0,Constants.players_per_group):
                     self.get_group_matrix(objects=True)[i][j].team = team_label[i]
-       # print("Matriz del grupo N: " + str(self.get_group_matrix()))
-        #print("Grupos N: " + str(self.get_groups()))
 
 class Group(BaseGroup):
     pass
 
 class Player(BasePlayer):
     team = models.StringField()
-# ******************************************************************************************************************** #
-# *** Variables Etapa 1
-# ******************************************************************************************************************** #
-    number_entered = models.IntegerField(label="")
-    sum_of_numbers = models.IntegerField()
-    correct_answers = models.IntegerField(initial=0)
-    wrong_sums = models.IntegerField(initial=0)
-    total_sums = models.IntegerField(initial=0)
-    payment_stage_1 = models.IntegerField(initial=0)
-    cara_sello_value = models.FloatField(initial=0.0)
-# ******************************************************************************************************************** #
-# *** Variables Etapa 2
-# ******************************************************************************************************************** #
-    number_entered_2 = models.IntegerField(label="")
-    sum_of_numbers_2 = models.IntegerField()
-    correct_answers_2 = models.IntegerField(initial=0)
-    wrong_sums_2 = models.IntegerField(initial=0)
-    total_sums_2 = models.IntegerField(initial=0)
-    payment_stage_2 = models.IntegerField(initial=0)
-    pago = models.IntegerField(initial=0)
+    payment_total = models.IntegerField()
 
 # ******************************************************************************************************************** #
-# *** Variables Etapa 3
+# *** STAGE 1
 # ******************************************************************************************************************** #
-    countFlips = models.IntegerField(initial=0)
-# ******************************************************************************************************************** #
-# *** Variables Riesgo
-# ******************************************************************************************************************** #
-    monto = models.IntegerField(label =
-    "Por favor, indica el monto que invertirás en el activo de riesgo (sin puntos o comas)", min=0, max=5000)
-    pago_total = models.IntegerField()
+    answers_correct_stage_1 = models.IntegerField(initial=0)
+    answers_wrong_stage_1 = models.IntegerField(initial=0)
+    answers_total_stage_1 = models.IntegerField(initial=0)
+    payment_stage_1 = models.IntegerField(initial=0)
+
+    ########################## ROUNDS ##########################
+    correct_answers_actual_round = models.IntegerField(initial=0) 
+    total_substract_actual_round = models.IntegerField(initial=0) 
+    payment_actual_round = models.IntegerField(initial=0)
+    wrong_substract_actual_round = models.IntegerField(initial=0)
+
+    correct_answers_round1 = models.IntegerField(initial=0) 
+    correct_answers_round2 = models.IntegerField(initial=0) 
+    correct_answers_round3 = models.IntegerField(initial=0) 
+    correct_answers_round4 = models.IntegerField(initial=0) 
+    correct_answers_round5 = models.IntegerField(initial=0) 
+    correct_answers_round6 = models.IntegerField(initial=0) 
+    correct_answers_round7 = models.IntegerField(initial=0) 
+    correct_answers_round8 = models.IntegerField(initial=0) 
+    correct_answers_round9 = models.IntegerField(initial=0) 
+    correct_answers_round10 = models.IntegerField(initial=0) 
 # ******************************************************************************************************************** #
 # *** Preguntas de Control: 1
 # ******************************************************************************************************************** #
@@ -154,6 +146,16 @@ class Player(BasePlayer):
 # ******************************************************************************************************************** #
 # *** Preguntas de Control: 2
 # ******************************************************************************************************************** #
+    control_question_3 = models.IntegerField(
+        label="En la Etapa 2 usted estará emparejado con:",
+        choices=[
+            [1, "Nadie, es un juego individual"],
+            [2, "Con la misma persona de la Etapa 1"],
+            [3, "Con una persona distinta a la de la Etapa 1"],
+        ],
+        widget=widgets.RadioSelect,
+    )
+    
     control_question_4 = models.IntegerField(
         label="El Jugador X puede rechazar el contrato",
         choices=[
@@ -213,6 +215,10 @@ class Player(BasePlayer):
     def control_question_2_error_message(self, value):
         if value != 1:
             return 'Recuerde que ganarán $50 por cada respuesta correcta que hayan dado juntos.'
+    
+    def control_question_3_error_message(self, value):
+        if value != 3:
+            return 'Por favor, lea nuevamente las instrucciones'
 
     def control_question_4_error_message(self, value):
         if value != 2:
@@ -279,7 +285,6 @@ class Player(BasePlayer):
             [False, "No"],
         ],
         widget=widgets.RadioSelect,
-        default=True,
         blank=True
     )
 # ******************************************************************************************************************** #

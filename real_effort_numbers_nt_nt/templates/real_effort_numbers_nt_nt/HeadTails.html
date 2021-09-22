@@ -4,18 +4,16 @@
 {# *** TITLE *** #}
 {# ****************************************************************************************************************** #}
 {% block title %}
-    {% trans "Etapa 3 - Moneda" %}
+    Etapa 3 - Moneda
 {% endblock %}
-
 
 {# ****************************************************************************************************************** #}
 {# *** CONTENT *** #}
 {# ****************************************************************************************************************** #}
 {% block content %}
-
     <div class="wrapper instructions">
-        <p align="justify">
-            Usted ha decidido invertir <b>${{inversion}}</b>.<br><br>
+        <p align = "justify">
+            Usted ha decidido invertir <b>${{amount_inversion}}</b>.<br><br>
 
             <b>Por favor, haga clic sobre la moneda para hacerla girar. Esta vez, el resultado sí determinará tu pago</b>
         </p>
@@ -24,27 +22,25 @@
         <div class="side-a"></div>
         <div class="side-b"></div>
     </div>
+{% next_button %}
+{% endblock %}
 
-    <input type="number" name="cara_sello_value" value="0.0" step="any" required="" id="id_cara_sello_value"
-        class="form-control" hidden>
-    <p>
-        <button class="otree-btn-next btn btn-primary" id="btn" style="display: none;">Siguiente</button>
-    </p>
+
+{# ****************************************************************************************************************** #}
+{# *** SCRIPTS *** #}
+{# ****************************************************************************************************************** #}
 
 {% block scripts %}
     <script>
-        var doneTheStuff, flipResult;
+        var doneTheStuff, flipResult ;
 
-
-        jQuery(document).ready(function ($) {
+        $(document).ready(function ($) {
             flipResult = Math.random();
-            $('#btn').hide();
+            $('.otree-btn-next').hide();
 
             $('#coin').on('click', function () {
                 if (!doneTheStuff) {
                     doneTheStuff = true;
-                    $('#id_cara_sello_value').val(flipResult);
-
                     setTimeout(function () {
                         console.log(flipResult);
                         if (flipResult <= 0.5) {
@@ -56,15 +52,12 @@
                             console.log('it is tails');
                         }
                     }, 100);
-                    $('#btn').show();
+                    liveSend(flipResult);
+                    $('.otree-btn-next').show();
                 }
             }
-            );
+        );
         });
-
     </script>
-{% endblock %}
-
-
 {% endblock %}
 

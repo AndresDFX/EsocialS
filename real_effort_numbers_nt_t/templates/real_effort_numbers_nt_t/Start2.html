@@ -4,9 +4,8 @@
 {# *** TITLE *** #}
 {# ****************************************************************************************************************** #}
 {% block title %}
-    {% trans " Inicio Etapa 2" %}
+    Inicio Etapa 2
 {% endblock %}
-
 
 {# ****************************************************************************************************************** #}
 {# *** CONTENT *** #}
@@ -14,11 +13,40 @@
 {% block content %}
 
     <div class="wrapper instructions">
-        <p align="justify">
-            <b>La etapa comenzará a continuación. Luego de presionar el botón "siguiente" empezará un conteo regresivo y
-                usted tendrá 10 minutos para completar la Etapa 2. Por favor, presione siguiente cuando esté preparado para
-                iniciar. </b>
+        <p align = "justify">
+            <!--Jugador X-->
+            {% if player.id_in_group == 1 %}
+                <!-- Sin contrato -->
+                {% if opponent_contract_decision == False %}
+                    La etapa 2 comenzará a continuación. Luego de presionar el botón “Siguiente” empezará un conteo regresivo y usted tendrá 10 minutos para completar las <b>50 restas</b> 
+                    que le permitirán al Jugador Y <b>ganar $30,000</b>. Como el jugador Y no estableció contrato, si usted <b>no completa</b> las restas, usted <b>no asumirá ningún costo</b>, 
+                    y el jugador Y <b>no ganará nada.</b> 
+                    Por favor, presione el botón cuando esté preparado para iniciar.
+
+                <!-- Con contrato -->
+                {% else %}
+                    La etapa 2 comenzará a continuación. Luego de presionar el botón “Siguiente” empezará un conteo regresivo y usted tendrá 10 minutos para completar las <b>50 restas</b> 
+                    que le permitirán al Jugador Y <b>ganar $30,000</b>. Como el jugador Y estableció contrato, usted debe pagar $3,000; además, si usted <b>no completa</b> las restas, 
+                    se transferirán $30,000 de sus ganancias al jugador Y. 
+                    Por favor, presione el botón cuando esté preparado para iniciar.
+                {% endif %}
+
+            <!--Jugador Y-->
+            {% else %}
+                <!-- Sin contrato -->
+                {% if contract_decision == False %}
+                    Usted ha decidido no establecer un contrato. Si el jugador X  completa las 50 restas, usted ganará $30,000. 
+                    Si el Jugador X <b>no completa</b> las restas usted <b>no ganará nada.</b> 
+                    Por favor, presione el botón cuando esté preparado para iniciar.
+
+                <!-- Con contrato -->
+                {% else %}
+                    Usted ha decidido establecer un contrato, por lo que debe pagar $5,000 por concepto de contrato, y $15,000 al jugador X en dos cuotas. 
+                    El contrato garantiza que usted recibirá $30.000 en esta Etapa independientemente del desempeño del jugador X. 
+                    Por favor, presione el botón cuando esté preparado para iniciar.
+                {% endif %}
+            {% endif %}
         </p>
     </div>
-{% next_button %}
+    {% next_button %}
 {% endblock %}

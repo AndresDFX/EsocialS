@@ -1,0 +1,63 @@
+{% extends "real_effort_numbers_t_t/base/global.html" %} 
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    Instrucciones Etapa 2
+{% endblock %}
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p align = "justify">
+            <b>Por favor, lea la siguiente situación  de la empresa Textilesa, cuidadosamente:</b><br>
+            
+            Textilesa es una empresa que produce textiles. Juan y María trabajan en Textilesa. 
+            Juan, quien tendrá el rol <i>X</i>, es el gerente financiero. María, quien tendrá el rol <i>Y</i>, es la propietaria. 
+            María necesita que Juan dirija las finanzas de la empresa. Para ello, María debe decidir <b>si lo contrata;</b> o, 
+            <b>si le paga por la actividad sin establecer un contrato.</b> 
+            Textilesa afronta un desajuste contable, por lo que Juan y María realizarán restas durante esta etapa para solucionar el problema.<br>
+
+            <ul>
+                <li>Si Juan (X) completa 50 restas correctas en 10 minutos, entonces María (rol Y) ganará $30,000. </li>
+                <li>Si Juan (X) hace menos de 50 restas correctas, entonces: </li>
+                <ul>
+                    <li>María (Y) no ganará nada, si no contrató a Juan (X).</li>
+                    <li>Juan (X) le pagará $30,000 a María (Y) si ella lo contrató. </li> 
+                </ul>
+            </ul>
+                       
+            Por su parte, María (Y), en reconocimiento al esfuerzo de Juan (X), le pagará $15,000 en 2 cuotas, 
+            de la siguiente manera:<br><br>
+            
+            <ul>
+                <li>En la primera cuota es de $8,000 y es obligatoria.</li> 
+                <li>La segunda cuota es de $7,000.</li>
+                <ul>
+                    <li>Es voluntaria si María no contrata a Juan.</li>
+                    <li>Es obligatoria si María contrata a Juan. </li>
+                </ul>
+            </ul>
+
+            Los contratos no son gratis. Si María decide contratar a Juan, ella deberá pagar $5,000 y Juan deberá pagar $3,000. 
+            En caso de que María decida pagarle a Juan sin establecer contrato, ninguno de los dos incurrirá en costos contractuales.
+
+            <b>Ventajas y desventajas de la ausencia del contrato:</b><br><br>
+            <p align="center"><img src="{% static 'images/ventajas_desventajas_etapa2.png' %}" alt="Ventajas y desventajas de la ausencia del contrato" style= "height: 90%; width: 90%; object-fit: cover"></p>
+            
+            <b>La tabla presentada a continuación resume de las ganancias de la Etapa 2 para ambos jugadores.</b><br><br>
+            <p align="center"><img src="{% static 'images/ganancias_etapa2.png' %}" alt="las ganancias de la Etapa 2 para ambos jugadores" style= "height: 90%; width: 90%; object-fit: cover"></p>
+            
+            <b>Las siguientes preguntas nos permiten verificar si las condiciones entre María y Juan
+            han sido claras para usted. Por favor, respóndalas</b><br>
+            
+            {% formfields %}
+
+        </p>
+    </div>
+{% next_button %}
+{% endblock %}

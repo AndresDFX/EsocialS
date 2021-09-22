@@ -8,6 +8,10 @@
     Pago de la segunda cuota
 {% endblock %}
 
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+
 {% block content %}
     <!--Sin contrato X-->
     {% if player.id_in_group == 1 and  opponent_contract_decision == False %}
@@ -26,7 +30,7 @@
     {% if player.id_in_group == 1 and  opponent_contract_decision == True %}
     <div class="wrapper instructions">
         <p align = "justify">
-            Usted realizó {{correct_answers_2}} restas correctas.
+            Usted realizó {{answers_correct_stage_2}} restas correctas.
 
             Le hemos transferido los $7,000 de la segunda cuota, provenientes de las ganancias acumuladas del Jugador Y.
         </p>

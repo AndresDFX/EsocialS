@@ -7,31 +7,77 @@
     Por favor realice las siguientes restas
 {% endblock %}
 
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
 {% block content %}
+    <div class="wrapper instructions">
+        <p align = "justify">
+            {% if player.id_in_group == 2 %}
+                En este momento, el Jugador X está realizando las restas. Le invitamos a que usted también practique sus habilidades aritméticas mientras espera.<br><br>
+            {% endif %}
+            Por favor, reste los siguientes números que aparecerán en pantalla. Luego presione el botón <b>Siguiente</b>
+            para continuar.
 
-<div class="wrapper instructions">
-    <p align="justify">
-        {% if player.id_in_group == 2 %}
-        En este momento, el Jugador X está realizando las restas. Le invitamos a que usted también practique sus
-        habilidades aritméticas mientras espera.<br><br>
-        {% endif %}
-        Por favor, reste los siguientes números que aparecerán en pantalla. Luego presione el botón <b>Siguiente</b>
-        o la tecla <b>Enter</b> para continuar.
+            <table class="table" style="text-align:right" colspan="2" >
+                <tr>
+                    <td style="font-size:30px"><label id="number_2">{{ number_2 }}</label> - <label id="number_1">{{ number_1 }}</label> = </td>
+                    <td> <input type="number" name="number_entered" required id="number_entered" class="form-control" autofocus="" value="0"> </td>
+                </tr>
+            </table>
 
-    <table class="table" style="text-align:right" colspan="2">
-        <tr>
-            <td style="font-size:30px">{{ number_2 }} - {{ number_1 }} = </td>
-            <td> <input type="number" name="number_entered_2" required id="id_number_entered_2" class="form-control"
-                    autofocus=""> </td>
-        </tr>
-    </table>
-    <b>Restas correctas:</b>
-    <font color='blue'>{{correct_answers}}</font><br>
-    <b>Restas incorrectas:</b>
-    <font color='red'>{{wrong_sums}}</font><br>
-    <b>Restas totales:</b> {{total_sums}}<br>
-    <b>Pago por restas:</b> ${{combined_payoff}}<br>
-    </p>
-</div>
+            <b>Restas correctas:</b> <font color='blue'><span id="correct_answers_actual_round">{{correct_answers_actual_round}}</span></font><br>
+            <b>Restas incorrectas:</b> <font color='red'><span id="wrong_substract_actual_round">{{wrong_substract_actual_round}}</span></font><br>
+            <b>Restas totales:</b> <span id="total_substract_actual_round">{{total_substract_actual_round}}</span><br>
+            <b>Pago por restas:</b> $<span id="payment_actual_round">{{payment_actual_round}}</span><br>
+        </p>
+    </div>
 {% next_button %}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+
+        $(document).ready( function() { 
+            $(".otree-btn-next").attr('onclick','sendAnswer()')
+            $(".otree-btn-next").attr('type','button')
+        });
+
+        //Metodo para validar el numero ingresado si la respuesta es correcta 1, en caso contrario 0
+        function validateSubstract(number_1, number_2, number_entered){
+            let result = number_2 - number_1;
+            let correct_answer = 0;
+            if (result == number_entered) correct_answer = 1;
+            return correct_answer;
+        }
+
+        //Metodo que utiliza el metodo liveSend de Otree la informacion se recibe en live_method(self) del Page
+        function sendAnswer(){
+            let number_2 = parseInt($('#number_2').html());
+            let number_1 = parseInt($('#number_1').html());
+            let number_entered = parseInt($("#number_entered").val());
+            if (isNaN(number_entered)) number_entered = 0;
+            let correct_answer = validateSubstract(number_1, number_2, number_entered);  
+            console.log("Correct answer", correct_answer);
+            liveSend(correct_answer);
+        }
+
+
+        //Metodo de Otree que recibe la respuesta del metodo live_method(self) del Page
+        function liveRecv(data) {
+            let number_2 = data.number_2;
+            let number_1 = data.number_1;
+            let correct_answers_actual_round = data.correct_answers_actual_round;
+            let total_substract_actual_round = data.total_substract_actual_round;
+            let wrong_substract_actual_round = data.wrong_substract_actual_round;
+            let payment_actual_round = data.payment_actual_round;
+
+            $('#number_2').html(number_2);
+            $('#number_1').html(number_1);
+            $('#correct_answers_actual_round').html(correct_answers_actual_round);
+            $('#total_substract_actual_round').html(total_substract_actual_round);
+            $('#wrong_substract_actual_round').html(wrong_substract_actual_round);
+            $('#payment_actual_round').html(payment_actual_round);
+        }
+    </script>
 {% endblock %}

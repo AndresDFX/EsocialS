@@ -9,10 +9,6 @@ from otree.api import (
     currency_range,
 )
 
-import random
-
-
-
 author = 'Your name here'
 
 doc = """
@@ -45,22 +41,34 @@ def make_field2(label):
 class Constants(BaseConstants):
     name_in_url = 'real_effort_numbers_t_t'
     players_per_group = 2
-    num_rounds = 100
+    num_rounds = 11
     fixed_payment = 5000
-
-    #Stage 1
     payment_per_correct_answer = 50
-    num_seconds_stage_1 = 60 # default: 60
-    sub_rounds_stage_1 = 10
-    num1_random_stage_1 = 50 # default: 50
-    num2_random_stage_1 = 99 # default: 99
 
-    #Stage 2
-    payment_per_correct_answer_2 = 50
-    num_seconds_stage_2 = 60 # default: 60*10
-    restas_obligatorias_contrato = 50
-    num1_random_stage_2 = 50 # default: 50
-    num2_random_stage_2 = 99 # default: 99
+    #STAGE 1
+    num_seconds_stage_1 = 30 # default: 60
+    sub_rounds_stage_1 = 10 # final: 10
+    num1_random_stage_1 = 1 # default: 50
+    num2_random_stage_1 = 2 # default: 99
+    timeout_result_round = 5 # default: 10
+    list_atrr_round = [
+        'correct_answers_round1',
+        'correct_answers_round2',
+        'correct_answers_round3',
+        'correct_answers_round4',
+        'correct_answers_round5',
+        'correct_answers_round6',
+        'correct_answers_round7',
+        'correct_answers_round8',
+        'correct_answers_round9',
+        'correct_answers_round10'
+    ]
+
+    #STAGE 2
+    num_seconds_stage_2 = 60*5 # default: 60*10
+    mandatory_subtraction = 50 # default: 50
+    num1_random_stage_2 = 1 # default: 50
+    num2_random_stage_2 = 2 # default: 99
 
 class Subsession(BaseSubsession):
     def creating_session(self):
@@ -68,12 +76,14 @@ class Subsession(BaseSubsession):
         labels = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12']
         number_of_groups = self.session.num_participants // Constants.players_per_group
 
+        for i, player in enumerate(self.get_players()):
+            player.participant.label = labels[i]
+
+        #ALL STAGES
         for i in range(0, number_of_groups):
             for j in range(0, Constants.players_per_group):
                 self.get_group_matrix(objects=True)[i][j].team = team_label[i]
 
-        for i, player in enumerate(self.get_players()):
-            player.participant.label = labels[i]
 
 class Group(BaseGroup):
     pass
@@ -81,37 +91,52 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     team = models.StringField()
-    round_counter = models.IntegerField(initial=1)
+    payment_total = models.IntegerField()
+
 # ******************************************************************************************************************** #
-# *** Variables Etapa 1
+# *** STAGE 1
 # ******************************************************************************************************************** #
-    number_entered = models.IntegerField(label="")
-    sum_of_numbers = models.IntegerField()
-    correct_answers = models.IntegerField(initial=0)
-    wrong_sums = models.IntegerField(initial=0)
-    total_sums = models.IntegerField(initial=0)
+    answers_correct_stage_1 = models.IntegerField(initial=0)
+    answers_wrong_stage_1 = models.IntegerField(initial=0)
+    answers_total_stage_1 = models.IntegerField(initial=0)
     payment_stage_1 = models.IntegerField(initial=0)
-    cara_sello_value = models.FloatField(initial=0.0)
+
+    ########################## ROUNDS ##########################
+    correct_answers_actual_round = models.IntegerField(initial=0) 
+    total_substract_actual_round = models.IntegerField(initial=0) 
+    payment_actual_round = models.IntegerField(initial=0)
+    wrong_substract_actual_round = models.IntegerField(initial=0)
+
+    correct_answers_round1 = models.IntegerField(initial=0) 
+    correct_answers_round2 = models.IntegerField(initial=0) 
+    correct_answers_round3 = models.IntegerField(initial=0) 
+    correct_answers_round4 = models.IntegerField(initial=0) 
+    correct_answers_round5 = models.IntegerField(initial=0) 
+    correct_answers_round6 = models.IntegerField(initial=0) 
+    correct_answers_round7 = models.IntegerField(initial=0) 
+    correct_answers_round8 = models.IntegerField(initial=0) 
+    correct_answers_round9 = models.IntegerField(initial=0) 
+    correct_answers_round10 = models.IntegerField(initial=0) 
+    
 # ******************************************************************************************************************** #
-# *** Variables Etapa 2
+# *** STAGE 2
 # ******************************************************************************************************************** #
-    number_entered_2 = models.IntegerField(label="")
-    sum_of_numbers_2 = models.IntegerField()
-    correct_answers_2 = models.IntegerField(initial=0)
-    wrong_sums_2 = models.IntegerField(initial=0)
-    total_sums_2 = models.IntegerField(initial=0)
+    answers_correct_stage_2 = models.IntegerField(initial=0)
+    answers_wrong_stage_2 = models.IntegerField(initial=0)
+    answers_total_stage_2 = models.IntegerField(initial=0)
     payment_stage_2 = models.IntegerField(initial=0)
-    pago = models.IntegerField(initial=0)
+
 # ******************************************************************************************************************** #
-# *** Variables Etapa 3
+# *** STAGE 3
 # ******************************************************************************************************************** #
-    countFlips = models.IntegerField(initial=0)
-# ******************************************************************************************************************** #
-# *** Variables Riesgo
-# ******************************************************************************************************************** #
-    monto = models.IntegerField(
-        label="Por favor, indica el monto que invertirás en el activo de riesgo (sin puntos o comas)", min=0, max=5000)
-    pago_total = models.IntegerField()
+    flip_value = models.FloatField(initial=0.0)
+    amount_inversion = models.IntegerField(
+        label="Por favor, indica el monto que invertirás en el activo de riesgo (sin puntos o comas)", 
+        min=0, 
+        max=5000
+    )
+    payment_stage_3 = models.IntegerField(initial=0)
+
 # ******************************************************************************************************************** #
 # *** Preguntas de Control: 1
 # ******************************************************************************************************************** #
@@ -147,7 +172,7 @@ class Player(BasePlayer):
     )
 
     control_question_4 = models.IntegerField(
-        label="El Jugador X puede rechazar el contrato",
+        label="El Jugador X (Juan) puede rechazar el contrato",
         choices=[
             [1, "Verdadero"],
             [2, "Falso"],
@@ -156,10 +181,10 @@ class Player(BasePlayer):
     )
 
     control_question_5 = models.IntegerField(
-        label="¿Cuánto gana el Jugador X cuando NO hay un contrato?",
+        label="¿Cuánto gana el Jugador X (Juan) cuando NO hay un contrato?",
         choices=[
             [1, "$15,000 siempre"],
-            [2, "$8,000 si el Jugador Y sólo le paga una cuota y $15,000 si el Jugador Y le paga ambas cuotas"],
+            [2, "$8,000 si el Jugador Y (Maria) sólo le paga una cuota y $15,000 si el Jugador Y (Maria) le paga ambas cuotas"],
             [3, "Máximo $8,000"],
             [4, "Todos los jugadores reciben $8,000 al iniciar la Etapa 2."],
         ],
@@ -167,10 +192,10 @@ class Player(BasePlayer):
     )
 
     control_question_6 = models.IntegerField(
-        label="¿Cuánto gana el Jugador Y cuando SÍ hay un contrato?",
+        label="¿Cuánto gana el Jugador Y (Maria) cuando SÍ hay un contrato?",
         choices=[
             [1, "$10,000 siempre"],
-            [2, "$10,000 si el Jugador X realiza la tarea completa, y $0 si no lo hace"],
+            [2, "$10,000 si el Jugador X (Juan) realiza la tarea completa, y $0 si no lo hace"],
             [3, "$30,000"],
             [4, "Todos los jugadores ganan $15,000 en la Etapa 2"],
         ],
@@ -248,6 +273,7 @@ class Player(BasePlayer):
         ],
         default=True)
     accepts_terms = models.BooleanField()
+
 # ******************************************************************************************************************** #
 # *** Variables Contrato
 # ******************************************************************************************************************** #
@@ -258,6 +284,7 @@ class Player(BasePlayer):
             [False, "No"],
         ],
         widget=widgets.RadioSelect,
+        default=False,
         blank=True
     )
     believe_pay_contract = models.BooleanField(
@@ -267,6 +294,7 @@ class Player(BasePlayer):
             [False, "No"],
         ],
         widget=widgets.RadioSelect,
+        default=False,
         blank=True
     )
     pay_second_quote = models.BooleanField(
@@ -279,6 +307,7 @@ class Player(BasePlayer):
         default=True,
         blank=True
     )
+
 # ******************************************************************************************************************** #
 # *** Variables Encuesta sociodemográfica
 # ******************************************************************************************************************** #
@@ -436,7 +465,6 @@ class Player(BasePlayer):
 # ******************************************************************************************************************** #
 # *** Acceder al otro jugador
 # ******************************************************************************************************************** #
-
     def other_player(self):
         # self.get_others_in_group() -> Vector[<Player  2>, <Player  3>, <Player  4>]
         return self.get_others_in_group()[0]

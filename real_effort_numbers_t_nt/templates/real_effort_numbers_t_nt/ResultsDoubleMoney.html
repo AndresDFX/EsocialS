@@ -4,22 +4,21 @@
 {# *** TITLE *** #}
 {# ****************************************************************************************************************** #}
 {% block title %}
-    {% trans "Etapa 3 - Resultados" %}
+    Etapa 3 - Resultados
 {% endblock %}
-
 
 {# ****************************************************************************************************************** #}
 {# *** CONTENT *** #}
 {# ****************************************************************************************************************** #}
 {% block content %}
 
-<div class="wrapper instructions">
-    <p align="justify">
-        Usted invirtió <b>${{inversion}}</b> y la moneda cayó <b>{{cara_sello_name}}</b>.
-        Usted ha ganado <b>${{cara_sello_payoff}}</b> en la Etapa 3.
-    </p>
-</div>
+    <div class="wrapper instructions">
+        <p align = "justify">
+            Usted invirtió <b>${{amount_inversion}}</b> y la moneda cayó <b>{{cara_sello_name}}</b>. 
+            Usted ha ganado <b>${{payment_stage_3}}</b> en la Etapa 3.
 
-{% next_button %}
+            {% next_button %}
+        </p>       
+    </div>
 
 {% endblock %}
